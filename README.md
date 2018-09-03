@@ -1,2 +1,2 @@
 # atria-calendar
-Event scehduling and volunteer management platform
+Event scheduling and volunteer management platform
