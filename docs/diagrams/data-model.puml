@@ -1,0 +1,25 @@
+@startuml
+
+object CALENDAR_ITEM {
+  ITEM_ID
+}
+
+object ITEM_SCHEDULE {
+  ITEM_ID,
+  ITEM_DATE,
+  ITEM_START_TIME,
+  ITEM_END_TIME
+}
+
+object ITEM_CONTENT {
+  ITEM_ID,
+  LANGUAGE_CD,
+  KEY,
+  VALUE
+}
+
+CALENDAR_ITEM "1" -down- "0..*" ITEM_CONTENT
+
+CALENDAR_ITEM "1" -down- "0..*" ITEM_SCHEDULE
+
+@enduml
