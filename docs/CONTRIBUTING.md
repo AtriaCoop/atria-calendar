@@ -66,6 +66,14 @@ To submit a Pull Request to the parent Atria repository, click on the "New pull 
 
 ![Fork Repository](diagrams/github-new-pr.png)
 
+Github will display the contents of your PR - make sure you review the changes you are submitting, that the appropriate files are included.  Add a comment to the PR (reference any relevant tickets, describe the changes) and if applicable, request a reviewer for your PR.
+
+If you are asked to review a Pull Request, make sure you review the changes and discuss any questions with the submitter before you merge the PR.  Make sure the PR includes updates to Unit Tests and Documentation if applicable.
+
+To test a PR locally before merging into the parent repository, review the following instructions:
+
+* https://help.github.com/articles/checking-out-pull-requests-locally/
+
 ## Unit Tests
 
 All code must include unit tests, description t.b.d.
