@@ -1,3 +1,7 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import CalendarItem, ItemSchedule, ItemContent
+
+admin.site.register(CalendarItem)
+admin.site.register(ItemSchedule)
+admin.site.register(ItemContent)
