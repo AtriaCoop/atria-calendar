@@ -1,0 +1,13 @@
+<h1>{{ item.item_name }}</h1>
+<h2>Schedule:</h2>
+<ul>
+{% for schedule in item.itemschedule_set.all %}
+    <li>{{ schedule.item_start_date }} : {{ schedule.item_end_date }}</li>
+{% endfor %}
+</ul>
+<h2>Content:</h2>
+<ul>
+{% for content in item.itemcontent_set.all %}
+    <li>{{ content.field_name }} : {{ content.field_value }}</li>
+{% endfor %}
+</ul>

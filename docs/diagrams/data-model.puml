@@ -1,7 +1,8 @@
 @startuml
 
 object CALENDAR_ITEM {
-  ITEM_ID
+  ITEM_ID,
+  ITEM_NAME
 }
 
 object ITEM_SCHEDULE {

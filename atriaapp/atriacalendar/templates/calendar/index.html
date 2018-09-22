@@ -1,0 +1,9 @@
+{% if latest_item_list %}
+    <ul>
+    {% for item in latest_item_list %}
+    <li><a href="{% url 'calendar:detail' item.id %}">{{ item.item_name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No items are available.</p>
+{% endif %}
