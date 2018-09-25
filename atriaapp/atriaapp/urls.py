@@ -10,7 +10,7 @@ urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name="index.html"),),
     path('calendar/', include('atriacalendar.urls')),
     url(r'^schedule/', include('schedule.urls')),
-    url(r'^fullcalendar/', TemplateView.as_view(template_name="fullcalendar.html"), name='fullcalendar'),
+    url(r'^fullcalendar/', TemplateView.as_view(template_name="fullcalendar.html"), name='fullcalendar', kwargs={'calendar_slug':'atriacal'}),
     path('admin/', admin.site.urls),
 ]
 
