@@ -4,8 +4,10 @@ Event scheduling and volunteer management platform
 
 ## Environment Setup
 
-* Python 3.6
-* Vitrualenv
-* Django 2.1
+```
+cd atriaapp
+virtualenv --python=python3.6 venv
+source venv/bin/activate
+```
 
 ## TODO
