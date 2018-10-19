@@ -1,0 +1,13 @@
+{% extends 'atriacalendar/base.html' %}
+
+{% load i18n %}
+
+{% block title %}{% trans "Calendar Login" %}{% endblock %}
+
+{% block main_nav %}{% endblock %}
+
+{% block body %}
+  <a href="{% url 'calendar_home' %}">
+    <button type="button" name="login">{% trans "Log In" %}</button>
+  </a>
+{% endblock %}

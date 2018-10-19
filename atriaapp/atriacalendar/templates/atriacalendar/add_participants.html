@@ -1,0 +1,11 @@
+{% extends 'atriacalendar/base.html' %}
+
+{% load i18n %}
+
+{% block title %}{% trans "Add Participants" %}{% endblock %}
+
+{% block body %}
+  <a href="{% url 'event_detail' %}">
+    <button type="button" name="finish">{% trans "Finish" %}</button>
+  </a>
+{% endblock %}
