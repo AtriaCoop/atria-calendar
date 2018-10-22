@@ -2,6 +2,10 @@
 
 {% load i18n %}
 
-{% block title %}{% trans "Calendar" %}{% endblock %}
+{% block title %} {% trans "Calendar" %} {% endblock %}
 
-{% block body %}<This is the view of the whole Calendar>{% endblock %}
+{% block body %} 
+This is the view of the whole Calendar 
+{{year}} {{month}} 
+
+{% endblock %}
