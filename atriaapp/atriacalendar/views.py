@@ -12,11 +12,14 @@ def calendar_home(request):
     return render(request, 'atriacalendar/calendar_home.html',
                   context={'active_view': 'calendar_home'})
 
-def calendar_view(request):
+def calendar_view(request, *args, **kwargs):
     """Whole Calendar shell view."""
 
+    the_year = kwargs['year']
+    the_month = kwargs['month']
+
     return render(request, 'atriacalendar/calendar_view.html',
-                  context={'active_view': 'calendar_view'})
+                  context={'active_view': 'calendar_view', 'year': the_year, 'month': the_month})
 
 def create_event(request):
     """Create Calendar Event shell view."""
