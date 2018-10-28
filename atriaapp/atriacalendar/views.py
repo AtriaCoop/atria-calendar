@@ -1,9 +1,5 @@
 from django.shortcuts import render
 
-from django.conf import settings
-
-from swingtime.conf import swingtime_settings
-
 
 def login(request):
     """Shell login view."""
@@ -23,8 +19,7 @@ def calendar_view(request, *args, **kwargs):
     the_month = kwargs['month']
 
     return render(request, 'atriacalendar/calendar_view.html',
-                  context={'active_view': 'calendar_view', 'year': the_year, 'month': the_month,
-                            'languages': settings.LANGUAGES})
+                  context={'active_view': 'calendar_view', 'year': the_year, 'month': the_month})
 
 def create_event(request):
     """Create Calendar Event shell view."""
