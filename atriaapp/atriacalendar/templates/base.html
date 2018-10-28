@@ -1,4 +1,8 @@
 {% load i18n %}
+{% load atria_custom_tags %}
+
+# Set local template variable:
+{% get_settings_value languages "LANGUAGES" %}
 
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -28,6 +32,17 @@
           </li>
         </ul>
       </nav>
+      Languages:
+      {% if languages %}
+        {% get_current_language as LANGUAGE_CODE %}
+        <ul class="languages">
+          {% for language in languages %}
+            <li {% if language.0 == LANGUAGE_CODE %}class="active-language"{% endif %}>
+              <a href=".?lang={{ language.0 }}">{{ language.1 }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
     {% endblock %}
 
     {% block main_content %}{% endblock %}
