@@ -14,6 +14,12 @@
   </head>
   <body>
     {% block main_nav %}
+      <form type="get" action="." style="margin: 0" accept-charset="utf-8">
+        <button class="searchbutton" type="submit">
+          <i class="fa fa-search"></i>
+        </button>
+        <input class="searchfield" id="searchbox" name="q" type="text" placeholder="Search">
+      </form>
       <nav class>
         <ul>
           <li {% if active_view == 'calendar_home' %}class="active"{% endif %}>
