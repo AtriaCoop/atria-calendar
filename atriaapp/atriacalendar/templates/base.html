@@ -38,7 +38,7 @@
         <ul class="languages">
           {% for language in languages %}
             <li {% if language.0 == LANGUAGE_CODE %}class="active-language"{% endif %}>
-              <a href=".?lang={{ language.0 }}">{{ language.1 }}</a>
+              <a href=".?event_lang={{ language.0 }}">{{ language.1 }}</a>
             </li>
           {% endfor %}
         </ul>

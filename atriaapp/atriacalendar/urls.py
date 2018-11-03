@@ -4,7 +4,8 @@ URL configuration for Atria Calendar app.
 
 from django.urls import path
 from django.conf.urls import url, include
-
+from swingtime import views as swingtime_views
+from .forms import *
 from .views import *
 
 
@@ -19,5 +20,11 @@ urlpatterns = [
          name='add_participants'),
     path('event-list/', event_list, name='event_list'),
     path('event-detail/', event_detail, name='event_detail'),
+    url(
+        r'swingtime/events/(\d+)/$',
+        swingtime_views.event_view,
+        {'recurrence_form_class': AtriaEventForm},
+        name='swingtime-event'
+    ),
     url(r'^swingtime/', include('swingtime.urls')),
 ]
