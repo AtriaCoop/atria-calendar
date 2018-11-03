@@ -22,8 +22,7 @@ urlpatterns = [
     path('event-detail/', event_detail, name='event_detail'),
     url(
         r'swingtime/events/(\d+)/$',
-        swingtime_views.event_view,
-        {'recurrence_form_class': AtriaEventForm},
+        event_view,
         name='swingtime-event'
     ),
     url(r'^swingtime/', include('swingtime.urls')),
