@@ -1,6 +1,8 @@
 from modeltranslation.forms import TranslationModelForm
+from swingtime.forms import EventForm
+from swingtime.models import Event
 
-class AtriaEventForm(TranslationModelForm):
+class AtriaEventForm(TranslationModelForm, EventForm):
     '''
     A simple form for adding and updating Event attributes
 
