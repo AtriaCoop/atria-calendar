@@ -1,4 +1,9 @@
 from django.shortcuts import render
+from django.utils import translation
+
+from swingtime import views as swingtime_views
+
+from .forms import *
 
 
 def login(request):
@@ -42,3 +47,12 @@ def event_detail(request):
     """Shell view for viewing/editing a single Event."""
 
     return render(request, 'atriacalendar/event_detail.html')
+
+def event_view(request, pk):
+    lang = request.GET.get('event_lang')
+
+    if lang:
+        translation.activate(lang)
+
+    return swingtime_views.event_view(request, pk, event_form_class=EventForm,
+                                      recurrence_form_class=EventForm)
