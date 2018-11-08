@@ -20,21 +20,28 @@ class UserTests(TestCase):
         )
 
     def test_has_role(self):
-        # Tests user.has_role
-        group_name = 'Admin'
-        group = Group.objects.get(name=group_name)
+        # Tests user.has_role(role)
+        group_name = USER_ROLES[0]
 
         self.assertFalse(self.user.has_role(group_name))
-        self.user.groups.add(group)
+
+        self.user.add_role(group_name)
+
         self.assertTrue(self.user.has_role(group_name))
 
     def test_roles(self):
         # Tests user.roles
-        groups = Group.objects.filter(name__in=USER_ROLES)
-
         self.assertEqual(len(tuple(self.user.roles)), 0)
 
-        for group in groups:
-            self.user.groups.add(group)
+        for group_name in USER_ROLES:
+            self.user.add_role(group_name)
 
         self.assertEqual(tuple(self.user.roles), USER_ROLES)
+
+    def test_add_role(self):
+        # Tests user.add-role(role)
+        group_name = USER_ROLES[0]
+
+        self.user.add_role(group_name)
+
+        self.assertIn(group_name, self.user.roles)

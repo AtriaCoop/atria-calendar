@@ -69,7 +69,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     @property
     def roles(self):
-        # User -> [ String, ... ]
+        # -> Iterable
         # Produce a list of the given user's roles.
 
         return filter(self.has_role, USER_ROLES)
@@ -78,13 +78,13 @@ class User(AbstractBaseUser, PermissionsMixin):
         return "%s %s" % (self.first_name, self.last_name)
 
     def add_role(self, role):
-        # User String ->
+        # String ->
         # Adds user to role group
 
         self.groups.add(Group.objects.get(name=role))
 
     def has_role(self, role):
-        # User String -> Boolean
+        # String -> Boolean
         # Produce true if user is in the given role group.
 
         return self.groups.filter(name=role).exists()
