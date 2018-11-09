@@ -19,19 +19,31 @@ class TranslatedFormMixin(object):
 
     query_parameter = 'language'
 
-    def get_form(self, *args, **kwargs):
-        # Sets language before instantiating form, then reverts language
-        current_language = translation.get_language()
+    def set_language(self):
+        # Changes the language to the one specified by query_parameter
+        self.previous_language = translation.get_language()
         query_language = self.request.GET.get(self.query_parameter)
 
         if query_language:
             translation.activate(query_language)
 
-        form = super().get_form(*args, **kwargs)
+    def wrap(self, method, *args, **kwargs):
+        # Changes the language, calls the wrapped method, then reverts language.
+        self.set_language()
 
-        translation.activate(current_language)
+        return_value = method(*args, **kwargs)
 
-        return form
+        translation.activate(self.previous_language)
+
+        return return_value
+
+    def get_form(self, *args, **kwargs):
+        # Wraps .get_form() in query_parameter language context.
+        return self.wrap(super().get_form, *args, **kwargs)
+
+    def post(self, *args, **kwargs):
+        # Wraps .post() in query_parameter language context.
+        return self.wrap(super().post, *args, **kwargs)
 
 
 def login(request):
