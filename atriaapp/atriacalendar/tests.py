@@ -105,3 +105,36 @@ class TranslationTests(TestCase):
         self.assertIn(self.event.title_fr, response.context_data['form'].as_p())
         self.assertIn(self.event.description_fr,
             response.context_data['form'].as_p())
+
+
+class EventTests(TestCase):
+    """
+    Tests for creating, retrieving, updating, and deleting Events.
+    """
+
+    def setUp(self):
+        # Creates a single Event with some translated fields.
+        event_type = EventType.objects.create(
+            abbr="Test",
+            label="Test EventType",
+        )
+        self.event = Event.objects.create(
+            title="English Title",
+            description="English description",
+            event_type=event_type,
+        )
+
+        translation.activate('fr')
+
+        self.event.title = "French Title"
+        self.event.description = "French description"
+        self.event.save()
+
+        translation.activate('en')
+
+    def test_event_view(self):
+        # Tests retrieving the view/edit view for a single Event
+        response = self.client.get(
+            reverse('swingtime-event', args=(self.event.pk,)))
+
+        self.assertEqual(response.status_code, 200)
