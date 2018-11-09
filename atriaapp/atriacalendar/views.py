@@ -124,6 +124,8 @@ class EventUpdateView(TranslatedFormMixin, UpdateView):
     def post(self, *args, **kwargs):
         # Selects correct form class based on POST data.
         # NOTE: lifted from swingtime.views.event_view
+        # TODO: make the recurrence form POST to a different URL to clean this
+        #       up
         if '_update' in self.request.POST:
             return super().post(*args, **kwargs)
         elif '_add' in self.request.POST:
