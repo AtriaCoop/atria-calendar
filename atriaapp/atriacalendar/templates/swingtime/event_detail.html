@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% load i18n %}
+
 {% block title %}Event: {{ event }}{% endblock %}
 {% block main_content %}
     <h3>Swingtime Event</h3>
     <h4>Event Details</h4>
-    {% language request.GET.event_lang %}
-        <form action="" method="post">{% csrf_token %}
+      <form action="" method="post">{% csrf_token %}
         <table>
             <tfoot>
                 <tr>
@@ -66,5 +66,4 @@
         </table>
         </form>
         </form>
-    {% endlanguage %}
 {% endblock %}

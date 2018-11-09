@@ -11,6 +11,6 @@ class EventForm(TranslationModelForm):
         model = Event
         fields = "__all__"
 
-    def __init__(self, *args, **kws):
-        super().__init__(*args, **kws)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.fields['description'].required = False

@@ -8,7 +8,7 @@ from swingtime.models import Event, EventType
 
 from .forms import EventForm
 from .models import User, USER_ROLES
-from .views import TranslatedFormMixin
+from .views import EventUpdateView, TranslatedFormMixin
 
 
 class UserTests(TestCase):
@@ -70,6 +70,10 @@ class TranslationTests(TestCase):
     def setUp(self):
         # Creates a single Event with some translated fields.
         self.factory = RequestFactory()
+        self.form_view = TranslatedFormView
+
+        translation.activate('en')
+
         event_type = EventType.objects.create(
             abbr="Test",
             label="Test EventType",
@@ -90,17 +94,16 @@ class TranslationTests(TestCase):
 
     def test_translated_form_mixin_get_form(self):
         # Tests that form is translated in correct language by get_form
-        form_view = TranslatedFormView
         request = self.factory.get('')
-        request.GET = {form_view.query_parameter: 'en'}
-        response = TranslatedFormView.as_view()(request)
+        request.GET = {self.form_view.query_parameter: 'en'}
+        response = self.form_view.as_view()(request)
 
         self.assertIn(self.event.title_en, response.context_data['form'].as_p())
         self.assertIn(self.event.description_en,
             response.context_data['form'].as_p())
 
-        request.GET[form_view.query_parameter] = 'fr'
-        response = TranslatedFormView.as_view()(request)
+        request.GET[self.form_view.query_parameter] = 'fr'
+        response = self.form_view.as_view()(request)
 
         self.assertIn(self.event.title_fr, response.context_data['form'].as_p())
         self.assertIn(self.event.description_fr,
@@ -114,14 +117,16 @@ class EventTests(TestCase):
 
     def setUp(self):
         # Creates a single Event with some translated fields.
-        event_type = EventType.objects.create(
+        translation.activate('en')
+
+        self.event_type = EventType.objects.create(
             abbr="Test",
             label="Test EventType",
         )
         self.event = Event.objects.create(
             title="English Title",
             description="English description",
-            event_type=event_type,
+            event_type=self.event_type,
         )
 
         translation.activate('fr')
@@ -132,9 +137,53 @@ class EventTests(TestCase):
 
         translation.activate('en')
 
-    def test_event_view(self):
-        # Tests retrieving the view/edit view for a single Event
+    def test_create_event(self):
+        # Tests creating an Event.
+        # TODO
+        pass
+
+    def test_retrieve_event(self):
+        # Tests retrieving the view/edit view for a single Event.
         response = self.client.get(
             reverse('swingtime-event', args=(self.event.pk,)))
 
         self.assertEqual(response.status_code, 200)
+
+    def test_update_event(self):
+        # Tests updating an Event in default language (English).
+        post_data = {
+            '_update': 'Update',
+            'event_type': self.event_type.pk,
+            'title': "New English Title",
+            'description': "New English Description",
+        }
+        response = self.client.post(
+            reverse('swingtime-event', args=(self.event.pk,)), data=post_data)
+
+        self.assertEqual(response.status_code, 302)
+
+        self.event.refresh_from_db()
+
+        self.assertEqual(self.event.title_en, post_data['title'])
+        self.assertEqual(self.event.description_en, post_data['description'])
+
+    def test_update_event_fr(self):
+        # Tests updating an Event in a different language (French).
+        post_data = {
+            '_update': 'Update',
+            'event_type': self.event_type.pk,
+            'title': "New French Title",
+            'description': "New French Description",
+        }
+
+        response = self.client.post(
+            reverse('swingtime-event', args=(self.event.pk,))
+                + '?%s=fr' % EventUpdateView.query_parameter,
+            data=post_data)
+
+        self.assertEqual(response.status_code, 302)
+
+        self.event.refresh_from_db()
+
+        self.assertEqual(self.event.title_fr, post_data['title'])
+        self.assertEqual(self.event.description_fr, post_data['description'])
