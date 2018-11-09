@@ -6,6 +6,31 @@ from swingtime import views as swingtime_views
 from .forms import *
 
 
+class TranslatedFormMixin(object):
+    """
+    Mixin that translates just the form for a FormView.
+
+    Uses query_parameter attribute to determine which parameter to use for the
+    language (defaults to 'langauge')
+    """
+
+    query_parameter = 'language'
+
+    def get_form(self, *args, **kwargs):
+        # Sets langauge before instantiating form, then reverts language
+        current_language = translation.get_language()
+        query_language = self.request.GET.get(self.query_parameter)
+
+        if query_language:
+            translation.activate(query_language)
+
+        form = super().get_form(*args, **kwargs)
+
+        translation.activate(current_language)
+
+        return form
+
+
 def login(request):
     """Shell login view."""
 
