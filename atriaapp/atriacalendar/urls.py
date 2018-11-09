@@ -20,9 +20,9 @@ urlpatterns = [
          name='add_participants'),
     path('event-list/', event_list, name='event_list'),
     path('event-detail/', event_detail, name='event_detail'),
-    url(
-        r'swingtime/events/(\d+)/$',
-        event_view,
+    path(
+        'swingtime/events/<int:pk>/',
+        EventUpdateView.as_view(),
         name='swingtime-event'
     ),
     url(r'^swingtime/', include('swingtime.urls')),

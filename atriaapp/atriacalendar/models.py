@@ -1,8 +1,14 @@
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
-from django.contrib.auth.models import PermissionsMixin
+from django.contrib.auth.models import Group, PermissionsMixin
 from django.db import models
 from django.utils import timezone
 
+
+USER_ROLES = (
+    'Admin',
+    'Volunteer',
+    'Attendee',
+)
 
 class UserManager(BaseUserManager):
 
@@ -61,5 +67,24 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     objects = UserManager()
 
+    @property
+    def roles(self):
+        # -> Iterable
+        # Produce a list of the given user's roles.
+
+        return filter(self.has_role, USER_ROLES)
+
     def get_full_name(self):
         return "%s %s" % (self.first_name, self.last_name)
+
+    def add_role(self, role):
+        # String ->
+        # Adds user to role group
+
+        self.groups.add(Group.objects.get(name=role))
+
+    def has_role(self, role):
+        # String -> Boolean
+        # Produce true if user is in the given role group.
+
+        return self.groups.filter(name=role).exists()

@@ -1,9 +1,37 @@
+from django.http import HttpResponseBadRequest
 from django.shortcuts import render
-from django.utils import translation
+from django.utils import timezone, translation
+from django.views.generic.edit import UpdateView
 
+from swingtime import forms as swingtime_forms
 from swingtime import views as swingtime_views
 
 from .forms import *
+
+
+class TranslatedFormMixin(object):
+    """
+    Mixin that translates just the form for a FormView.
+
+    Uses query_parameter attribute to determine which parameter to use for the
+    language (defaults to 'language')
+    """
+
+    query_parameter = 'language'
+
+    def get_form(self, *args, **kwargs):
+        # Sets language before instantiating form, then reverts language
+        current_language = translation.get_language()
+        query_language = self.request.GET.get(self.query_parameter)
+
+        if query_language:
+            translation.activate(query_language)
+
+        form = super().get_form(*args, **kwargs)
+
+        translation.activate(current_language)
+
+        return form
 
 
 def login(request):
@@ -56,3 +84,38 @@ def event_view(request, pk):
 
     return swingtime_views.event_view(request, pk, event_form_class=EventForm,
                                       recurrence_form_class=EventForm)
+
+class EventUpdateView(TranslatedFormMixin, UpdateView):
+    """
+    View for viewing and updating a single Event.
+    """
+    form_class = EventForm
+    model = Event
+    recurrence_form_class = swingtime_forms.MultipleOccurrenceForm
+    template_name = 'swingtime/event_detail.html'
+    query_parameter = 'event_lang'
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+
+        if self.form_class == self.recurrence_form_class:
+            # There's been a validation error in the recurrence form
+            context_data['recurrence_form'] = context_data['form']
+            context_data['event_form'] = EventForm(instance=self.object)
+        else:
+            context_data['recurrence_form'] = self.recurrence_form_class(
+                initial={'dstart': timezone.now()})
+            context_data['event_form'] = context_data['form']
+
+        return context_data
+
+    def post(self, *args, **kwargs):
+        # Selects correct form class based on POST data.
+        # NOTE: lifted from swingtime.views.event_view
+        if '_update' in self.request.POST:
+            return super().post(*args, **kwargs)
+        elif '_add' in self.request.POST:
+            self.form_class = self.recurrence_form_class
+            return super().post(*args, **kwargs)
+        else:
+            return HttpResponseBadRequest('Bad Request')
