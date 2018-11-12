@@ -11,42 +11,121 @@
     <title>{% block title %}Title{% endblock %}</title>
 
     {% block extra_head %}{% endblock %}
+
+    <style>
+      * {
+          box-sizing: border-box;
+      }
+
+      body {
+          font-family: Arial, Helvetica, sans-serif;
+      }
+
+      /* Style the header */
+      header {
+          background-color: #666;
+          padding: 30px;
+          text-align: center;
+          font-size: 35px;
+          color: white;
+      }
+
+      /* Create two columns/boxes that floats next to each other */
+      nav {
+          float: left;
+          width: 30%;
+          height: auto; /*300px; / * only for demonstration, should be removed */
+          background: #ccc;
+          padding: 20px;
+      }
+
+      /* Style the list inside the menu */
+      nav ul {
+          list-style-type: none;
+          padding: 0;
+      }
+
+      article {
+          float: left;
+          padding: 20px;
+          width: 70%;
+          background-color: #f1f1f1;
+          height: auto; /*300px; / * only for demonstration, should be removed */
+      }
+
+      /* Clear floats after the columns */
+      section:after {
+          content: "";
+          display: table;
+          clear: both;
+      }
+
+      /* Style the footer */
+      footer {
+          background-color: #777;
+          padding: 10px;
+          text-align: center;
+          color: white;
+      }
+
+      /* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
+      @media (max-width: 600px) {
+          nav, article {
+              width: 100%;
+              height: auto;
+          }
+      }
+    </style>
   </head>
   <body>
-    {% block main_nav %}
-      <nav class>
-        <ul>
-          <li {% if active_view == 'calendar_home' %}class="active"{% endif %}>
-            <a href="{% url 'calendar_home' %}">{% trans "Home" %}</a>
-          </li>
-          <li {% if active_view == 'create_event' %}class="active"{% endif %}>
-            <a href="{% url 'create_event' %}">{% trans "Create Event" %}</a>
-          </li>
-          <li {% if active_view == 'event_list' %}class="active"{% endif %}>
-            <a href="{% url 'event_list' %}">{% trans "Manage Events" %}</a>
-          </li>
-          <li {% if active_view == 'calendar_view' %}class="active"{% endif %}>
-            <a href="{% url 'swingtime-monthly-view' 2018 10 %}">{% trans "View Calendar" %}</a>
-          <li>
-            <a href="{% url 'login' %}">{% trans "Log Out" %}</a>
-          </li>
-        </ul>
-      </nav>
-      Languages:
-      {% if languages %}
-        {% get_current_language as LANGUAGE_CODE %}
-        <ul class="languages">
-          {% for language in languages %}
-            <li {% if language.0 == LANGUAGE_CODE %}class="active-language"{% endif %}>
-              <a href=".?event_lang={{ language.0 }}">{{ language.1 }}</a>
+    <header>
+      <h2>{% block page_title %} {% endblock %}</h2>
+    </header>    
+
+    <section>
+      {% block main_nav %}
+        <nav class>
+        Languages:
+        {% if languages %}
+          {% get_current_language as LANGUAGE_CODE %}
+          <ul class="languages">
+            {% for language in languages %}
+              <li {% if language.0 == LANGUAGE_CODE %}class="active-language"{% endif %}>
+                <a href=".?event_lang={{ language.0 }}">{{ language.1 }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+  
+        Site Navigation:
+          <ul>
+            <li {% if active_view == 'calendar_home' %}class="active"{% endif %}>
+              <a href="{% url 'calendar_home' %}">{% trans "Home" %}</a>
             </li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    {% endblock %}
+            <li {% if active_view == 'event_list' %}class="active"{% endif %}>
+              <a href="{% url 'event_list' %}">{% trans "List/Manage Events" %}</a>
+            </li>
+            <li {% if active_view == 'create_event' %}class="active"{% endif %}>
+              <a href="{% url 'create_event' %}">{% trans "Create Event" %}</a>
+            </li>
+            <li {% if active_view == 'calendar_view' %}class="active"{% endif %}>
+              <a href="{% url 'swingtime-monthly-view' 2018 10 %}">{% trans "View Calendar" %}</a>
+            <li>
+              <a href="{% url 'login' %}">{% trans "Log Out" %}</a>
+            </li>
+          </ul>
+        </nav>
+      {% endblock %}
 
-    {% block main_content %}{% endblock %}
+      <article>
+        {% block main_content %}
+        {% endblock %}
+      </article>
+    </section>
 
-    {% block extra_body %}{% endblock %}
+    <footer>
+      <p>Footer</p>
+    </footer>
+
   </body>
 </html>

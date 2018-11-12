@@ -2,11 +2,11 @@
 
 {% load i18n %}
 
-{% block title %}{% trans "Calendar Login" %}{% endblock %}
+{% block page_title %}{% trans "Calendar Login" %}{% endblock %}
 
 {% block main_nav %}{% endblock %}
 
-{% block body %}
+{% block main_content %}
   <a href="{% url 'calendar_home' %}">
     <button type="button" name="login">{% trans "Log In" %}</button>
   </a>

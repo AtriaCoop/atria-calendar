@@ -1,37 +1,3 @@
+{% extends 'base.html' %}
+
 {% load i18n %}
-
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>{% block title %}Title{% endblock %}</title>
-
-    {% block extra_head %}{% endblock %}
-  </head>
-  <body>
-    {% block main_nav %}
-      <nav class>
-        <ul>
-          <li {% if active_view == 'calendar_home' %}class="active"{% endif %}>
-            <a href="{% url 'calendar_home' %}">{% trans "Home" %}</a>
-          </li>
-          <li {% if active_view == 'create_event' %}class="active"{% endif %}>
-            <a href="{% url 'create_event' %}">{% trans "Create Event" %}</a>
-          </li>
-          <li {% if active_view == 'event_list' %}class="active"{% endif %}>
-            <a href="{% url 'event_list' %}">{% trans "Manage Events" %}</a>
-          </li>
-          <li {% if active_view == 'calendar_view' %}class="active"{% endif %}>
-            <a href="{% url 'swingtime-monthly-view' 2018 10 %}">{% trans "View Calendar" %}</a>
-          <li>
-            <a href="{% url 'login' %}">{% trans "Log Out" %}</a>
-          </li>
-        </ul>
-      </nav>
-    {% endblock %}
-
-    {% block body %}{% endblock %}
-
-    {% block extra_body %}{% endblock %}
-  </body>
-</html>
