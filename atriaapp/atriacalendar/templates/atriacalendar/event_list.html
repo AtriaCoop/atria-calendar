@@ -5,4 +5,9 @@
 {% block page_title %}{% trans "Manage Events" %}{% endblock %}
 
 {% block main_content %}
+    <ul>
+        {% for e in events %}
+            <li><a href="{{ e.get_absolute_url }}">{{ e }}</a> e.event_type </li>
+        {% endfor %}
+    </ul>
 {% endblock %}

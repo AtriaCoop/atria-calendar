@@ -18,7 +18,7 @@ urlpatterns = [
     path('create-event/', create_event, name='create_event'),
     path('create-event/participants/', add_participants,
          name='add_participants'),
-    path('event-list/', event_list, name='event_list'),
+    path('event-list/', EventListView.as_view(), name='event_list'),
     path('event-detail/', event_detail, name='event_detail'),
     path(
         'swingtime/events/<int:pk>/',

@@ -2,6 +2,7 @@ from django.http import HttpResponseBadRequest
 from django.shortcuts import render
 from django.utils import timezone, translation
 from django.views.generic.edit import UpdateView
+from django.views.generic.list import ListView
 
 from swingtime import forms as swingtime_forms
 from swingtime import views as swingtime_views
@@ -96,6 +97,20 @@ def event_view(request, pk):
 
     return swingtime_views.event_view(request, pk, event_form_class=EventForm,
                                       recurrence_form_class=EventForm)
+
+class EventListView(ListView):
+    """
+    View for listing all events, or events by type
+    """
+    model = Event
+    paginate_by = 25
+    context_object_name = 'events'
+
+    def get_queryset(self):
+        if 'event_type' in self.kwargs and self.kwargs['event_type']:
+            return Event.objects.filter(event_type=self.kwargs['event_type'])
+        else:
+            return Event.objects.all()
 
 class EventUpdateView(TranslatedFormMixin, UpdateView):
     """
