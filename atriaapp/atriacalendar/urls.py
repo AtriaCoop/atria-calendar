@@ -22,5 +22,5 @@ urlpatterns = [
     path('event-list/', EventListView.as_view(), name='event_list'),
     #path('event-detail/', event_detail, name='event_detail'),
     path('event-detail/<int:pk>/', EventUpdateView.as_view(), name='swingtime-event'),
-    path('event-detail/<int:pk>/<int:event_pk>/', swingtime_views.occurrence_view, name='swingtime-occurrence'),
+    path('event-detail/<int:event_pk>/<int:pk>/', swingtime_views.occurrence_view, name='swingtime-occurrence'),
 ]
