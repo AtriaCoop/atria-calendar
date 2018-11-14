@@ -1,5 +1,8 @@
 {% extends "base.html" %}
+{% load i18n %}
+
 {% block title %}Add Event{% endblock %}
+{% block page_title %}{% trans "Add Event" %}{% endblock %}
 {% block main_content %}
     <h3>Add Event</h3>
     {{ event_form.non_field_errors }}
