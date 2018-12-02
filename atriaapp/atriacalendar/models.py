@@ -3,6 +3,8 @@ from django.contrib.auth.models import Group, PermissionsMixin
 from django.db import models
 from django.utils import timezone
 
+from swingtime import models as swingtime_models
+
 
 USER_ROLES = (
     'Admin',
@@ -88,3 +90,16 @@ class User(AbstractBaseUser, PermissionsMixin):
         # Produce true if user is in the given role group.
 
         return self.groups.filter(name=role).exists()
+
+# Extend swingtime Event to add some custom fields
+class AtriaEvent(swingtime_models.Event):
+    #event = models.OneToOneField(
+    #    swingtime_models.Event,
+    #    on_delete=models.CASCADE,
+    #    primary_key=True,
+    #)
+    program = models.CharField(max_length=32)
+    location = models.CharField(max_length=100)
+
+    def __str__(self):
+        return "%s %s %s" % super.title, self.event.title, self.location

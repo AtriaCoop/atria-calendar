@@ -67,6 +67,30 @@ def calendar_view(request, *args, **kwargs):
     return render(request, 'atriacalendar/calendar_view.html',
                   context={'active_view': 'calendar_view', 'year': the_year, 'month': the_month})
 
+def add_atria_event(
+    request,
+    template='swingtime/add_event.html',
+    event_form_class=AtriaEventForm,
+    recurrence_form_class=swingtime_forms.MultipleOccurrenceForm
+):
+    '''
+    Add a new ``Event`` instance and 1 or more associated ``Occurrence``s.
+
+    Context parameters:
+
+    ``dtstart``
+        a datetime.datetime object representing the GET request value if present,
+        otherwise None
+
+    ``event_form``
+        a form object for updating the event
+
+    ``recurrence_form``
+        a form object for adding occurrences
+
+    '''
+    return swingtime_views.add_event(request, template, event_form_class, recurrence_form_class)
+
 def create_event(request):
     """Create Calendar Event shell view."""
 

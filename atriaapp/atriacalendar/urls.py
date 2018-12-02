@@ -17,7 +17,7 @@ urlpatterns = [
     path('calendar/<int:year>/<int:month>/', swingtime_views.month_view, name='swingtime-monthly-view'),
     path('calendar/<int:year>/<int:month>/<int:day>/', swingtime_views.day_view, name='swingtime-daily-view'),
 
-    path('create-event/', swingtime_views.add_event, name='swingtime-add-event'),
+    path('create-event/', add_atria_event, name='swingtime-add-event'),
     path('create-event/participants/', add_participants, name='add_participants'),
     path('event-list/', EventListView.as_view(), name='event_list'),
     #path('event-detail/', event_detail, name='event_detail'),
