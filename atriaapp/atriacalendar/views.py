@@ -227,9 +227,9 @@ class EventListView(ListView):
 
     def get_queryset(self):
         if 'event_type' in self.kwargs and self.kwargs['event_type']:
-            return Event.objects.filter(event_type=self.kwargs['event_type'])
+            return AtriaEvent.objects.filter(event_type=self.kwargs['event_type'])
         else:
-            return Event.objects.all()
+            return AtriaEvent.objects.all()
 
 class EventUpdateView(TranslatedFormMixin, UpdateView):
     """
