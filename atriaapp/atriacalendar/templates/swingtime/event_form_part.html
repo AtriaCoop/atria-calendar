@@ -21,6 +21,13 @@
   <td>{{ event_form.program }}</td>
 </tr>
 <tr>
+  <th>{{ event_form.event_program.label_tag }}</th>
+  <td>
+    {{ event_form.event_program.errors }}
+    {{ event_form.event_program }}
+  </td>
+</tr>
+<tr>
   <th>{{ event_form.location.label_tag }}</th>
   <td>{{ event_form.location }}</td>
 </tr>
