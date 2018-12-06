@@ -91,14 +91,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 
         return self.groups.filter(name=role).exists()
 
-# Extend swingtime Note to add some custom fields
-class AtriaNote(swingtime_models.Note):
-    metadata = models.CharField(max_length=100, blank=True)
-
-    def __str__(self):
-        return super.note
-
-
 # Code table for event programs - senior, youth, etc.
 class AtriaEventProgram(models.Model):
     '''
@@ -122,4 +114,5 @@ class AtriaEvent(swingtime_models.Event):
     location = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
-        return "%s %s %s" % super.title, self.event.title, self.location
+        return self.title + ", " +  self.location
+

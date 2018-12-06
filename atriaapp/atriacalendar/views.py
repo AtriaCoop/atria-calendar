@@ -121,7 +121,7 @@ def atria_occurrence_view(
     event_pk,
     pk,
     template='swingtime/occurrence_detail.html',
-    form_class=AtriaSingleOccurrenceForm
+    form_class=swingtime_forms.SingleOccurrenceForm
 ):
     '''
     View a specific occurrence and optionally handle any updates.
@@ -141,7 +141,7 @@ def add_atria_event(
     request,
     template='swingtime/add_event.html',
     event_form_class=AtriaEventForm,
-    recurrence_form_class=AtriaMultipleOccurrenceForm
+    recurrence_form_class=swingtime_forms.MultipleOccurrenceForm
 ):
     '''
     Add a new ``Event`` instance and 1 or more associated ``Occurrence``s.
@@ -237,7 +237,7 @@ class EventUpdateView(TranslatedFormMixin, UpdateView):
     """
     form_class = AtriaEventForm
     model = AtriaEvent
-    recurrence_form_class = AtriaMultipleOccurrenceForm
+    recurrence_form_class = swingtime_forms.MultipleOccurrenceForm
     template_name = 'swingtime/event_detail.html'
     query_parameter = 'event_lang'
 

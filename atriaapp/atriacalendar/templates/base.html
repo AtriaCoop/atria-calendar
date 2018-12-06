@@ -226,7 +226,8 @@
               <a href="{% url 'swingtime-add-event' %}">{% trans "Create Event" %}</a>
             </li>
             <li {% if active_view == 'calendar_view' %}class="active"{% endif %}>
-              <a href="{% url 'swingtime-monthly-view' 2018 10 %}">{% trans "View Calendar" %}</a>
+              {% now 'Y' as cur_year %} {% now 'm' as cur_month %}
+              <a href="{% url 'swingtime-monthly-view' cur_year cur_month %}">{% trans "View Calendar" %}</a>
             </li>
             <li>
               <a href="{% url 'login' %}">{% trans "Log Out" %}</a>

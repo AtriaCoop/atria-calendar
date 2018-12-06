@@ -23,6 +23,5 @@ class CustomUserAdmin(UserAdmin):
     search_fields = ('first_name', 'last_name', 'email')
     ordering = ('email',)
 
-admin.site.register(AtriaNote)
 admin.site.register(AtriaEventProgram)
 admin.site.register(AtriaEvent)
