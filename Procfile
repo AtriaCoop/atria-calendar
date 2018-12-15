@@ -1,2 +1,2 @@
-web: python manage.py runserver
+web: python atriaapp/manage.py runserver
 
