@@ -1,2 +1,3 @@
-web: python atriaapp/manage.py runserver
+release: cd atriaapp && ./release_tasks.sh
+web: cd atriaapp && python manage.py runserver
 
