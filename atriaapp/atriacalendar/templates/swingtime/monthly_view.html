@@ -34,8 +34,9 @@
                     <ul>{% for item in items %}
                         <li>
                             <a href="{{ item.get_absolute_url }}">
-                                <span class="event-times">{{ item.start_time|time }}</span>
-                                {{ item.title }}</a>
+                                {{ item.title }} <br>
+                                <span class="event-times">{{ item.start_time|time }} - {{ item.end_time|time }}</span>
+                                </a>
                         </li>{% endfor %}
                     </ul>
                     {% endlanguage %}
