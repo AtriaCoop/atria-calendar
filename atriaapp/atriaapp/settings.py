@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'atriacalendar',
 ]
 
+MODELTRANSLATION_TRANSLATION_REGISTRY = "atriacalendar.translation"
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
