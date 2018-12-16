@@ -41,8 +41,6 @@ INSTALLED_APPS = [
     'atriacalendar',
 ]
 
-MODELTRANSLATION_TRANSLATION_REGISTRY = "atriacalendar.translation"
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -138,6 +136,7 @@ LANGUAGES = (
     ('fr', gettext('French')),
 )
 MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
+MODELTRANSLATION_TRANSLATION_REGISTRY = "atriacalendar.translation"
 
 
 # Static files (CSS, JavaScript, Images)
