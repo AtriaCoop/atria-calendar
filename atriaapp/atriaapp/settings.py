@@ -2,6 +2,7 @@ import os
 import sys
 import datetime
 import django
+import django_heroku
 
 try:
     # dateutil is an absolute requirement
@@ -141,3 +142,5 @@ MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+django_heroku.settings(locals())
