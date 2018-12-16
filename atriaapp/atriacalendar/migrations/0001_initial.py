@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         #('swingtime', '0003_auto_20181019_1411'),
-        #('atriacalendar', '0003_auto_20181216_0834'),
+        ('swingtime', '0001_initial'),
         ('auth', '0009_alter_user_last_name_max_length'),
     ]
 
