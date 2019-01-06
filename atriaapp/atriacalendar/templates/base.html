@@ -202,6 +202,10 @@
     <section>
       {% block main_nav %}
         <nav class>
+        {% if request.user.is_authenticated %}
+        <p> Logged in as: {{ request.user }} </p>
+        {% endif %}
+
         Languages:
         {% if languages %}
           {% get_current_language as LANGUAGE_CODE %}
@@ -229,9 +233,16 @@
               {% now 'Y' as cur_year %} {% now 'm' as cur_month %}
               <a href="{% url 'swingtime-monthly-view' cur_year cur_month %}">{% trans "View Calendar" %}</a>
             </li>
+            {% if request.user.is_authenticated is False %}
             <li>
-              <a href="{% url 'login' %}">{% trans "Log Out" %}</a>
+              <a href="{% url 'login' %}?next=/">{% trans "Log In" %}</a>
             </li>
+            {% endif %}
+            {% if request.user.is_authenticated %}
+            <li>
+              <a href="{% url 'logout' %}">{% trans "Log Out" %}</a>
+            </li>
+            {% endif %}
           </ul>
         </nav>
       {% endblock %}
