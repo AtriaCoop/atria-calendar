@@ -1,0 +1,367 @@
+[
+{
+  "model": "swingtime.eventtype",
+  "pk": 1,
+  "fields": {
+    "abbr": "TYP1",
+    "label": "Event Type 1",
+    "label_en": "Event Type 1",
+    "label_es": "El Typo 1",
+    "label_zh": "\u7b2c\u4e00\u7684",
+    "label_fr": "Le Type 1"
+  }
+},
+{
+  "model": "swingtime.eventtype",
+  "pk": 2,
+  "fields": {
+    "abbr": "TYP2",
+    "label": "Type 2",
+    "label_en": "Type 2",
+    "label_es": "El Typo 1",
+    "label_zh": "\u7b2c\u4e8c\u7684",
+    "label_fr": "Le Type 2"
+  }
+},
+{
+  "model": "swingtime.eventtype",
+  "pk": 3,
+  "fields": {
+    "abbr": "TYP3",
+    "label": "Type 3",
+    "label_en": "Type 3",
+    "label_es": "El Typo 3",
+    "label_zh": "\u7b2c\u4e09\u7684",
+    "label_fr": "Le Type 3"
+  }
+},
+{
+  "model": "swingtime.event",
+  "pk": 1,
+  "fields": {
+    "title": "A Test Event",
+    "title_en": "A Test Event",
+    "title_es": null,
+    "title_zh": null,
+    "title_fr": null,
+    "description": "This is my test event",
+    "description_en": "This is my test event",
+    "description_es": null,
+    "description_zh": null,
+    "description_fr": null,
+    "event_type": 1
+  }
+},
+{
+  "model": "swingtime.event",
+  "pk": 2,
+  "fields": {
+    "title": "Second Event",
+    "title_en": "Second Event",
+    "title_es": null,
+    "title_zh": null,
+    "title_fr": null,
+    "description": "Second Event",
+    "description_en": "Second Event",
+    "description_es": null,
+    "description_zh": null,
+    "description_fr": null,
+    "event_type": 2
+  }
+},
+{
+  "model": "swingtime.event",
+  "pk": 3,
+  "fields": {
+    "title": "Recurring Event",
+    "title_en": "Recurring Event",
+    "title_es": null,
+    "title_zh": null,
+    "title_fr": null,
+    "description": "Recurring Event",
+    "description_en": "Recurring Event",
+    "description_es": null,
+    "description_zh": null,
+    "description_fr": null,
+    "event_type": 3
+  }
+},
+{
+  "model": "swingtime.occurrence",
+  "pk": 1,
+  "fields": {
+    "start_time": "2018-12-01T14:00:00",
+    "end_time": "2018-12-01T16:30:00",
+    "event": 1
+  }
+},
+{
+  "model": "swingtime.occurrence",
+  "pk": 2,
+  "fields": {
+    "start_time": "2018-12-06T14:00:00",
+    "end_time": "2018-12-06T15:30:00",
+    "event": 2
+  }
+},
+{
+  "model": "swingtime.occurrence",
+  "pk": 3,
+  "fields": {
+    "start_time": "2018-12-04T15:00:00",
+    "end_time": "2018-12-04T19:00:00",
+    "event": 3
+  }
+},
+{
+  "model": "swingtime.occurrence",
+  "pk": 4,
+  "fields": {
+    "start_time": "2018-12-05T15:00:00",
+    "end_time": "2018-12-05T19:00:00",
+    "event": 3
+  }
+},
+{
+  "model": "swingtime.occurrence",
+  "pk": 5,
+  "fields": {
+    "start_time": "2018-12-06T15:00:00",
+    "end_time": "2018-12-06T19:00:00",
+    "event": 3
+  }
+},
+{
+  "model": "swingtime.occurrence",
+  "pk": 6,
+  "fields": {
+    "start_time": "2018-12-07T15:00:00",
+    "end_time": "2018-12-07T19:00:00",
+    "event": 3
+  }
+},
+{
+  "model": "swingtime.occurrence",
+  "pk": 7,
+  "fields": {
+    "start_time": "2018-12-08T15:00:00",
+    "end_time": "2018-12-08T19:00:00",
+    "event": 3
+  }
+},
+{
+  "model": "swingtime.occurrence",
+  "pk": 8,
+  "fields": {
+    "start_time": "2018-12-09T15:00:00",
+    "end_time": "2018-12-09T19:00:00",
+    "event": 3
+  }
+},
+{
+  "model": "swingtime.occurrence",
+  "pk": 9,
+  "fields": {
+    "start_time": "2018-12-10T15:00:00",
+    "end_time": "2018-12-10T19:00:00",
+    "event": 3
+  }
+},
+{
+  "model": "swingtime.occurrence",
+  "pk": 10,
+  "fields": {
+    "start_time": "2018-12-11T15:00:00",
+    "end_time": "2018-12-11T19:00:00",
+    "event": 3
+  }
+},
+{
+  "model": "swingtime.occurrence",
+  "pk": 11,
+  "fields": {
+    "start_time": "2018-12-12T15:00:00",
+    "end_time": "2018-12-12T19:00:00",
+    "event": 3
+  }
+},
+{
+  "model": "swingtime.occurrence",
+  "pk": 12,
+  "fields": {
+    "start_time": "2018-12-13T15:00:00",
+    "end_time": "2018-12-13T19:00:00",
+    "event": 3
+  }
+},
+{
+  "model": "swingtime.occurrence",
+  "pk": 13,
+  "fields": {
+    "start_time": "2018-12-14T15:00:00",
+    "end_time": "2018-12-14T19:00:00",
+    "event": 3
+  }
+},
+{
+  "model": "swingtime.occurrence",
+  "pk": 14,
+  "fields": {
+    "start_time": "2018-12-15T15:00:00",
+    "end_time": "2018-12-15T19:00:00",
+    "event": 3
+  }
+},
+{
+  "model": "swingtime.occurrence",
+  "pk": 15,
+  "fields": {
+    "start_time": "2018-12-16T15:00:00",
+    "end_time": "2018-12-16T19:00:00",
+    "event": 3
+  }
+},
+{
+  "model": "swingtime.occurrence",
+  "pk": 16,
+  "fields": {
+    "start_time": "2018-12-17T15:00:00",
+    "end_time": "2018-12-17T19:00:00",
+    "event": 3
+  }
+},
+{
+  "model": "swingtime.occurrence",
+  "pk": 17,
+  "fields": {
+    "start_time": "2018-12-18T15:00:00",
+    "end_time": "2018-12-18T19:00:00",
+    "event": 3
+  }
+},
+{
+  "model": "swingtime.occurrence",
+  "pk": 18,
+  "fields": {
+    "start_time": "2018-12-19T15:00:00",
+    "end_time": "2018-12-19T19:00:00",
+    "event": 3
+  }
+},
+{
+  "model": "swingtime.occurrence",
+  "pk": 19,
+  "fields": {
+    "start_time": "2018-12-20T15:00:00",
+    "end_time": "2018-12-20T19:00:00",
+    "event": 3
+  }
+},
+{
+  "model": "swingtime.occurrence",
+  "pk": 20,
+  "fields": {
+    "start_time": "2018-12-21T15:00:00",
+    "end_time": "2018-12-21T19:00:00",
+    "event": 3
+  }
+},
+{
+  "model": "swingtime.occurrence",
+  "pk": 21,
+  "fields": {
+    "start_time": "2018-12-22T15:00:00",
+    "end_time": "2018-12-22T19:00:00",
+    "event": 3
+  }
+},
+{
+  "model": "swingtime.occurrence",
+  "pk": 22,
+  "fields": {
+    "start_time": "2018-12-23T15:00:00",
+    "end_time": "2018-12-23T19:00:00",
+    "event": 3
+  }
+},
+{
+  "model": "atriacalendar.atriaeventprogram",
+  "pk": 1,
+  "fields": {
+    "abbr": "SR1",
+    "label": "Senior",
+    "label_en": "Senior",
+    "label_es": "El Oldo",
+    "label_zh": "\u8001\u5927",
+    "label_fr": "Le Olde"
+  }
+},
+{
+  "model": "atriacalendar.atriaeventprogram",
+  "pk": 2,
+  "fields": {
+    "abbr": "YTH1",
+    "label": "Youth",
+    "label_en": "Youth",
+    "label_es": "El Youngo",
+    "label_zh": "\u5c0f\u5b69\u5b50",
+    "label_fr": "Le petite"
+  }
+},
+{
+  "model": "atriacalendar.atriaevent",
+  "pk": 1,
+  "fields": {
+    "program": "Some program",
+    "program_en": "Some program",
+    "program_es": null,
+    "program_zh": null,
+    "program_fr": null,
+    "event_program": 1,
+    "location": "Vancouver, BC, Canada"
+  }
+},
+{
+  "model": "atriacalendar.atriaevent",
+  "pk": 3,
+  "fields": {
+    "program": "Another Program",
+    "program_en": "Another Program",
+    "program_es": null,
+    "program_zh": null,
+    "program_fr": null,
+    "event_program": 1,
+    "location": "Vancouver, BC, Canada"
+  }
+},
+{
+  "model": "atriacalendar.atriaevent",
+  "pk": 2,
+  "fields": {
+    "program": "Some program",
+    "program_en": "Some program",
+    "program_es": null,
+    "program_zh": null,
+    "program_fr": null,
+    "event_program": 2,
+    "location": "Vancouver, BC, Canada"
+  }
+},
+{
+  "model": "atriacalendar.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$100000$pNbzBElix4UP$8hjZr2KYgeOPMN7eQdxizXc7aso7tNzoOI5hH3bJ/4k=",
+    "is_superuser": true,
+    "email": "admin@mail.com",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2018-12-06T03:09:20.767",
+    "last_login": "2018-12-06T03:09:43.855",
+    "groups": [],
+    "user_permissions": []
+  }
+}
+]

@@ -3,6 +3,8 @@ from django.contrib.auth.models import Group, PermissionsMixin
 from django.db import models
 from django.utils import timezone
 
+from swingtime import models as swingtime_models
+
 
 USER_ROLES = (
     'Admin',
@@ -88,3 +90,29 @@ class User(AbstractBaseUser, PermissionsMixin):
         # Produce true if user is in the given role group.
 
         return self.groups.filter(name=role).exists()
+
+# Code table for event programs - senior, youth, etc.
+class AtriaEventProgram(models.Model):
+    '''
+    Simple ``Program`` classifcation.
+    '''
+    abbr = models.CharField(max_length=4, unique=True)
+    label = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.label
+
+
+# Extend swingtime Event to add some custom fields
+class AtriaEvent(swingtime_models.Event):
+    program = models.CharField(max_length=32, blank=True)
+    event_program = models.ForeignKey(
+        AtriaEventProgram,
+        verbose_name='event program',
+        on_delete=models.CASCADE
+    )
+    location = models.CharField(max_length=100, blank=True)
+
+    def __str__(self):
+        return self.title + ", " +  self.location
+

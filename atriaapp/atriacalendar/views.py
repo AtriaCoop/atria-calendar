@@ -2,6 +2,7 @@ from django.http import HttpResponseBadRequest
 from django.shortcuts import render
 from django.utils import timezone, translation
 from django.views.generic.edit import UpdateView
+from django.views.generic.list import ListView
 
 from swingtime import forms as swingtime_forms
 from swingtime import views as swingtime_views
@@ -45,6 +46,125 @@ class TranslatedFormMixin(object):
         # Wraps .post() in query_parameter language context.
         return self.wrap(super().post, *args, **kwargs)
 
+
+####################################################################
+# Wrappers around swingtme views:
+####################################################################
+
+def atria_year_view(request, year, template='swingtime/yearly_view.html', queryset=None):
+    '''
+
+    Context parameters:
+
+    ``year``
+        an integer value for the year in questin
+
+    ``next_year``
+        year + 1
+
+    ``last_year``
+        year - 1
+
+    ``by_month``
+        a sorted list of (month, occurrences) tuples where month is a
+        datetime.datetime object for the first day of a month and occurrences
+        is a (potentially empty) list of values for that month. Only months
+        which have at least 1 occurrence is represented in the list
+
+    '''
+    return swingtime_views.year_view(request, year, template, queryset)
+
+
+def atria_month_view(
+    request,
+    year,
+    month,
+    template='swingtime/monthly_view.html',
+    queryset=None
+):
+    '''
+    Render a tradional calendar grid view with temporal navigation variables.
+
+    Context parameters:
+
+    ``today``
+        the current datetime.datetime value
+
+    ``calendar``
+        a list of rows containing (day, items) cells, where day is the day of
+        the month integer and items is a (potentially empty) list of occurrence
+        for the day
+
+    ``this_month``
+        a datetime.datetime representing the first day of the month
+
+    ``next_month``
+        this_month + 1 month
+
+    ``last_month``
+        this_month - 1 month
+
+    '''
+    return swingtime_views.month_view(request, year, month, template, queryset)
+
+
+def atria_day_view(request, year, month, day, template='swingtime/daily_view.html', **params):
+    '''
+    See documentation for function``_datetime_view``.
+
+    '''
+    return swingtime_views.day_view(request, year, month, day, template, **params)
+
+
+def atria_occurrence_view(
+    request,
+    event_pk,
+    pk,
+    template='swingtime/occurrence_detail.html',
+    form_class=swingtime_forms.SingleOccurrenceForm
+):
+    '''
+    View a specific occurrence and optionally handle any updates.
+
+    Context parameters:
+
+    ``occurrence``
+        the occurrence object keyed by ``pk``
+
+    ``form``
+        a form object for updating the occurrence
+    '''
+    return swingtime_views.occurrence_view(request, event_pk, pk, template, form_class)
+
+
+def add_atria_event(
+    request,
+    template='swingtime/add_event.html',
+    event_form_class=AtriaEventForm,
+    recurrence_form_class=swingtime_forms.MultipleOccurrenceForm
+):
+    '''
+    Add a new ``Event`` instance and 1 or more associated ``Occurrence``s.
+
+    Context parameters:
+
+    ``dtstart``
+        a datetime.datetime object representing the GET request value if present,
+        otherwise None
+
+    ``event_form``
+        a form object for updating the event
+
+    ``recurrence_form``
+        a form object for adding occurrences
+
+    '''
+    return swingtime_views.add_event(request, template, event_form_class, recurrence_form_class)
+
+
+####################################################################
+# Atria custom views:
+####################################################################
 
 def login(request):
     """Shell login view."""
@@ -97,12 +217,26 @@ def event_view(request, pk):
     return swingtime_views.event_view(request, pk, event_form_class=EventForm,
                                       recurrence_form_class=EventForm)
 
+class EventListView(ListView):
+    """
+    View for listing all events, or events by type
+    """
+    model = AtriaEvent
+    paginate_by = 25
+    context_object_name = 'events'
+
+    def get_queryset(self):
+        if 'event_type' in self.kwargs and self.kwargs['event_type']:
+            return AtriaEvent.objects.filter(event_type=self.kwargs['event_type'])
+        else:
+            return AtriaEvent.objects.all()
+
 class EventUpdateView(TranslatedFormMixin, UpdateView):
     """
     View for viewing and updating a single Event.
     """
-    form_class = EventForm
-    model = Event
+    form_class = AtriaEventForm
+    model = AtriaEvent
     recurrence_form_class = swingtime_forms.MultipleOccurrenceForm
     template_name = 'swingtime/event_detail.html'
     query_parameter = 'event_lang'

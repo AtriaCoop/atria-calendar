@@ -25,8 +25,12 @@ Build app:
 cd atria-calendar/atriaaapp
 python manage.py makemigrations
 python manage.py migrate
-python manage.py createsuperuser
+python manage.py loaddata sample-data
 ```
+
+Note that the last step loads some sample data from the fixture sample-data.json.
+
+This also creates an admin user admin@mail.com with password pass1234
 
 Run app:
 
@@ -34,4 +38,4 @@ Run app:
 python manage.py runserver
 ```
 
-Navigate to http://localhost:8000/, or http://localhost:8000/admin and login as the admin user (created by "createsuperuser" above).
+Navigate to http://localhost:8000/, or http://localhost:8000/admin and login as the admin user (admin@mail.com/pass1234).
