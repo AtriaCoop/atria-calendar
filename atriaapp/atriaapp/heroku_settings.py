@@ -1,3 +1,5 @@
+import django_heroku
+
 from .settings import *
 
 ALLOWED_HOSTS.extend(
