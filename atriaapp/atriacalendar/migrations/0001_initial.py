@@ -10,7 +10,8 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('swingtime', '0002_auto_20181020_1754'),
+        #('swingtime', '0003_auto_20181019_1411'),
+        ('swingtime', '0001_initial'),
         ('auth', '0009_alter_user_last_name_max_length'),
     ]
 
@@ -64,5 +65,12 @@ class Migration(migrations.Migration):
             model_name='atriaevent',
             name='event_program',
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='atriacalendar.AtriaEventProgram', verbose_name='event program'),
+        ),
+        migrations.CreateModel(
+            name='AtriaNote',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('note_ptr', models.CharField(blank=True, max_length=32, null=True)),
+            ],
         ),
     ]

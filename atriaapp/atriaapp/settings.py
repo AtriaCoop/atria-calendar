@@ -1,17 +1,16 @@
 import os
-import sys
 import datetime
-import django
+
 
 try:
     # dateutil is an absolute requirement
     import dateutil
 except ImportError:
-    raise ImportError('django-swingtime requires the "python-dateutil" package')
+    raise ImportError(
+        'django-swingtime requires the "python-dateutil" package')
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
@@ -23,8 +22,6 @@ SECRET_KEY = '51m=o=g9accsu3#q2=1ks@(0k2j_1#k%*o(unlr8fldv_(&%6v'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
-
 
 # Application definition
 
@@ -71,6 +68,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'atriaapp.wsgi.application'
 
+LOGOUT_REDIRECT_URL = '/'
+
 SWINGTIME = {
     'TIMESLOT_START_TIME': datetime.time(14),
     'TIMESLOT_END_TIME_DURATION': datetime.timedelta(hours=6.5)
@@ -113,7 +112,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
@@ -135,6 +133,7 @@ LANGUAGES = (
     ('fr', gettext('French')),
 )
 MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
+MODELTRANSLATION_TRANSLATION_REGISTRY = "atriacalendar.translation"
 
 
 # Static files (CSS, JavaScript, Images)
