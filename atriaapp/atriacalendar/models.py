@@ -116,3 +116,10 @@ class AtriaEvent(swingtime_models.Event):
     def __str__(self):
         return self.title + ", " +  self.location
 
+
+# Base class for organizations that use the Atria platform
+class AtriaOrganization(models.Model):
+    org_name = models.CharField(max_length=40)
+    date_joined = models.DateTimeField(default=timezone.now)
+    status = models.CharField(max_length=8)
+

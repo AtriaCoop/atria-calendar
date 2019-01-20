@@ -2,13 +2,15 @@
 URL configuration for Atria Calendar app.
 """
 
-from django.urls import path
+from django.urls import path, include
 from .forms import *
 from .views import *
 
 
 urlpatterns = [
-    path('login/', login, name='login'),
+    #path('login/', login, name='login'),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('signup/', signup_view, name='signup'),
 
     path('', calendar_home, name='calendar_home'),
     path('calendar/<int:year>/', atria_year_view, name='swingtime-yearly-view'),

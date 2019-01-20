@@ -1,6 +1,7 @@
 from django.http import HttpResponseBadRequest
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils import timezone, translation
+from django.contrib.auth import login, authenticate
 from django.views.generic.edit import UpdateView
 from django.views.generic.list import ListView
 
@@ -166,10 +167,24 @@ def add_atria_event(
 # Atria custom views:
 ####################################################################
 
-def login(request):
-    """Shell login view."""
+#def login(request):
+#    """Shell login view."""
+#    return render(request, 'atriacalendar/login.html')
 
-    return render(request, 'atriacalendar/login.html')
+def signup_view(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            # need to auto-login with Atria custom user
+            #login(request, user)
+            return redirect('calendar_home')
+    else:
+        form = SignUpForm()
+    return render(request, 'registration/signup.html', {'form': form})
 
 def calendar_home(request):
     """Home page shell view."""

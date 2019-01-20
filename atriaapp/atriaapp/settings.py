@@ -2,6 +2,7 @@ import os
 import sys
 import datetime
 import django
+import django_heroku
 
 try:
     # dateutil is an absolute requirement
@@ -22,7 +23,7 @@ SECRET_KEY = '51m=o=g9accsu3#q2=1ks@(0k2j_1#k%*o(unlr8fldv_(&%6v'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['cryptic-forest-87771.herokuapp.com', '127.0.0.1', 'localhost']
 
 
 
@@ -70,6 +71,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'atriaapp.wsgi.application'
+
+LOGOUT_REDIRECT_URL = '/'
 
 SWINGTIME = {
     'TIMESLOT_START_TIME': datetime.time(14),
@@ -135,9 +138,12 @@ LANGUAGES = (
     ('fr', gettext('French')),
 )
 MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
+MODELTRANSLATION_TRANSLATION_REGISTRY = "atriacalendar.translation"
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+django_heroku.settings(locals())
