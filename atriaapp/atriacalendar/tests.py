@@ -1,14 +1,17 @@
+from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from django.test import RequestFactory, TestCase
 from django.urls import reverse
 from django.utils import translation
 from django.views.generic.edit import UpdateView
 
-from swingtime.models import Event, EventType
+from swingtime.models import EventType
 
-from .forms import EventForm
-from .models import User, USER_ROLES
+from .forms import AtriaEventForm
+from .models import AtriaEvent, AtriaEventProgram, USER_ROLES
 from .views import EventUpdateView, TranslatedFormMixin
+
+User = get_user_model()
 
 
 class UserTests(TestCase):
@@ -56,10 +59,10 @@ class TranslatedFormView(TranslatedFormMixin, UpdateView):
     """
     Simple FormView for testing TranslatedFormMixin.
     """
-    form_class = EventForm
+    form_class = AtriaEventForm
 
     def get_object(self):
-        return Event.objects.all()[0]
+        return AtriaEvent.objects.all()[0]
 
 
 class TranslationTests(TestCase):
@@ -78,10 +81,15 @@ class TranslationTests(TestCase):
             abbr="Test",
             label="Test EventType",
         )
-        self.event = Event.objects.create(
+        event_program = AtriaEventProgram.objects.create(
+            abbr='TEST',
+            label='Test Event Program',
+        )
+        self.event = AtriaEvent.objects.create(
             title="English Title",
             description="English description",
             event_type=event_type,
+            event_program=event_program,
         )
 
         translation.activate('fr')
@@ -98,16 +106,18 @@ class TranslationTests(TestCase):
         request.GET = {self.form_view.query_parameter: 'en'}
         response = self.form_view.as_view()(request)
 
-        self.assertIn(self.event.title_en, response.context_data['form'].as_p())
+        self.assertIn(self.event.title_en,
+                      response.context_data['form'].as_p())
         self.assertIn(self.event.description_en,
-            response.context_data['form'].as_p())
+                      response.context_data['form'].as_p())
 
         request.GET[self.form_view.query_parameter] = 'fr'
         response = self.form_view.as_view()(request)
 
-        self.assertIn(self.event.title_fr, response.context_data['form'].as_p())
+        self.assertIn(self.event.title_fr,
+                      response.context_data['form'].as_p())
         self.assertIn(self.event.description_fr,
-            response.context_data['form'].as_p())
+                      response.context_data['form'].as_p())
 
 
 class EventTests(TestCase):
@@ -123,10 +133,15 @@ class EventTests(TestCase):
             abbr="Test",
             label="Test EventType",
         )
-        self.event = Event.objects.create(
+        self.event_program = AtriaEventProgram.objects.create(
+            abbr='TEST',
+            label='Test Event Program',
+        )
+        self.event = AtriaEvent.objects.create(
             title="English Title",
             description="English description",
             event_type=self.event_type,
+            event_program=self.event_program,
         )
 
         translation.activate('fr')
@@ -156,9 +171,10 @@ class EventTests(TestCase):
             'event_type': self.event_type.pk,
             'title': "New English Title",
             'description': "New English Description",
+            'event_program': self.event_program.pk,
         }
-        response = self.client.post(
-            reverse('swingtime-event', args=(self.event.pk,)), data=post_data)
+        url = reverse('swingtime-event', args=(self.event.pk,))
+        response = self.client.post(url, data=post_data)
 
         self.assertEqual(response.status_code, 302)
 
@@ -174,12 +190,13 @@ class EventTests(TestCase):
             'event_type': self.event_type.pk,
             'title': "New French Title",
             'description': "New French Description",
+            'event_program': self.event_program.pk,
         }
 
-        response = self.client.post(
-            reverse('swingtime-event', args=(self.event.pk,))
-                + '?%s=fr' % EventUpdateView.query_parameter,
-            data=post_data)
+        url = reverse(
+            'swingtime-event', args=(self.event.pk,)
+        ) + '?%s=fr' % EventUpdateView.query_parameter
+        response = self.client.post(url, data=post_data)
 
         self.assertEqual(response.status_code, 302)
 
