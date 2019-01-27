@@ -7,7 +7,7 @@
     "label": "Event Type 1",
     "label_en": "Event Type 1",
     "label_es": "El Typo 1",
-    "label_zh": "\u7b2c\u4e00\u7684",
+    "label_zh_hans": "\u7b2c\u4e00\u7684",
     "label_fr": "Le Type 1"
   }
 },
@@ -19,7 +19,7 @@
     "label": "Type 2",
     "label_en": "Type 2",
     "label_es": "El Typo 1",
-    "label_zh": "\u7b2c\u4e8c\u7684",
+    "label_zh_hans": "\u7b2c\u4e8c\u7684",
     "label_fr": "Le Type 2"
   }
 },
@@ -31,7 +31,7 @@
     "label": "Type 3",
     "label_en": "Type 3",
     "label_es": "El Typo 3",
-    "label_zh": "\u7b2c\u4e09\u7684",
+    "label_zh_hans": "\u7b2c\u4e09\u7684",
     "label_fr": "Le Type 3"
   }
 },
@@ -42,12 +42,12 @@
     "title": "A Test Event",
     "title_en": "A Test Event",
     "title_es": null,
-    "title_zh": null,
+    "title_zh_hans": null,
     "title_fr": null,
     "description": "This is my test event",
     "description_en": "This is my test event",
     "description_es": null,
-    "description_zh": null,
+    "description_zh_hans": null,
     "description_fr": null,
     "event_type": 1
   }
@@ -59,12 +59,12 @@
     "title": "Second Event",
     "title_en": "Second Event",
     "title_es": null,
-    "title_zh": null,
+    "title_zh_hans": null,
     "title_fr": null,
     "description": "Second Event",
     "description_en": "Second Event",
     "description_es": null,
-    "description_zh": null,
+    "description_zh_hans": null,
     "description_fr": null,
     "event_type": 2
   }
@@ -76,12 +76,12 @@
     "title": "Recurring Event",
     "title_en": "Recurring Event",
     "title_es": null,
-    "title_zh": null,
+    "title_zh_hans": null,
     "title_fr": null,
     "description": "Recurring Event",
     "description_en": "Recurring Event",
     "description_es": null,
-    "description_zh": null,
+    "description_zh_hans": null,
     "description_fr": null,
     "event_type": 3
   }
@@ -292,7 +292,7 @@
     "label": "Senior",
     "label_en": "Senior",
     "label_es": "El Oldo",
-    "label_zh": "\u8001\u5927",
+    "label_zh_hans": "\u8001\u5927",
     "label_fr": "Le Olde"
   }
 },
@@ -304,7 +304,7 @@
     "label": "Youth",
     "label_en": "Youth",
     "label_es": "El Youngo",
-    "label_zh": "\u5c0f\u5b69\u5b50",
+    "label_zh_hans": "\u5c0f\u5b69\u5b50",
     "label_fr": "Le petite"
   }
 },
@@ -315,7 +315,7 @@
     "program": "Some program",
     "program_en": "Some program",
     "program_es": null,
-    "program_zh": null,
+    "program_zh_hans": null,
     "program_fr": null,
     "event_program": 1,
     "location": "Vancouver, BC, Canada"
@@ -328,7 +328,7 @@
     "program": "Another Program",
     "program_en": "Another Program",
     "program_es": null,
-    "program_zh": null,
+    "program_zh_hans": null,
     "program_fr": null,
     "event_program": 1,
     "location": "Vancouver, BC, Canada"
@@ -341,7 +341,7 @@
     "program": "Some program",
     "program_en": "Some program",
     "program_es": null,
-    "program_zh": null,
+    "program_zh_hans": null,
     "program_fr": null,
     "event_program": 2,
     "location": "Vancouver, BC, Canada"

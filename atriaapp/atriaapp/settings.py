@@ -129,7 +129,7 @@ gettext = lambda s: s
 LANGUAGES = (
     ('en', gettext('English')),
     ('es', gettext('Spanish')),
-    ('zh', gettext('Chinese')),
+    ('zh-hans', gettext('Chinese')),
     ('fr', gettext('French')),
 )
 MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
