@@ -2,7 +2,7 @@
 {% load atria_custom_tags %}
 
 {# Set local template variable: #}
-{% get_settings_value languages "LANGUAGES" %}
+{% get_settings_value LANGUAGES "LANGUAGES" %}
 
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -206,19 +206,23 @@
         <p> Logged in as: {{ request.user }} </p>
         {% endif %}
 
-        Languages:
-        {% if languages %}
-          {% get_current_language as LANGUAGE_CODE %}
-          <ul class="languages">
-            {% for language in languages %}
-              <li {% if language.0 == LANGUAGE_CODE %}class="active-language"{% endif %}>
-                <a href=".?event_lang={{ language.0 }}">{{ language.1 }}</a>
-              </li>
-            {% endfor %}
-          </ul>
-        {% endif %}
+        <p>Languages:
+          <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+              <input name="next" type="hidden" value="{{ redirect_to }}">
+              <select name="language">
+                  {% get_current_language as LANGUAGE_CODE %}
+                  {% get_language_info_list for LANGUAGES as languages %}
+                  {% for language in languages %}
+                      <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                          {{ language.name_local }} ({{ language.code }})
+                      </option>
+                  {% endfor %}
+              </select>
+              <input type="submit" value="Go">
+          </form>
+        </p>
   
-        Site Navigation:
+        <p>Site Navigation:
           <ul>
             <li {% if active_view == 'calendar_home' %}class="active"{% endif %}>
               <a href="{% url 'calendar_home' %}">{% trans "Home" %}</a>
@@ -233,6 +237,10 @@
               {% now 'Y' as cur_year %} {% now 'm' as cur_month %}
               <a href="{% url 'swingtime-monthly-view' cur_year cur_month %}">{% trans "View Calendar" %}</a>
             </li>
+          </ul>
+        </p>
+        <p>
+          <ul>
             {% if request.user.is_authenticated is False %}
             <li>
               <a href="{% url 'login' %}?next=/">{% trans "Log In" %}</a>
@@ -247,6 +255,7 @@
             </li>
             {% endif %}
           </ul>
+        </p>
         </nav>
       {% endblock %}
 
