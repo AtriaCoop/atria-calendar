@@ -1,5 +1,4 @@
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import Group
 from django.test import RequestFactory, TestCase
 from django.urls import reverse
 from django.utils import translation
@@ -7,9 +6,9 @@ from django.views.generic.edit import UpdateView
 
 from swingtime.models import EventType
 
-from .forms import AtriaEventForm
-from .models import AtriaEvent, AtriaEventProgram, USER_ROLES
-from .views import EventUpdateView, TranslatedFormMixin
+from ..forms import AtriaEventForm
+from ..models import AtriaEvent, AtriaEventProgram, USER_ROLES
+from ..views import EventUpdateView, TranslatedFormMixin
 
 User = get_user_model()
 
