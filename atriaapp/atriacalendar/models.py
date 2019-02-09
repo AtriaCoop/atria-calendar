@@ -105,8 +105,18 @@ class AtriaEventProgram(models.Model):
         return self.label
 
 
+# Base class for organizations that use the Atria platform
+class AtriaOrganization(models.Model):
+    org_name = models.CharField(max_length=40)
+    date_joined = models.DateTimeField(default=timezone.now)
+    status = models.CharField(max_length=8)
+    description = models.CharField(max_length=4000)
+    location = models.CharField(max_length=80)
+
+
 # Extend swingtime Event to add some custom fields
 class AtriaEvent(swingtime_models.Event):
+    org_id = models.ForeignKey(AtriaOrganization, on_delete=models.CASCADE)
     program = models.CharField(max_length=32, blank=True)
     event_program = models.ForeignKey(
         AtriaEventProgram,
@@ -119,8 +129,62 @@ class AtriaEvent(swingtime_models.Event):
         return self.title + ", " + self.location
 
 
-# Base class for organizations that use the Atria platform
-class AtriaOrganization(models.Model):
-    org_name = models.CharField(max_length=40)
-    date_joined = models.DateTimeField(default=timezone.now)
+# general announcements from an Org (will show up on a user's feed if they have an org relationship)
+class AtriaOrgAnnouncement(models.Model):
+    org_id = models.ForeignKey(AtriaOrganization, on_delete=models.CASCADE)
+    added_by_user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=80)
+    content = models.CharField(max_length=4000)
+    date_added = models.DateTimeField(default=timezone.now)
+    effective_date = models.DateTimeField(default=timezone.now)
+    end_date = models.DateTimeField(blank=True)
+
+
+# type of user/org relationship, type can be:
+#   Member = user is a regular attendee and/or volunteer
+#   Staff = user works at org and can maintain org information
+#   Admin = user can manage org/user relationships for this org
+class RelationType(models.Model):
+    relation_type = models.CharField(max_length=20)
+    relation_description = models.CharField(max_length=80)
+
+
+# Association class for user/organization relationship
+class AtriaRelationship(models.Model):
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    org_id = models.ForeignKey(AtriaOrganization, on_delete=models.CASCADE)
+    relation_type = models.ForeignKey(RelationType, verbose_name='relationship', on_delete=models.CASCADE)
     status = models.CharField(max_length=8)
+    effective_date = models.DateTimeField(default=timezone.now)
+    end_date = models.DateTimeField(blank=True)
+
+
+# type of user/event relationship:
+#   Bookmark
+#   Attend
+#   Volunteer
+#   Organize (for org staff only)
+class EventAttendanceType(models.Model):
+    attendance_type = models.CharField(max_length=20)
+    attendance_description = models.CharField(max_length=80)
+
+
+# set of "bookmarked" events (for a user)
+class AtriaBookmark(models.Model):
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    event_id = models.ForeignKey(AtriaEvent, on_delete=models.CASCADE)
+    bookmark_type = models.ForeignKey(EventAttendanceType, verbose_name='bookmark_type', on_delete=models.CASCADE)
+    date_added = models.DateTimeField(default=timezone.now)
+    notes = models.CharField(max_length=4000, blank=True)
+
+
+# event history tracking (for an organization)
+# can be related to a specific user, or just a general count of attendees, volunteers etc.
+class AtriaEventAttendance(models.Model):
+    event_id = models.ForeignKey(AtriaEvent, on_delete=models.CASCADE)
+    attendance_type = models.ForeignKey(EventAttendanceType, verbose_name='attendance_type', on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, blank=True)
+    user_count = models.IntegerField(blank=True)
+    date_added = models.DateTimeField(default=timezone.now)
+    notes = models.CharField(max_length=4000, blank=True)
+
