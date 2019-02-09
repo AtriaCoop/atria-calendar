@@ -110,7 +110,7 @@ class AtriaOrganization(models.Model):
     org_name = models.CharField(max_length=40)
     date_joined = models.DateTimeField(default=timezone.now)
     status = models.CharField(max_length=8)
-    description = models.TextField()
+    description = models.TextField(max_length=4000)
     location = models.CharField(max_length=80)
 
 
@@ -134,7 +134,7 @@ class AtriaOrgAnnouncement(models.Model):
     org = models.ForeignKey(AtriaOrganization, on_delete=models.CASCADE)
     added_by_user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=80)
-    content = models.TextField()
+    content = models.TextField(max_length=4000)
     date_added = models.DateTimeField(default=timezone.now)
     effective_date = models.DateTimeField(default=timezone.now)
     end_date = models.DateTimeField(blank=True)
@@ -173,18 +173,18 @@ class EventAttendanceType(models.Model):
 class AtriaBookmark(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     event = models.ForeignKey(AtriaEvent, on_delete=models.CASCADE)
-    bookmark_type = models.ForeignKey(EventAttendanceType, verbose_name='bookmark_type', on_delete=models.CASCADE)
+    bookmark_type = models.ForeignKey(EventAttendanceType, on_delete=models.CASCADE)
     date_added = models.DateTimeField(default=timezone.now)
-    notes = models.TextField(blank=True)
+    notes = models.TextField(max_length=4000, blank=True)
 
 
 # event history tracking (for an organization)
 # can be related to a specific user, or just a general count of attendees, volunteers etc.
 class AtriaEventAttendance(models.Model):
     event = models.ForeignKey(AtriaEvent, on_delete=models.CASCADE)
-    attendance_type = models.ForeignKey(EventAttendanceType, verbose_name='attendance_type', on_delete=models.CASCADE)
+    attendance_type = models.ForeignKey(EventAttendanceType, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True)
     user_count = models.IntegerField(default=0)
     date_added = models.DateTimeField(default=timezone.now)
-    notes = models.TextField(blank=True)
+    notes = models.TextField(max_length=4000, blank=True)
 
