@@ -116,7 +116,7 @@ class AtriaOrganization(models.Model):
 
 # Extend swingtime Event to add some custom fields
 class AtriaEvent(swingtime_models.Event):
-    org = models.ForeignKey(AtriaOrganization, on_delete=models.CASCADE)
+    org = models.ForeignKey(AtriaOrganization, on_delete=models.CASCADE, blank=True, null=True)
     program = models.CharField(max_length=32, blank=True)
     event_program = models.ForeignKey(
         AtriaEventProgram,
