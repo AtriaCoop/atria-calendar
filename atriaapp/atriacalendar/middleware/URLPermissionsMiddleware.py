@@ -23,7 +23,7 @@ class URLPermissionsMiddleware:
         path = request.path
         url_permissions = getattr(settings, 'URL_PERMISSIONS', [])
 
-        if user.is_anonymous:
+        if user.is_anonymous or user.is_staff:
             return True
 
         for url in url_permissions:

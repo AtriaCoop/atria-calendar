@@ -43,7 +43,6 @@ organizationpatterns = [
 ]
 
 for context in ('neighbour', 'organization'):
-    urlpatterns.append(path('%s' % context, include(calendarpatterns)))
+    urlpatterns.append(path('%s/' % context, include(calendarpatterns)))
 
 urlpatterns.append(path('', include(organizationpatterns)))
-
