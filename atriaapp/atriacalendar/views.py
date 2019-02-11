@@ -2,6 +2,8 @@ from django.http import HttpResponseBadRequest
 from django.shortcuts import render, redirect
 from django.utils import timezone, translation
 from django.contrib.auth import authenticate, get_user_model, login
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.list import ListView
 from django.urls import reverse
@@ -53,6 +55,7 @@ class TranslatedFormMixin(object):
 # Wrappers around swingtme views:
 ####################################################################
 
+@login_required
 def atria_year_view(
     request,
     year,
@@ -82,6 +85,7 @@ def atria_year_view(
     return swingtime_views.year_view(request, year, template, queryset)
 
 
+@login_required
 def atria_month_view(
     request,
     year,
@@ -115,6 +119,7 @@ def atria_month_view(
     return swingtime_views.month_view(request, year, month, template, queryset)
 
 
+@login_required
 def atria_day_view(
     request,
     year,
@@ -131,6 +136,7 @@ def atria_day_view(
                                     **params)
 
 
+@login_required
 def atria_occurrence_view(
     request,
     event_pk,
@@ -153,6 +159,7 @@ def atria_occurrence_view(
                                            form_class)
 
 
+@login_required
 def add_atria_event(
     request,
     template='swingtime/add_event.html',
@@ -210,6 +217,7 @@ def signup_view(request):
     return render(request, 'registration/signup.html', {'form': form})
 
 
+@login_required
 def calendar_home(request):
     """Home page shell view."""
 
@@ -217,6 +225,7 @@ def calendar_home(request):
                   context={'active_view': 'calendar_home'})
 
 
+@login_required
 def calendar_view(request, *args, **kwargs):
     """Whole Calendar shell view."""
 
@@ -228,6 +237,7 @@ def calendar_view(request, *args, **kwargs):
                            'month': the_month})
 
 
+@login_required
 def create_event(request):
     """Create Calendar Event shell view."""
 
@@ -235,12 +245,14 @@ def create_event(request):
                   context={'active_view': 'create_event'})
 
 
+@login_required
 def add_participants(request):
     """Second step of Event creation, adding participants. Shell view."""
 
     return render(request, 'atriacalendar/add_participants.html')
 
 
+@login_required
 def event_list(request):
     """List/Manage Calendar Events shell view."""
 
@@ -248,12 +260,14 @@ def event_list(request):
                   context={'active_view': 'calendar_list'})
 
 
+@login_required
 def event_detail(request):
     """Shell view for viewing/editing a single Event."""
 
     return render(request, 'atriacalendar/event_detail.html')
 
 
+@login_required
 def event_view(request, pk):
     lang = request.GET.get('event_lang')
 
@@ -264,7 +278,7 @@ def event_view(request, pk):
                                       recurrence_form_class=EventForm)
 
 
-class EventListView(ListView):
+class EventListView(ListView, LoginRequiredMixin):
     """
     View for listing all events, or events by type
     """
@@ -280,7 +294,7 @@ class EventListView(ListView):
             return AtriaEvent.objects.all()
 
 
-class EventUpdateView(TranslatedFormMixin, UpdateView):
+class EventUpdateView(TranslatedFormMixin, UpdateView, LoginRequiredMixin):
     """
     View for viewing and updating a single Event.
     """
