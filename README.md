@@ -39,3 +39,4 @@ python manage.py runserver
 ```
 
 Navigate to http://localhost:8000/, or http://localhost:8000/admin and login as the admin user (admin@mail.com/pass1234).
+
