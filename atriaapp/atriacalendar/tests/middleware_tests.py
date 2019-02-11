@@ -9,8 +9,8 @@ User = get_user_model()
 @modify_settings(
     MIDDLEWARE={'append': 'atriacalendar.middleware.URLPermissionsMiddleware'},
     URL_PERMISSIONS={'append': [
-        (r'/neighbour/.*', ('Volunteer', 'Attendee')),
-        (r'/organization/.*', ('Admin',)),
+        (r'/en/neighbour', ('Volunteer', 'Attendee')),
+        (r'/en/organization', ('Admin',)),
     ]},
 )
 class URLPermissionsMiddlewareTests(TestCase):
@@ -39,38 +39,38 @@ class URLPermissionsMiddlewareTests(TestCase):
     def test_attendee_ok(self):
         # TODO: change expected status code to 200 once URL is implemented
         response = self.request_url_as_user(self.attendee,
-                                            '/neighbour/dashboard/')
+                                            '/en/neighbour')
 
-        self.assertEqual(404, response.status_code)
+        self.assertEqual(200, response.status_code)
 
     def test_attendee_forbidden(self):
         response = self.request_url_as_user(self.attendee,
-                                            '/organization/dashboard/')
+                                            '/en/organization')
 
         self.assertEqual(403, response.status_code)
 
     def test_volunteer_ok(self):
         # TODO: change expected status code to 200 once URL is implemented
         response = self.request_url_as_user(self.volunteer,
-                                            '/neighbour/dashboard/')
+                                            '/en/neighbour')
 
-        self.assertEqual(404, response.status_code)
+        self.assertEqual(200, response.status_code)
 
     def test_volunteer_forbidden(self):
         response = self.request_url_as_user(self.volunteer,
-                                            '/organization/dashboard/')
+                                            '/en/organization')
 
         self.assertEqual(403, response.status_code)
 
     def test_admin_ok(self):
         # TODO: change expected status code to 200 once URL is implemented
         response = self.request_url_as_user(self.admin,
-                                            '/organization/dashboard/')
+                                            '/en/organization')
 
-        self.assertEqual(404, response.status_code)
+        self.assertEqual(200, response.status_code)
 
     def test_admin_forbidden(self):
         response = self.request_url_as_user(self.admin,
-                                            '/neighbour/dashboard/')
+                                            '/en/neighbour')
 
         self.assertEqual(403, response.status_code)
