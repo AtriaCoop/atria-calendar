@@ -1,0 +1,21 @@
+{% extends 'atriacalendar/base.html' %}
+
+{% load i18n %}
+
+{% block page_title %}{% trans "Landing Page" %}{% endblock %}
+
+{% block main_nav %}
+{% endblock %}
+
+{% block main_content %}
+    <p>
+      <ul>
+        <li>
+          <a href="{% url 'login' %}?next=/">{% trans "Log In" %}</a>
+        </li>
+        <li>
+          <a href="{% url 'signup' %}">{% trans "Sign Up" %}</a>
+        </li>
+      </ul>
+    </p>
+{% endblock %}

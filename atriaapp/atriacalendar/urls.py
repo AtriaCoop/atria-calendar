@@ -11,6 +11,7 @@ from .views import *
 urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('signup/', SignupView.as_view(), name='signup'),
+    path('', landing_page, name='landing_page')
 ]
 
 # URL patterns accessible to all authenticated users

@@ -217,6 +217,13 @@ def signup_view(request):
     return render(request, 'registration/signup.html', {'form': form})
 
 
+def landing_page(request):
+    """Landing page shell view."""
+
+    return render(request, 'atriacalendar/landing_page.html',
+                  context={'active_view': 'landing_page'})
+
+
 @login_required
 def calendar_home(request):
     """Home page shell view."""
