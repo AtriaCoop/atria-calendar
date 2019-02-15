@@ -5,9 +5,11 @@
 {% block page_title %}{% trans "Manage Events" %}{% endblock %}
 
 {% block main_content %}
+{% with request.session.URL_NAMESPACE as namespace %}
     <ul>
         {% for e in events %}
-            <li><a href="{{ e.get_absolute_url }}">{{ e }}</a> e.event_type </li>
+            <li><a href="{% url namespace|add:'swingtime-event' e.id %}">{{ e }}</a> e.event_type </li>
         {% endfor %}
     </ul>
+{% endwith %}
 {% endblock %}

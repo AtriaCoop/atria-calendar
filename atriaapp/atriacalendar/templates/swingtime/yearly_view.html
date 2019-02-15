@@ -4,11 +4,12 @@
 {% block title %}Yearly View {{ year }}{% endblock %}
 {% block page_title %}{% trans "Yearly View" %}{% endblock %}
 {% block main_content %}
+{% with request.session.URL_NAMESPACE as namespace %}
     <h3>
-        <a class="plain" href="{% url 'swingtime-yearly-view' last_year %}" 
+        <a class="plain" href="{% url namespace|add:'swingtime-yearly-view' last_year %}" 
            title="Last Month">&larr;</a>
         Yearly View {{ year }}
-        <a class="plain" href="{% url 'swingtime-yearly-view' next_year %}" 
+        <a class="plain" href="{% url namespace|add:'swingtime-yearly-view' next_year %}" 
            title="Next Month">&rarr;</a>
     </h3>
     
@@ -27,13 +28,13 @@
         {% for dt,occurrences in by_month %}
         <tr class="month-divider">
             <th rowspan="{{ occurrences|length }}">
-                <a href="{% url 'swingtime-monthly-view' dt.year dt.month %}">
+                <a href="{% url namespace|add:'swingtime-monthly-view' dt.year dt.month %}">
                     {{ dt|date:"F" }}</a>
             </th>
             {% for o in occurrences %}
-            <td><a href="{{ o.get_absolute_url }}">{{ o.title }}</a></td>
+            <td><a href="{% url namespace|add:'swingtime-occurrence' o.event.id o.id %}">{{ o.title }}</a></td>
             <td>
-                <a href="{% url 'swingtime-daily-view' o.start_time.year o.start_time.month o.start_time.day %}">
+                <a href="{% url namespace|add:'swingtime-daily-view' o.start_time.year o.start_time.month o.start_time.day %}">
                     {{ o.start_time|date:"l, M jS" }}</a></td>
             <td>{{ o.start_time|date:"P" }}</td>
             <td>{{ o.end_time|date:"P" }}</td>
@@ -48,4 +49,5 @@
     {% else %}
     <p>No events occurring in {{ year }}</p>
     {% endif %}
+{% endwith %}
 {% endblock %}

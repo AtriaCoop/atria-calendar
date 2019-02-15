@@ -5,6 +5,7 @@
 {% block page_title %}{% trans "Event Detail" %}{% endblock %}
 
 {% block main_content %}
+{% with request.session.URL_NAMESPACE as namespace %}
     <h3>Swingtime Event</h3>
     <h4>Event Details</h4>
       <form action="" method="post">{% csrf_token %}
@@ -41,10 +42,10 @@
             {% for o in event.occurrence_set.all %}
             <li>
                 {% if o.start_time.date == o.end_time.date %}
-                <a href="{% url 'swingtime-occurrence' event.id o.id %}">
+                <a href="{% url namespace|add:'swingtime-occurrence' event.id o.id %}">
                     {{ o.start_time|date:"l, F jS, Y" }} {{ o.start_time|date:"P" }} &ndash; {{ o.end_time|date:"P" }}</a>
                 {% else %}
-                <a href="{% url 'swingtime-occurrence' event.id o.id %}">
+                <a href="{% url namespace|add:'swingtime-occurrence' event.id o.id %}">
                     {{ o.start_time|date:"l, F jS, Y P" }} &ndash;
                     {{ o.end_time|date:"l, F jS, Y P" }}</a>
                 {% endif %}
@@ -68,4 +69,5 @@
         </table>
         </form>
         </form>
+{% endwith %}
 {% endblock %}

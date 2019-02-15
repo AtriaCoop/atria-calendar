@@ -4,8 +4,7 @@
 
 {% block page_title %}{% trans "Landing Page" %}{% endblock %}
 
-{% block main_nav %}
-{% endblock %}
+{% block main_nav %}{% endblock %}
 
 {% block main_content %}
     <p>
@@ -15,6 +14,10 @@
         </li>
         <li>
           <a href="{% url 'signup' %}">{% trans "Sign Up" %}</a>
+        </li>
+        <li>
+          {% now 'Y' as cur_year %} {% now 'm' as cur_month %}
+          <a href="{% url 'swingtime-monthly-view' cur_year cur_month %}">{% trans "Browse Calendar as Guest" %}</a>
         </li>
       </ul>
     </p>

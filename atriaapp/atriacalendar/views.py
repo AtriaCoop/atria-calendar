@@ -12,6 +12,7 @@ from swingtime import forms as swingtime_forms
 from swingtime import views as swingtime_views
 
 from .forms import *
+from .models import *
 
 
 class TranslatedFormMixin(object):
@@ -132,6 +133,9 @@ def atria_day_view(
     See documentation for function``_datetime_view``.
 
     '''
+
+    namespace = request.session['URL_NAMESPACE']
+
     return swingtime_views.day_view(request, year, month, day, template,
                                     **params)
 
@@ -190,7 +194,6 @@ def add_atria_event(
 # Atria custom views:
 ####################################################################
 
-
 class SignupView(CreateView):
     # form_class = SignUpForm
     form_class = SignUpForm
@@ -198,10 +201,12 @@ class SignupView(CreateView):
     template_name = 'registration/signup.html'
 
     def get_success_url(self):
-        return reverse('calendar_home')
+        return reverse('landing_page')
 
 
 def signup_view(request):
+    DEFAULT_ROLE = 'Attendee'
+
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
@@ -209,9 +214,14 @@ def signup_view(request):
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
+
+            # add default role of 'Attendee' to new user registrations (additional roles can be added later)
+            user.add_role(self.DEFAULT_ROLE)
+            user.save()
+
             # need to auto-login with Atria custom user
             # login(request, user)
-            return redirect('calendar_home')
+            return redirect('landing_page')
     else:
         form = SignUpForm()
     return render(request, 'registration/signup.html', {'form': form})
@@ -219,28 +229,61 @@ def signup_view(request):
 
 def landing_page(request):
     """Landing page shell view."""
+    # if user is not logged in, direct them to the landing page
+    if not request.user.is_authenticated:
+        print('User is not authenticated')
+        clear_user_session(None, request.user, request)
+        return render(request, 'atriacalendar/landing_page.html',
+                      context={'active_view': 'landing_page'})
 
-    return render(request, 'atriacalendar/landing_page.html',
-                  context={'active_view': 'landing_page'})
+    # if user has a selected role (and org) direct them to appropriate dashboard
+    if 'ACTIVE_ROLE' in request.session:
+        role = request.session['ACTIVE_ROLE']
+        if 'URL_NAMESPACE' not in request.session:
+            request.session['URL_NAMESPACE'] = url_namespace(role)
+        namespace = request.session['URL_NAMESPACE']
+        print('ACTIVE_ROLE = ', role)
+        if role == 'Admin':
+            return render(request, 'atriacalendar/calendar_home.html',
+                          context={'active_view': namespace + 'calendar_home'})
+        else:
+            return render(request, 'atriacalendar/calendar_home.html',
+                          context={'active_view': namespace + 'calendar_home'})
+
+    # if user is logged in without a selected role/org, set (if possible) and re-direct
+    print('No ACTIVE_ROLE, try to set ...')
+    init_user_session(None, request.user, request)
+
+    # TODO if more than one role/org option, ask user to select
+
+    role = request.session['ACTIVE_ROLE']
+    namespace = request.session['URL_NAMESPACE']
+    print('ACTIVE_ROLE = ', role)
+
+    return render(request, 'atriacalendar/calendar_home.html',
+                  context={'active_view': namespace + 'calendar_home'})
 
 
 @login_required
 def calendar_home(request):
     """Home page shell view."""
 
+    namespace = request.session['URL_NAMESPACE']
+
     return render(request, 'atriacalendar/calendar_home.html',
-                  context={'active_view': 'calendar_home'})
+                  context={'active_view': namespace + 'calendar_home'})
 
 
-@login_required
 def calendar_view(request, *args, **kwargs):
     """Whole Calendar shell view."""
 
     the_year = kwargs['year']
     the_month = kwargs['month']
 
+    namespace = request.session['URL_NAMESPACE']
+
     return render(request, 'atriacalendar/calendar_view.html',
-                  context={'active_view': 'calendar_view', 'year': the_year,
+                  context={'active_view': namespace + 'calendar_view', 'year': the_year,
                            'month': the_month})
 
 
@@ -248,8 +291,10 @@ def calendar_view(request, *args, **kwargs):
 def create_event(request):
     """Create Calendar Event shell view."""
 
+    namespace = request.session['URL_NAMESPACE']
+
     return render(request, 'atriacalendar/create_event.html',
-                  context={'active_view': 'create_event'})
+                  context={'active_view': namespace + 'create_event'})
 
 
 @login_required
@@ -259,22 +304,21 @@ def add_participants(request):
     return render(request, 'atriacalendar/add_participants.html')
 
 
-@login_required
 def event_list(request):
     """List/Manage Calendar Events shell view."""
 
+    namespace = request.session['URL_NAMESPACE']
+
     return render(request, 'atriacalendar/event_list.html',
-                  context={'active_view': 'calendar_list'})
+                  context={'active_view': namespace + 'calendar_list'})
 
 
-@login_required
 def event_detail(request):
     """Shell view for viewing/editing a single Event."""
 
     return render(request, 'atriacalendar/event_detail.html')
 
 
-@login_required
 def event_view(request, pk):
     lang = request.GET.get('event_lang')
 

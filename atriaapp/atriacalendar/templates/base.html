@@ -203,7 +203,15 @@
       {% block main_nav %}
         <nav class>
         {% if request.user.is_authenticated %}
-        <p> Logged in as: {{ request.user }} </p>
+        <p> 
+          Logged in as: {{ request.user }} 
+          {% if request.session.ACTIVE_ROLE %}
+            [ {{ request.session.ACTIVE_ROLE }} ]
+          {% endif %}
+          {% if request.session.ACTIVE_ORG %}
+            [ {{ request.session.ACTIVE_ORG }} ]
+          {% endif %}
+        </p>
         {% endif %}
 
         <p>Languages:
@@ -224,19 +232,28 @@
   
         <p>Site Navigation:
           <ul>
+          {% if request.user.is_authenticated is False %}
+            <li> Anon nav TBD </li>
+          {% endif %}
+          {% if request.user.is_authenticated %}
+            {% with request.session.URL_NAMESPACE as namespace %}
             <li {% if active_view == 'calendar_home' %}class="active"{% endif %}>
-              <a href="{% url 'calendar_home' %}">{% trans "Home" %}</a>
+              <a href="{% url namespace|add:'calendar_home' %}">{% trans "Home" %}</a>
             </li>
             <li {% if active_view == 'event_list' %}class="active"{% endif %}>
-              <a href="{% url 'event_list' %}">{% trans "List/Manage Events" %}</a>
+              <a href="{% url namespace|add:'event_list' %}">{% trans "List/Manage Events" %}</a>
             </li>
+            {% if namespace == 'organization' %}
             <li {% if active_view == 'create_event' %}class="active"{% endif %}>
-              <a href="{% url 'swingtime-add-event' %}">{% trans "Create Event" %}</a>
+              <a href="{% url namespace|add:'swingtime-add-event' %}">{% trans "Create Event" %}</a>
             </li>
+            {% endif %}
             <li {% if active_view == 'calendar_view' %}class="active"{% endif %}>
               {% now 'Y' as cur_year %} {% now 'm' as cur_month %}
-              <a href="{% url 'swingtime-monthly-view' cur_year cur_month %}">{% trans "View Calendar" %}</a>
+              <a href="{% url namespace|add:'swingtime-monthly-view' cur_year cur_month %}">{% trans "View Calendar" %}</a>
             </li>
+            {% endwith %}
+          {% endif %}
           </ul>
         </p>
         <p>

@@ -25,4 +25,11 @@ class CustomUserAdmin(UserAdmin):
 
 admin.site.register(AtriaEventProgram)
 admin.site.register(AtriaEvent)
+admin.site.register(AtriaCalendar)
 admin.site.register(AtriaOrganization)
+admin.site.register(AtriaOrgAnnouncement)
+admin.site.register(RelationType)
+admin.site.register(AtriaRelationship)
+admin.site.register(EventAttendanceType)
+admin.site.register(AtriaBookmark)
+admin.site.register(AtriaEventAttendance)
