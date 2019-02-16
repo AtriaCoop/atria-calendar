@@ -56,7 +56,6 @@ class TranslatedFormMixin(object):
 # Wrappers around swingtme views:
 ####################################################################
 
-@login_required
 def atria_year_view(
     request,
     year,
@@ -86,7 +85,6 @@ def atria_year_view(
     return swingtime_views.year_view(request, year, template, queryset)
 
 
-@login_required
 def atria_month_view(
     request,
     year,
@@ -120,7 +118,6 @@ def atria_month_view(
     return swingtime_views.month_view(request, year, month, template, queryset)
 
 
-@login_required
 def atria_day_view(
     request,
     year,
@@ -140,7 +137,6 @@ def atria_day_view(
                                     **params)
 
 
-@login_required
 def atria_occurrence_view(
     request,
     event_pk,

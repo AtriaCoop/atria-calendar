@@ -11,15 +11,6 @@ from .views import *
 urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('signup/', SignupView.as_view(), name='signup'),
-    path('calendar', include([
-        path('<int:year>/', atria_year_view, name='swingtime-yearly-view'),
-        path('<int:year>/', include([
-            path('<int:month>/', atria_month_view,
-                 name='swingtime-monthly-view'),
-            path('<int:month>/<int:day>/', atria_day_view,
-                 name='swingtime-daily-view'),
-        ])),
-    ])),
     path('landing_v2', landing_v2, name='landing_v2'),
     path('dashboard_v2', dashboard_v2, name='dashboard_v2'),
     path('', landing_page, name='landing_page')
@@ -57,4 +48,5 @@ organizationpatterns = [
 
 urlpatterns.append(path('neighbour/', include((calendarpatterns, 'atriacalendar'), namespace='neighbour')))
 urlpatterns.append(path('organization/', include((organizationpatterns, 'atriacalendar'), namespace='organization')))
+urlpatterns.append(path('', include(calendarpatterns)))
 

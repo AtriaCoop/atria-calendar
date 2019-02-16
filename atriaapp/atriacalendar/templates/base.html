@@ -233,7 +233,13 @@
         <p>Site Navigation:
           <ul>
           {% if request.user.is_authenticated is False %}
-            <li> Anon nav TBD </li>
+            <li class="active">
+              <a href="{% url 'landing_page' %}">{% trans "Home" %}</a>
+            </li>
+            <li {% if active_view == 'calendar_view' %}class="active"{% endif %}>
+              {% now 'Y' as cur_year %} {% now 'm' as cur_month %}
+              <a href="{% url 'swingtime-monthly-view' cur_year cur_month %}">{% trans "View Calendar" %}</a>
+            </li>
           {% endif %}
           {% if request.user.is_authenticated %}
             {% with request.session.URL_NAMESPACE as namespace %}
