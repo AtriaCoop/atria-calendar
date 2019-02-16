@@ -381,3 +381,11 @@ class EventUpdateView(TranslatedFormMixin, UpdateView, LoginRequiredMixin):
             return super().post(*args, **kwargs)
         else:
             return HttpResponseBadRequest('Bad Request')
+
+
+# design v2
+def landing_v2(request):
+    return render(request, 'atriacalendar/landing_page_v2.html')
+
+def dashboard_v2(request):
+    return render(request, 'atriacalendar/dashboard_v2.html')

@@ -19,6 +19,9 @@
           {% now 'Y' as cur_year %} {% now 'm' as cur_month %}
           <a href="{% url 'swingtime-monthly-view' cur_year cur_month %}">{% trans "Browse Calendar as Guest" %}</a>
         </li>
+        <li>
+          <a href="{% url 'landing_v2' %}">{% trans "Landing Page V2" %}</a>
+        </li>
       </ul>
     </p>
 {% endblock %}

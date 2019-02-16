@@ -1,0 +1,541 @@
+* {
+	margin: 0;
+	padding: 0;
+	text-decoration: none;
+}
+
+body {
+	margin: 0;
+	font-family: 'Montserrat', sans-serif;
+	letter-spacing: .8px;
+	color: #2c2c2c;
+}
+
+a {
+	cursor: pointer;
+}
+
+ul {
+	list-style: none;
+}
+
+input {
+	outline: none;
+	width: 15rem;
+	border: 1px solid #cecece;
+	padding: .2rem 1rem;
+	height: 1.7rem;
+	box-sizing: border-box;
+	border-radius: 3px;
+	cursor: pointer;
+}
+
+h1 {
+	font-family: 'Quicksand', sans-serif;
+	font-weight: 400;
+	letter-spacing: 5px;
+}
+
+h2 {
+	font-size: 18px;
+	font-weight: 600;
+	letter-spacing: .5px;
+	color: #2c2c2c;
+}
+
+h3 {
+	font-size: 20px;
+	font-weight: 500;
+	letter-spacing: 2px;
+}
+
+h4 {
+	color: #2c2c2c;
+	font-size: 16px;
+	font-weight: 500;
+	margin: 0 0 .5rem 0;
+}
+
+h5 {
+	font-weight: 500;
+}
+
+h6 {
+	color: #d10000;
+}
+
+p {
+	font-size: 14px;
+	line-height: 1.5rem;
+}
+
+.btn {
+	color: #fff;
+	font-size: 12px;
+	font-weight: 400;
+	letter-spacing: 1px;
+	background: #26627A;
+	border-radius: 5px;
+	width: 8rem;
+	height: 2rem;
+	line-height: 2rem;
+	text-align: center;
+	cursor: pointer;
+}
+
+.btn:hover {
+	opacity: .8;
+}
+
+/* 
+======================================
+	GLOBAL MEDIA QUERIES
+======================================
+*/
+
+@media only screen and (max-width: 500px) {
+
+	h1 {
+		font-family: 'Quicksand', sans-serif;
+		font-weight: 400;
+		letter-spacing: 5px;
+	}
+
+	h2 {
+		font-size: 16px;
+		font-weight: 600;
+		letter-spacing: .5px;
+		color: #2c2c2c;
+	}
+
+	h3 {
+		font-size: 14px;
+		font-weight: 600;
+		letter-spacing: 1.5px;
+	}
+
+	h4 {
+		color: #2c2c2c;
+		font-size: 14px;
+		font-weight: 500;
+		margin: 0 0 .5rem 0;
+	}
+
+	h5 {
+		font-size: 12px;
+		font-weight: 500;
+	}
+
+	h6 {
+		color: #d10000;
+	}
+
+	.btn {
+		width: 8rem;
+		height: 1.8rem;
+		line-height: 1.8rem;
+	}
+
+}
+
+/* =================
+
+LANDING PAGE / SIGN IN
+
+==================== */
+
+.landing-page {
+	height: 100vh;
+	width: 100vw;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: scroll;
+
+}
+
+.landing-page a {
+	color: #2c2c2c;
+	text-decoration: underline;
+}
+
+.landing-page b {
+	font-weight: 600;
+}
+
+.landing-page h4 {
+	font-size: 13px;
+	font-weight: 500;
+}
+
+.landing-page h5 {
+	font-size: 16px;
+	font-weight: 600;
+}
+
+.landing-page h6 {
+	color: #2c2c2c;
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0;
+	margin: 5px 0 2px 0;
+}
+
+.landing-page .btn {
+	display: inline-block;
+}
+
+.atria-logo {
+	margin: 0 0 1rem -12.5rem;
+	width: 35rem;
+	height: auto;
+}
+
+.atria-logo img {
+	width: 100%;
+}
+
+.btn-guest {
+	background-color: #EA5778;
+	width: 14rem;
+	margin: 0 0 .2rem 0;
+}
+
+.sign-in-cont {
+	display: inline-block;
+	margin: 2rem 0 0 0;
+}
+
+.btns-sign-in-cont {
+	display: inline-block;
+	text-align: left;
+	width: 20.4rem;
+	margin: 0 0 .5rem 0;
+}
+
+.btn-signin-vol,
+.btn-signin-org {
+	width: 10rem;
+}
+
+.signin-dropdown-vol,
+.signin-dropdown-org {
+	display: none;
+}
+
+.signin-dropdown {
+	background: #eee;
+	padding: .8rem;
+	border-radius: 5px;
+	width: 24rem;
+	box-sizing: border-box;
+}
+
+.signin-dropdown-inner {
+	background: #fff;
+	padding: .8rem;
+	border-radius: 5px;
+	text-align: left;
+}
+
+.signin-dropdown-inner h5 {
+	margin: .5rem 0 1.5rem 0;
+}
+
+.signin-input-cont {
+	margin: .5rem 0 0 0;
+	padding: 0 1rem;
+}
+
+.signin-input-cont input {
+	width: 100%;
+}
+
+.forgot-pass-link {
+	text-align: right;
+}
+
+.btn-signin-cont {
+	text-align: center;
+	margin: 1rem 0 0 0;
+}
+
+.stay-signed-in-cont {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 5px 0 0 0;
+}
+
+.stay-signed-in-cont input {
+	width: auto;
+	height: auto;
+}
+
+.stay-signed-in-cont h6 {
+	text-decoration: underline;
+	margin: 0 0 0 2px;
+}
+
+.btn-create-account {
+	text-decoration: underline;
+	display: block;
+	margin: 1rem 0 5rem 0;
+	cursor: pointer;
+}
+
+/* 
+======================================
+	LANDING PAGE MEDIA QUERIES
+======================================
+*/
+
+@media only screen and (max-width: 500px) {
+	.landing-page {
+		align-items: flex-start;
+	}
+
+	.atria-logo {
+		margin: 2rem 0 3rem 0;
+		width: 80%;
+		display: inline-block;
+	}
+
+	.btns-sign-in-cont {
+		width: 19rem;
+	}
+
+	.btn-signin-vol,
+	.btn-signin-org {
+		width: 49%;
+	}
+
+	.signin-dropdown {
+		width: 100%;
+	}
+
+	.signin-input-cont {
+		padding: 0;
+	}
+}
+
+
+
+/* =================
+
+DASHBOARD
+
+==================== */
+
+.dashboard-body {
+	right: 0;
+	left: 3rem;
+	bottom: 0;
+	top: 2.5rem;
+	position: absolute;
+	display: flex;
+	justify-content: center;
+}
+
+.dashboard-left {
+	float: left;
+}
+
+.dashboard-right {
+	float: right;
+}
+
+.dashboard-left,
+.dashboard-right {
+	width: 38rem;
+	padding: 1rem .5rem 0 .5rem;
+	box-sizing: border-box;
+}
+
+.dashboard-innercont {
+	width: 100%;
+	height: 100%;
+	background: #eee;
+	border-radius: 5px 5px 0 0;
+	box-sizing: border-box;
+	position: relative;
+}
+
+.dashboard-nav {
+	width: 100%;
+	height: 3rem;
+	line-height: 3rem;
+	padding: 0 1rem;
+	box-sizing: border-box;
+}
+
+.dashboard-title {
+	width: 8rem;
+	height: 3rem;
+	float: left;
+	cursor: pointer;
+}
+
+.dashboard-nav .fas {
+	float: left;
+	padding: 5px 10px 0 0;
+	line-height: 3rem;
+}
+
+.dashboard-nav .btn {
+	float: right;
+	margin: .5rem 0 0 0;
+}
+
+.dashboard-inner {
+	bottom: 0;
+	top: 3rem;
+	left: .8rem;
+	right: .8rem;
+	overflow: scroll;
+	background: #fff;
+	border-radius: 5px 5px 0 0;
+	box-sizing: border-box;
+	position: absolute;
+}
+
+/* =================
+
+DASHBOARD MEDIA QUERIES
+
+==================== */
+
+@media only screen and (max-width: 1000px) {
+	.dashboard-body {
+		flex-wrap: wrap-reverse;
+	}
+
+	.dashboard-left,
+	.dashboard-right {
+		width: 100%;
+	}
+}
+
+
+/* =================
+
+NEWSFEED POSTS
+
+==================== */
+
+.newsfeed-post-seperator {
+	width: 100%;
+	border-bottom: 2px dashed #eee;
+	margin: 1rem 0;
+}
+
+.newsfeed-posted-cont {
+	background: #fff;
+	margin: 0 0 1rem 0;
+	padding: .8rem;
+	box-sizing: border-box;
+}
+
+.newsfeed-posted-cont a:hover {
+	text-decoration: underline;
+}
+
+.newsfeed-posted-top-cont {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	margin: 0 0 1rem 0;
+}
+
+.newsfeed-posted-top-cont .newsfeed-posted-img-info {
+	display: flex;
+}
+
+.newsfeed-posted-top-cont .newsfeed-posted-img-info .newsfeed-posted-info {
+	margin: .6rem 0 0 .6rem;
+}
+
+.newsfeed-posted-top-cont .newsfeed-posted-img-info .newsfeed-posted-info > div {
+	margin: 0 0 .2rem 0;
+}
+
+.newsfeed-posted-event-date .num {
+	background: #FAD067;
+	color: #fff;
+	text-align: center;
+	font-size: 18px;
+	font-weight: 600;
+	padding: .5rem;
+}
+
+.see-more-link a {
+	color: #ccc;
+}
+
+.newsfeed-posted-event-opps-cont {
+	margin: .8rem 0 0 0;
+}
+
+.newsfeed-posted-event-opps-list li {
+	text-align: center;
+	display: inline-block;
+	font-size: 14px;
+	background: #eee;
+	padding: .3rem .5rem;
+	margin: .3rem 0 0 0;
+}
+
+/* =================
+
+CALENDAR EVENTS
+
+==================== */
+
+.calendar-post-seperator {
+	width: 100%;
+	border-bottom: 2px dashed #eee;
+	margin: 1rem 0;
+}
+
+.calendar-posted-cont {
+	background: #fff;
+	padding: .8rem;
+	box-sizing: border-box;
+}
+
+.calendar-posted-cont a:hover {
+	text-decoration: underline;
+}
+
+.calendar-posted-top-cont {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	margin: 0 0 1rem 0;
+}
+
+.calendar-posted-top-cont .calendar-posted-img-info {
+	display: flex;
+}
+
+.calendar-posted-top-cont .calendar-posted-img-info .calendar-posted-info {
+	margin: .6rem 0 0 .6rem;
+}
+
+.calendar-posted-top-cont .calendar-posted-img-info .calendar-posted-info > div {
+	margin: 0 0 .2rem 0;
+}
+
+.calendar-posted-event-opps-cont {
+	margin: .8rem 0 0 0;
+}
+
+.calendar-posted-event-opps-list li {
+	text-align: center;
+	display: inline-block;
+	font-size: 14px;
+	background: #eee;
+	padding: .3rem .5rem;
+	margin: .3rem 0 0 0;
+}

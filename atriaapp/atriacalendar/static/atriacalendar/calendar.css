@@ -1,0 +1,199 @@
+.fa-caret-right,
+.fa-caret-left {
+	font-size: 22px;
+	cursor: pointer;
+}
+
+.calendar-conts-seperator {
+	width: 100%;
+	height: .8rem;
+	background: #eee;
+}
+
+.cal-body div {
+	text-align: center;
+}
+
+.cal-top {
+	height: 4rem;
+	line-height: 1.5rem;
+	padding: .8rem;
+	box-sizing: border-box;
+}
+
+.cal-selector:hover {
+	color: #FAD067;
+	border-bottom: 2px solid #FAD067;
+	cursor: pointer;
+}
+
+.cal-highlight {
+	color: #FAD067;
+	border-bottom: 2px solid #FAD067;
+}
+
+.cal-top-year h3 {
+	color: #FAD067;
+}
+
+.cal-top-title {
+	float: left;
+	margin: 1.5rem 0 0 0;
+}
+
+.cal-top-nav {
+	float: right;
+}
+
+.cal-top i,
+.cal-top span {
+	display: inline-block;
+	margin: 0 0 0 .5rem;
+
+}
+
+.cal-month-cont {
+	padding: .8rem;
+	box-sizing: border-box;
+}
+
+.cal-month-cont div ul {
+	display: flex;
+	flex-direction: row;
+	flex-grow: 1;
+}
+
+.cal-month-cont li {
+	flex-grow: 1;
+	width: 15%;
+	text-align: right;
+	margin: 1px;
+	font-size: 12px;
+}
+
+.cal-days-month li {
+	min-height: 4rem;
+	background: #f1f1f1;
+	padding: .7rem .3rem;
+	box-sizing: border-box;
+}
+
+.cal-days-month li span {
+	padding: 6px 8px;
+	border-radius: 100%;
+}
+
+.cal-days-month li:hover {
+	background: rgba(250, 208, 103, .2) !important;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.cal-body .today {
+	background: rgba(250, 208, 103, .5) !important;
+	color: #fff;
+	font-weight: 600;
+}
+
+.cal-body .today span {
+	background: #FAD067;
+}
+
+.grey {
+	color: #ccc;
+}
+
+.cal-week-cont {
+	display: none;
+	margin: 1rem 0 0 0;
+}
+
+.cal-week-cont div {
+	display: inline-block;
+}
+
+.cal-week-cont .week {
+	flex-grow: 1;
+	text-align: left;
+}
+
+.cal-week-cont li {
+	margin: 1px;
+	font-size: 12px;
+}
+
+.cal-week-cont li {
+	min-height: 4rem;
+	padding: .7rem .3rem;
+	box-sizing: border-box;
+}
+
+.cal-week-cont .week li {
+	background: #f1f1f1;
+}
+
+.cal-week-cont li span {
+	padding: 6px 8px;
+	border-radius: 100%;
+}
+
+.cal-selected-date-cont {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: .8rem;
+	box-sizing: border-box;
+}
+
+.cal-selected-date-cont span {
+	display: flex;
+	align-items: center;
+}
+
+.cal-selected-day {
+	color: #fff;
+	font-weight: 600;
+	padding: 6px 8px;
+	border-radius: 100%;
+	background: #FAD067;
+	margin: 0 0 0 .5rem;
+}
+
+/* =================
+
+CALENDAR MEDIA QUERIES
+
+==================== */
+
+@media only screen and (max-width: 500px) {
+	.cal-top {
+		height: 5.5rem;
+		line-height: 1.5rem;
+		padding: .8rem;
+		box-sizing: border-box;
+	}
+
+	.cal-top-title {
+		margin: 0;
+		width: 100%;
+		height: 2rem
+	}
+
+	.cal-top-title i {
+		margin: 0 1rem;
+	}
+
+	.cal-top span {
+		display: inline-block;
+		margin: 0 .2rem;
+	}
+
+	.cal-month-cont {
+		padding: 0;
+	}
+
+	.cal-days-month li span {
+		padding: 3px 4px;
+	}
+
+}

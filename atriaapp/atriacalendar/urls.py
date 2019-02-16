@@ -20,6 +20,8 @@ urlpatterns = [
                  name='swingtime-daily-view'),
         ])),
     ])),
+    path('landing_v2', landing_v2, name='landing_v2'),
+    path('dashboard_v2', dashboard_v2, name='dashboard_v2'),
     path('', landing_page, name='landing_page')
 ]
 
