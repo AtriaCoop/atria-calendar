@@ -1,3 +1,5 @@
+{% load static %}
+
 <div class='cal-body'>
 
 	<div class='cal-top'>
@@ -254,13 +256,13 @@
 <div class='calendar-conts-seperator'></div>
 
 <div class='cal-event-body'>
-	<div id='eventcalendar'></div>
+	<div id='eventcalendar'>
+		{% include "atriacalendar/pageIncludes/eventcalendar.html" %}
+	</div>
 </div>
 
 <script>
 	$(document).ready(function() {
-
-		$("#eventcalendar").load("pageIncludes/eventcalendar.html");
 
 		$(".calWeekSelect").click(function() {
 			$(".calWeekSelect").addClass("cal-highlight");
