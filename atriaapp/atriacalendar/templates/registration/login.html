@@ -1,9 +1,36 @@
-{% extends "base.html" %}
+{% extends 'base_landing.html' %}
+
+{% load i18n %}
+
+{% load static %}
+
+{% block title %}Welcome to Atria.world{% endblock %}
 
 {% block main_content %}
+	<div class='landing-page-cont'>
+		<div class='atria-logo'>
+			<img src="{% static "/atriacalendar/CopyofLogoforLetterhead3in300dpi.png" %}">
+		</div>
 
-{% block main_nav %}{% endblock %}
+		<a href="{% url 'dashboard_v2' %}">
+			<div class='btn btn-guest'>Explore Site as Guest</div>
+		</a>
 
+		<h4>Questions? <b><a href=''>Contact Us</a></b></h4>
+
+		<div class='sign-in-cont'>
+			<div class='btns-sign-in-cont'>
+				<h4>Already Have an Account? <b>Sign in as:</b></h4>
+				<div>
+					<div class='btn btn-signin-vol'>Neighbour</div>
+					<div class='btn btn-signin-org'>Organization</div>
+				</div>
+			</div>
+			<div class='signin-dropdown signin-dropdown-vol'>
+				<div class='signin-dropdown-inner'>
+					<h5>Neighbour Login</h5>
+					<form method="post" action="{% url 'login' %}">
+					{% csrf_token %}
 {% if form.errors %}
 <p>Your username and password didn't match. Please try again.</p>
 {% endif %}
@@ -16,25 +43,88 @@
     <p>Please login to see this page.</p>
     {% endif %}
 {% endif %}
+					<div class='signin-input-cont'>
+						<h6>{{ form.username.label_tag }}</h6>
+						{{ form.username }}
+					</div>
+					<div class='signin-input-cont'>
+						<h6>{{ form.password.label_tag }}</h6>
+						{{ form.password }}
+						<div class='forgot-pass-link'>
+							<h6><b><a href="{% url 'password_reset' %}">Forgot Password?</a></b></h6>
+						</div>
+					</div>
+					<div class='btn-signin-cont'>
+						<input type="hidden" name="next" value="/neighbour/">
+						<input class='btn btn-signin' type="submit" value="Sign In">
+						<span class='stay-signed-in-cont'>
+							<input type='checkbox'>
+							<h6>Stay Signed In</h6>
+						</span>
+					</div>
+					</form>
+				</div>
+			</div>
+			<div class='signin-dropdown signin-dropdown-org'>
+				<div class='signin-dropdown-inner'>
+					<h5>Organization Login</h5>
+					<form method="post" action="{% url 'login' %}">
+					{% csrf_token %}
+{% if form.errors %}
+<p>Your username and password didn't match. Please try again.</p>
+{% endif %}
 
-<form method="post" action="{% url 'login' %}">
-{% csrf_token %}
-<table>
-<tr>
-    <td>{{ form.username.label_tag }}</td>
-    <td>{{ form.username }}</td>
-</tr>
-<tr>
-    <td>{{ form.password.label_tag }}</td>
-    <td>{{ form.password }}</td>
-</tr>
-</table>
+{% if next %}
+    {% if user.is_authenticated %}
+    <p>Your account doesn't have access to this page. To proceed,
+    please login with an account that has access.</p>
+    {% else %}
+    <p>Please login to see this page.</p>
+    {% endif %}
+{% endif %}
+					<div class='signin-input-cont'>
+						<h6>{{ form.username.label_tag }}</h6>
+						{{ form.username }}
+					</div>
+					<div class='signin-input-cont'>
+						<h6>{{ form.password.label_tag }}</h6>
+						{{ form.password }}
+						<div class='forgot-pass-link'>
+							<h6><b><a href="{% url 'password_reset' %}">Forgot Password?</a></b></h6>
+						</div>
+					</div>
+					<div class='btn-signin-cont'>
+						<input type="hidden" name="next" value="/organization/">
+						<input class='btn btn-signin' type="submit" value="Sign In">
+						<span class='stay-signed-in-cont'>
+							<input type='checkbox'>
+							<h6>Stay Signed In</h6>
+						</span>
+					</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<h4><b class='btn-create-account'><a href="{% url 'signup' %}">Create Account</a></b></h4>
+	</div>
 
-<input type="submit" value="login">
-<input type="hidden" name="next" value="{{ next }}">
-</form>
+	<script>
+		$(document).ready(function() {
+			$(".btn-signin-vol").click(function() {
+				$(".btn-signin-vol").css("opacity", ".6");
+				$(".btn-signin-org").css("opacity", "1");
 
-{# Assumes you setup the password_reset view in your URLconf #}
-<p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+				$(".signin-dropdown-vol").css("display", "block");
+				$(".signin-dropdown-org").css("display", "none");
+			});
 
+			$(".btn-signin-org").click(function() {
+				$(".btn-signin-org").css("opacity", ".6");
+				$(".btn-signin-vol").css("opacity", "1");
+
+				$(".signin-dropdown-org").css("display", "block");
+				$(".signin-dropdown-vol").css("display", "none");
+			});
+		});
+	</script>
 {% endblock %}

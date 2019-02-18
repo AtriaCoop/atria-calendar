@@ -22,18 +22,24 @@ def url_namespace(role):
 
 
 def init_user_session(sender, user, request, **kwargs):
-    if user.has_role('Admin'):
-        request.session['ACTIVE_ROLE'] = 'Admin'
-        orgs = AtriaRelationship.objects.filter(user=user).all()
-        if 0 < len(orgs):
-            request.session['ACTIVE_ORG'] = str(orgs[0].id)
-    elif user.has_role('Volunteer'):
-        request.session['ACTIVE_ROLE'] = 'Volunteer'
-    elif user.has_role('Attendee'):
-        request.session['ACTIVE_ROLE'] = 'Attendee'
+    target = request.POST.get('next', '/neighbour/')
+    if 'organization' in target:
+        if user.has_role('Admin'):
+            request.session['ACTIVE_ROLE'] = 'Admin'
+            orgs = AtriaRelationship.objects.filter(user=user).all()
+            if 0 < len(orgs):
+                request.session['ACTIVE_ORG'] = str(orgs[0].id)
+        else:
+            # TODO for now just set a dummy default - logged in user with no role assigned
+            request.session['ACTIVE_ROLE'] = 'Attendee'
     else:
-        # TODO for now just set a dummy default - logged in user with no role assigned
-        request.session['ACTIVE_ROLE'] = 'Attendee'
+        if user.has_role('Volunteer'):
+            request.session['ACTIVE_ROLE'] = 'Volunteer'
+        elif user.has_role('Attendee'):
+            request.session['ACTIVE_ROLE'] = 'Attendee'
+        else:
+            # TODO for now just set a dummy default - logged in user with no role assigned
+            request.session['ACTIVE_ROLE'] = 'Attendee'
 
     role = request.session['ACTIVE_ROLE']
     namespace = url_namespace(role)

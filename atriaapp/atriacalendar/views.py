@@ -197,7 +197,7 @@ class SignupView(CreateView):
     template_name = 'registration/signup.html'
 
     def get_success_url(self):
-        return reverse('landing_page')
+        return reverse('login')
 
 
 def signup_view(request):
@@ -217,47 +217,10 @@ def signup_view(request):
 
             # need to auto-login with Atria custom user
             # login(request, user)
-            return redirect('landing_page')
+            return redirect('login')
     else:
         form = SignUpForm()
     return render(request, 'registration/signup.html', {'form': form})
-
-
-def landing_page(request):
-    """Landing page shell view."""
-    # if user is not logged in, direct them to the landing page
-    if not request.user.is_authenticated:
-        print('User is not authenticated')
-        clear_user_session(None, request.user, request)
-        return render(request, 'atriacalendar/landing_page.html',
-                      context={'active_view': 'landing_page'})
-
-    # if user has a selected role (and org) direct them to appropriate dashboard
-    if 'ACTIVE_ROLE' in request.session:
-        role = request.session['ACTIVE_ROLE']
-        if 'URL_NAMESPACE' not in request.session:
-            request.session['URL_NAMESPACE'] = url_namespace(role)
-        namespace = request.session['URL_NAMESPACE']
-        print('ACTIVE_ROLE = ', role)
-        if role == 'Admin':
-            return render(request, 'atriacalendar/calendar_home.html',
-                          context={'active_view': namespace + 'calendar_home'})
-        else:
-            return render(request, 'atriacalendar/calendar_home.html',
-                          context={'active_view': namespace + 'calendar_home'})
-
-    # if user is logged in without a selected role/org, set (if possible) and re-direct
-    print('No ACTIVE_ROLE, try to set ...')
-    init_user_session(None, request.user, request)
-
-    # TODO if more than one role/org option, ask user to select
-
-    role = request.session['ACTIVE_ROLE']
-    namespace = request.session['URL_NAMESPACE']
-    print('ACTIVE_ROLE = ', role)
-
-    return render(request, 'atriacalendar/calendar_home.html',
-                  context={'active_view': namespace + 'calendar_home'})
 
 
 @login_required
@@ -380,8 +343,5 @@ class EventUpdateView(TranslatedFormMixin, UpdateView, LoginRequiredMixin):
 
 
 # design v2
-def landing_v2(request):
-    return render(request, 'atriacalendar/landing_page_v2.html')
-
 def dashboard_v2(request):
     return render(request, 'atriacalendar/dashboard_v2.html')

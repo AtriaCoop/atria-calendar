@@ -3,6 +3,8 @@ URL configuration for Atria Calendar app.
 """
 
 from django.urls import path, include
+from django.contrib.auth import views as auth_views
+
 from .forms import *
 from .views import *
 
@@ -11,9 +13,8 @@ from .views import *
 urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('signup/', SignupView.as_view(), name='signup'),
-    path('landing_v2', landing_v2, name='landing_v2'),
     path('dashboard_v2', dashboard_v2, name='dashboard_v2'),
-    path('', landing_page, name='landing_page')
+    path('', auth_views.LoginView.as_view(), {'template_name': 'atriacalendar/landing_page_v2.html'}, name='login'),
 ]
 
 # URL patterns accessible to all authenticated users
