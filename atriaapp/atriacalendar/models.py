@@ -170,7 +170,11 @@ class AtriaCalendar(models.Model):
     calendar_name = models.CharField(max_length=40, blank=True)
 
     def __str__(self):
-        return self.calendar_name
+        if self.org_owner:
+            owner = str(self.org_owner)
+        else:
+            owner = str(self.user_owner)
+        return owner + ':' + self.calendar_name
     
 
 # Extend swingtime Event to add some custom fields

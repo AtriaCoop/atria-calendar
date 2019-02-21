@@ -1,4 +1,4 @@
-from django.http import HttpResponseBadRequest
+from django.http import HttpResponseBadRequest, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.utils import timezone, translation
 from django.contrib.auth import authenticate, get_user_model, login
@@ -199,28 +199,13 @@ class SignupView(CreateView):
     def get_success_url(self):
         return reverse('login')
 
+    def form_valid(self, form):
+        self.object = form.save()
 
-def signup_view(request):
-    DEFAULT_ROLE = 'Attendee'
+        calendar = AtriaCalendar(user_owner=self.object, calendar_name='Events')
+        calendar.save()
 
-    if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
-
-            # add default role of 'Attendee' to new user registrations (additional roles can be added later)
-            user.add_role(self.DEFAULT_ROLE)
-            user.save()
-
-            # need to auto-login with Atria custom user
-            # login(request, user)
-            return redirect('login')
-    else:
-        form = SignUpForm()
-    return render(request, 'registration/signup.html', {'form': form})
+        return HttpResponseRedirect(self.get_success_url())
 
 
 @login_required
