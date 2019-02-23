@@ -14,10 +14,14 @@
 				<h1>
 				    {% if request.user.is_authenticated %}
 				        {% with request.session.URL_NAMESPACE as namespace %}
-						<a href="{% url namespace|add:'calendar_home' %}">atria</a>
+						<a href="{% url namespace|add:'calendar_home' %}">
+							<img src="{% static "/atriacalendar/bare-logo.png" %}">
+						</a>
 						{% endwith %}
 					{% else %}
-						<a href="{% url 'login' %}">atria</a>
+						<a href="{% url 'login' %}">
+							<img src="{% static "/atriacalendar/bare-logo.png" %}">
+						</a>
 					{% endif %}
 				</h1>
 			</div>
@@ -34,10 +38,10 @@
 				<div class='topnav-search-dropdown'>
 					<h4>Search For:</h4>
 					<ul>
-						<li><a href='../searchPages/organizationsSearch.html'>Organizations</a></li>
-						<li><a href='../searchPages/neighboursSearch.html'>Neighbours</a></li>
-						<li><a href='../searchPages/eventsSearch.html'>Events</a></li>
-						<li><a href='../searchPages/opportunitiesSearch.html'>Opportunities</a></li>
+						<li><a href="{% url 'search_organization' %}">Organizations</a></li>
+						<li><a href="{% url 'search_neighbour' %}">Neighbours</a></li>
+						<li><a href="{% url 'search_event' %}">Events</a></li>
+						<li><a href="{% url 'search_opportunity' %}">Opportunities</a></li>
 					</ul>
 				</div> <!-- search dropdown ends -->
 			</div>
@@ -125,10 +129,10 @@
 			<i class='fas fa-bars'></i>
 			<div class='sidenav-con sidenav-top'>
 				<ul>
-					<li><a href='../pagesSite/createManagePage.html'>Create &amp; Manage</a></li>
-					<li><a href='../pagesForms/eventForm.html'>Create Event</a></li>
-					<li><a href='../pagesForms/oppertunityForm.html'>Create Opportunity</a></li>
-		            <li {% if active_view == 'calendar_view' %}class="active"{% endif %}>
+					<li><a href="{% url namespace|add:'create_manage' %}">Create &amp; Manage</a></li>
+					<li><a href="{% url namespace|add:'event' %}">Create Event</a></li>
+					<li><a href="{% url namespace|add:'opportunity' %}">Create Opportunity</a></li>
+		            <li>
 		              {% now 'Y' as cur_year %} {% now 'm' as cur_month %}
 		              <a href="{% url namespace|add:'swingtime-monthly-view' cur_year cur_month %}">{% trans "View Calendar (old)" %}</a>
 		            </li>
@@ -137,8 +141,8 @@
 
 			<div class='sidenav-con sidenav-bottom'>
 				<ul>
-					<li><a href='../pagesSite/contactPage.html'>Contact Us</a></li>
-					<li><a href='../pagesSite/settingsPage.html'><i class="fas fa-cog"></i> Settings</a></li>
+					<li><a href="{% url 'contact' %}">Contact Us</a></li>
+					<li><a href="{% url namespace|add:'settings' %}"><i class="fas fa-cog"></i> Settings</a></li>
 		            <li><a href="{% url 'logout' %}">{% trans "Log Out" %}</a></li>
 				</ul>
 			</div>

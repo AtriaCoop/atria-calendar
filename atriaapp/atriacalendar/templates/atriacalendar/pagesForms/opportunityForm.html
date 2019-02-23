@@ -1,32 +1,14 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base_nav.html' %}
 
-<head>
-	<meta charset="UTF-8">
+{% load i18n %}
+{% load atria_custom_tags %}
 
-	<title></title>
+{# Set local template variable: #}
+{% get_settings_value LANGUAGES "LANGUAGES" %}
 
-	<meta name="author" content="">
-	<meta name="description" content="">
-	<meta name="keywords" content="">
-	<meta name="viewport" content="width=device-width,initial-scale=1">
+{% load static %}
 
-	<link rel="stylesheet" href="../css/style.css" type="text/css">
-	<link rel="stylesheet" href="../css/navigations.css" type="text/css">
-	<link rel="shortcut icon" href="">
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-	<link href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700" rel="stylesheet">
-
-	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
-</head>
-
-<body>
-
-	<div id='navigation'>
-	</div>
-
+{% block main_content %}
 	<div class='inside-body'>
 
 		<div class='center-body'>
@@ -56,7 +38,7 @@
 						<div class='form-view-top-cont'>
 							<div class='form-view-img-info'>
 								<div class='form-view-img'>
-									<img src='../imgs/accounticon.png'>
+									<img src="{% static "/atriacalendar/accounticon.png" %}">
 								</div>
 
 								<div class='form-view-info'>
@@ -93,8 +75,6 @@
 	<script>
 		$(document).ready(function() {
 
-			$("#navigation").load("../pageIncludes/navigation.html");
-
 			$('#event-form-title').keyup(function() {
 				$('#form-view-title').text($(this).val());
 			});
@@ -113,6 +93,4 @@
 
 		});
 	</script>
-</body>
-
-</html>
+{% endblock %}

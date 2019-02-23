@@ -328,11 +328,44 @@ class EventUpdateView(TranslatedFormMixin, UpdateView, LoginRequiredMixin):
 
 
 # design v2
-def dashboard(request):
+def dashboard_view(request):
     return render(request, 'atriacalendar/dashboard.html')
+
+def contact_view(request):
+    return render(request, 'atriacalendar/pagesSite/contactPage.html')
+
+def settings_view(request):
+    return render(request, 'atriacalendar/pagesSite/settingsPage.html')
 
 def neighbour_profile_view(request):
     return render(request, 'atriacalendar/pagesSite/neighbourPage.html')
 
 def organization_profile_view(request):
     return render(request, 'atriacalendar/pagesSite/organizationPage.html')
+
+def create_manage_view(request):
+    return render(request, 'atriacalendar/pagesSite/createManagePage.html')
+
+def view_event_view(request):
+    return render(request, 'atriacalendar/pagesSite/eventView.html')
+
+def view_opportunity_view(request):
+    return render(request, 'atriacalendar/pagesSite/opportunityView.html')
+
+def manage_event_view(request):
+    return render(request, 'atriacalendar/pagesForms/eventForm.html')
+
+def manage_opportunity_view(request):
+    return render(request, 'atriacalendar/pagesForms/opportunityForm.html')
+
+def search_event_view(request):
+    return render(request, 'atriacalendar/pagesSearch/eventsSearch.html')
+
+def search_opportunity_view(request):
+    return render(request, 'atriacalendar/pagesSearch/opportunitiesSearch.html')
+
+def search_neighbour_view(request):
+    return render(request, 'atriacalendar/pagesSearch/neighboursSearch.html')
+
+def search_organization_view(request):
+    return render(request, 'atriacalendar/pagesSearch/organizationsSearch.html')

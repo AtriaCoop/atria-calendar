@@ -17,7 +17,11 @@
 					<div class='innercont-title'>
 						<h2>Newsfeed</h2>
 					</div>
-					<div class='btn btn-create-post'>Add Post</div>
+				    {% if request.user.is_authenticated %}
+				        {% with request.session.URL_NAMESPACE as namespace %}
+						<div class='btn btn-create-post'>Add Post</div>
+						{% endwith %}
+					{% endif %}
 				</div>
 				<div class='innercont-inner'>
 					<div id='newsfeed'>
@@ -33,9 +37,13 @@
 					<div class='innercont-title'>
 						<h2>Calendar</h2>
 					</div>
-					<a href="pagesForms/eventForm.html">
-						<div class='btn btn-add-new-event'>Add New Event</div>
-					</a>
+				    {% if request.user.is_authenticated %}
+				        {% with request.session.URL_NAMESPACE as namespace %}
+						<a href="{% url namespace|add:'event' %}">
+							<div class='btn btn-add-new-event'>Add New Event</div>
+						</a>
+						{% endwith %}
+					{% endif %}
 				</div>
 				<div class='innercont-inner'>
 					<div id='calendar'>
