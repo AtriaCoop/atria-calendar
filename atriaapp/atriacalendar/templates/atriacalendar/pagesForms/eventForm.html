@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+
+	<title></title>
+
+	<meta name="author" content="">
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+
+	<link rel="stylesheet" href="../css/style.css" type="text/css">
+	<link rel="stylesheet" href="../css/navigations.css" type="text/css">
+	<link rel="shortcut icon" href="">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700" rel="stylesheet">
+
+	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+</head>
+
+<body>
+
+	<div id='navigation'>
+	</div>
+
+	<div class='inside-body'>
+
+		<div class='center-body'>
+			<div class='innercont-center-body'>
+				<div class='innercont-center-inner'>
+					<div class='form-cont'>
+						<h2>Event Form</h2>
+						<div class='newsfeed-post-seperator'></div>
+						<div>
+							<h5>Title</h5>
+							<input type="text" id='event-form-title'>
+						</div>
+
+						<div>
+							<h5>Description</h5>
+							<textarea rows="6" cols="37" id='event-form-desc'></textarea>
+						</div>
+
+						<div class='form-date-time-cont'>
+							<div>
+								<h5>Time</h5>
+								<input type="time" id='event-form-time'>
+							</div>
+							<div>
+								<h5>Date</h5>
+								<input type="date" id='event-form-date'>
+							</div>
+						</div>
+
+						<div>
+							<h5>Location</h5>
+							<input type="text" id='event-form-local'>
+						</div>
+
+
+						<div class='add-opp-cont'>
+							<div>
+								<h5>Add Opportunities</h5>
+								<input type="text" id='event-form-opp'>
+							</div>
+							<div class='btn btn-add-opp' id='btn-add-opp'>+ add</div>
+						</div>
+					</div>
+					<div class='form-view-cont'>
+						<h2>Preview Event Post</h2>
+						<div class='newsfeed-post-seperator'></div>
+						<div class='form-view-top-cont'>
+							<div class='form-view-img-info'>
+								<div class='form-view-img'>
+									<img src='../imgs/accounticon.png'>
+								</div>
+
+								<div class='form-view-info'>
+									<div>
+										<h2>Your Organization Name</h2>
+									</div>
+									<div>
+										<h5>Your Organization tagline</h5>
+									</div>
+									<div>
+										<h6>Todays Date</h6>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div>
+							<h4 id='form-view-title'></h4>
+							<p id='form-view-desc'></p>
+						</div>
+
+						<div>
+							<h4>Time / Date / Location</h4>
+							<p id='form-view-time'></p>
+							<p id='form-view-date'></p>
+							<p id='form-view-local'></p>
+						</div>
+
+						<div>
+							<h4>Event Opportunities:</h4>
+							<ul>
+								<li></li>
+								<li></li>
+								<li></li>
+								<li></li>
+								<li></li>
+							</ul>
+						</div>
+						<br>
+						<div class='btn btn-create-post'>Post</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		$(document).ready(function() {
+
+			$("#navigation").load("../pageIncludes/navigation.html");
+
+			$('#event-form-title').keyup(function() {
+				$('#form-view-title').text($(this).val());
+			});
+
+			$('#event-form-desc').keyup(function() {
+				$('#form-view-desc').text($(this).val());
+			});
+
+			$('#event-form-time').keyup(function() {
+				$('#form-view-time').text($(this).val());
+			});
+
+			$('#event-form-date').keyup(function() {
+				$('#form-view-date').text($(this).val());
+			});
+
+			$('#event-form-local').keyup(function() {
+				$('#form-view-local').text($(this).val());
+			});
+
+		});
+	</script>
+</body>
+
+</html>

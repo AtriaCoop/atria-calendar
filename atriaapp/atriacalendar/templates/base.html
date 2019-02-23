@@ -234,7 +234,7 @@
           <ul>
           {% if request.user.is_authenticated is False %}
             <li class="active">
-              <a href="{% url 'calendar_home' %}">{% trans "Home" %}</a>
+              <a href="{% url 'calendar_home' %}">{% trans "Home (New)" %}</a>
             </li>
             <li {% if active_view == 'calendar_view' %}class="active"{% endif %}>
               {% now 'Y' as cur_year %} {% now 'm' as cur_month %}
@@ -244,7 +244,7 @@
           {% if request.user.is_authenticated %}
             {% with request.session.URL_NAMESPACE as namespace %}
             <li {% if active_view == 'calendar_home' %}class="active"{% endif %}>
-              <a href="{% url namespace|add:'calendar_home' %}">{% trans "Home" %}</a>
+              <a href="{% url namespace|add:'calendar_home' %}">{% trans "Home (New)" %}</a>
             </li>
             <li {% if active_view == 'event_list' %}class="active"{% endif %}>
               <a href="{% url namespace|add:'event_list' %}">{% trans "List/Manage Events" %}</a>

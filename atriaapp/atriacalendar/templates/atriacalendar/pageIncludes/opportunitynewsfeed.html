@@ -1,3 +1,9 @@
+{% load i18n %}
+{% load atria_custom_tags %}
+
+{# Set local template variable: #}
+{% get_settings_value LANGUAGES "LANGUAGES" %}
+
 {% load static %}
 
 <div class='newsfeed-posted-cont'>
@@ -26,12 +32,12 @@
 	
 	<div class='newsfeed-posted-event-opps-cont'>
 		<div>
-			<a href=''>
+			<a href='../pagesSite/opportunityView.html'>
 				<h4>Opportunity Title</h4>
 			</a>
 		</div>
 		<div>
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat<span class='see-more-link'><a herf=''> ... see more</a></span></p>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat<span class='see-more-link'><a herf='../pagesSite/opportunityView.html'> ... see more</a></span></p>
 		</div>
 	</div>
 </div>

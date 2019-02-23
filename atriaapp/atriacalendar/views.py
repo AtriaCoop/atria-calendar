@@ -328,5 +328,11 @@ class EventUpdateView(TranslatedFormMixin, UpdateView, LoginRequiredMixin):
 
 
 # design v2
-def dashboard_v2(request):
-    return render(request, 'atriacalendar/dashboard_v2.html')
+def dashboard(request):
+    return render(request, 'atriacalendar/dashboard.html')
+
+def neighbour_profile_view(request):
+    return render(request, 'atriacalendar/pagesSite/neighbourPage.html')
+
+def organization_profile_view(request):
+    return render(request, 'atriacalendar/pagesSite/organizationPage.html')

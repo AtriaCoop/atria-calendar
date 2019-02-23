@@ -1,3 +1,9 @@
+{% load i18n %}
+{% load atria_custom_tags %}
+
+{# Set local template variable: #}
+{% get_settings_value LANGUAGES "LANGUAGES" %}
+
 {% load static %}
 
 <div class='cal-body'>
@@ -257,7 +263,7 @@
 
 <div class='cal-event-body'>
 	<div id='eventcalendar'>
-		{% include "atriacalendar/pageIncludes/eventcalendar.html" %}
+       {% include "atriacalendar/pageIncludes/eventcalendar.html" %}
 	</div>
 </div>
 

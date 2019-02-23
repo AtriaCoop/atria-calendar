@@ -1,3 +1,11 @@
+{% load i18n %}
+{% load atria_custom_tags %}
+
+{# Set local template variable: #}
+{% get_settings_value LANGUAGES "LANGUAGES" %}
+
+{% load static %}
+
 <!DOCTYPE html>
 <html>
 
@@ -17,6 +25,7 @@
 			{% include "atriacalendar/pageIncludes/statusnewsfeed.html" %}
 		</div>
 	</div>
+
 </body>
 
 </html>

@@ -1,0 +1,122 @@
+{% extends 'base_nav.html' %}
+
+{% load i18n %}
+{% load atria_custom_tags %}
+
+{# Set local template variable: #}
+{% get_settings_value LANGUAGES "LANGUAGES" %}
+
+{% block main_content %}
+	<div class='profile'>
+		<div class='profile-org-top-cont'>
+			<div class='profile-org-img-cont'>
+				<div class='profile-img'>
+					<img src=''>
+				</div>
+			</div>
+			<div class='profile-org-top-info-bar'>
+				<div class='profile-top-bar-left'>
+					<div class='profile-name-cont'>
+						<h2 class='profile-name'>Organization Name</h2>
+					</div>
+				</div>
+				<div class='profile-top-bar-right'>
+					<div class='btn btn-connect'><i class="fas fa-user-plus"></i>Connect</div>
+					<div class='btn btn-connect'><i class="fas fa-comment"></i>Message</div>
+				</div>
+			</div>
+		</div>
+
+		<div class='profile-bottom-cont'>
+			<div class='profile-nav-cont'>
+				<div class='profile-nav-info'>
+					<div>
+						<h5>Organizations company tagline 
+lorem ipsum dolor sit amet</h5>
+					</div>
+					<br>
+					<div>
+						<h5>More Information?</h5>
+						<p class='profile-work-info'>Lorem ipsum dolor sit amet</p>
+					</div>
+				</div>
+				<div class='profile-nav'>
+					<div>
+						<h5>Newsfeed</h5><i class="fas fa-plus"></i>
+					</div>
+					<div>
+						<h5>Events</h5><i class="fas fa-plus"></i>
+					</div>
+					<div>
+						<h5>Opportunities</h5><i class="fas fa-plus"></i>
+					</div>
+					<div>
+						<h5>Connections</h5><i class="fas fa-plus"></i>
+					</div>
+					<div>
+						<h5>Reviews</h5><i class="fas fa-plus"></i>
+					</div>
+				</div>
+			</div>
+
+			<div class='profile-tab-cont'>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		$(document).ready(function() {
+
+			$("#navigation").load("../pageIncludes/navigation.html");
+
+			$(".profile-tab-bio").click(function() {
+				$(".profile-tab-bio").addClass("tab-white");
+				$(".profile-tab-help").removeClass("tab-white");
+				$(".profile-tab-exp-vol").removeClass("tab-white");
+				$(".profile-tab-exp-work").removeClass("tab-white");
+
+				$(".profile-tab-bio-info").addClass("tab-info-display");
+				$(".profile-tab-help-info").removeClass("tab-info-display");
+				$(".profile-tab-exp-vol-info").removeClass("tab-info-display");
+				$(".profile-tab-exp-work-info").removeClass("tab-info-display");
+			});
+
+			$(".profile-tab-help").click(function() {
+				$(".profile-tab-bio").removeClass("tab-white");
+				$(".profile-tab-help").addClass("tab-white");
+				$(".profile-tab-exp-vol").removeClass("tab-white");
+				$(".profile-tab-exp-work").removeClass("tab-white");
+
+				$(".profile-tab-bio-info").removeClass("tab-info-display");
+				$(".profile-tab-help-info").addClass("tab-info-display");
+				$(".profile-tab-exp-vol-info").removeClass("tab-info-display");
+				$(".profile-tab-exp-work-info").removeClass("tab-info-display");
+			});
+
+			$(".profile-tab-exp-vol").click(function() {
+				$(".profile-tab-bio").removeClass("tab-white");
+				$(".profile-tab-help").removeClass("tab-white");
+				$(".profile-tab-exp-vol").addClass("tab-white");
+				$(".profile-tab-exp-work").removeClass("tab-white");
+
+				$(".profile-tab-bio-info").removeClass("tab-info-display");
+				$(".profile-tab-help-info").removeClass("tab-info-display");
+				$(".profile-tab-exp-vol-info").addClass("tab-info-display");
+				$(".profile-tab-exp-work-info").removeClass("tab-info-display");
+			});
+
+			$(".profile-tab-exp-work").click(function() {
+				$(".profile-tab-bio").removeClass("tab-white");
+				$(".profile-tab-help").removeClass("tab-white");
+				$(".profile-tab-exp-vol").removeClass("tab-white");
+				$(".profile-tab-exp-work").addClass("tab-white");
+
+				$(".profile-tab-bio-info").removeClass("tab-info-display");
+				$(".profile-tab-help-info").removeClass("tab-info-display");
+				$(".profile-tab-exp-vol-info").removeClass("tab-info-display");
+				$(".profile-tab-exp-work-info").addClass("tab-info-display");
+			});
+
+		});
+	</script>
+{% endblock %}

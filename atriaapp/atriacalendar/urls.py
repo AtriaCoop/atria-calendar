@@ -13,13 +13,13 @@ from .views import *
 urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('signup/', SignupView.as_view(), name='signup'),
-    path('dashboard_v2', dashboard_v2, name='dashboard_v2'),
-    path('', auth_views.LoginView.as_view(), {'template_name': 'atriacalendar/landing_page_v2.html'}, name='login'),
+    path('dashboard', dashboard, name='dashboard'),
+    path('', auth_views.LoginView.as_view(), name='login'),
 ]
 
 # URL patterns accessible to all authenticated users
 calendarpatterns = [
-    path('', calendar_home, name='calendar_home'),
+    path('', dashboard, name='calendar_home'),
     path('calendar', include([
         path('<int:year>/', atria_year_view, name='swingtime-yearly-view'),
         path('<int:year>/', include([
@@ -37,9 +37,18 @@ calendarpatterns = [
     ])),
 ]
 
+# URL patterns specific to neighbours
+neighbourpatterns = [
+    path('', include([
+        path('profile/', neighbour_profile_view, name='profile'),
+        path('', include((calendarpatterns))),
+        ])),
+]
+
 # URL patterns accessible only to organization Admins
 organizationpatterns = [
     path('', include([
+        path('profile/', organization_profile_view, name='profile'),
         path('create-event/', add_atria_event, name='swingtime-add-event'),
         path('create-event/participants/', add_participants,
              name='add_participants'),
@@ -47,7 +56,7 @@ organizationpatterns = [
         ])),
 ]
 
-urlpatterns.append(path('neighbour/', include((calendarpatterns, 'atriacalendar'), namespace='neighbour')))
+urlpatterns.append(path('neighbour/', include((neighbourpatterns, 'atriacalendar'), namespace='neighbour')))
 urlpatterns.append(path('organization/', include((organizationpatterns, 'atriacalendar'), namespace='organization')))
 urlpatterns.append(path('', include(calendarpatterns)))
 

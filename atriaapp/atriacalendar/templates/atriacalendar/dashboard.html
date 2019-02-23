@@ -1,0 +1,49 @@
+{% extends 'base_nav.html' %}
+
+{% load i18n %}
+{% load atria_custom_tags %}
+
+{# Set local template variable: #}
+{% get_settings_value LANGUAGES "LANGUAGES" %}
+
+{% load static %}
+
+{% block main_content %}
+	<div class='inside-body'>
+
+		<div class='left-body'>
+			<div class='innercont-body'>
+				<div class='innercont-nav'>
+					<div class='innercont-title'>
+						<h2>Newsfeed</h2>
+					</div>
+					<div class='btn btn-create-post'>Add Post</div>
+				</div>
+				<div class='innercont-inner'>
+					<div id='newsfeed'>
+						{% include "atriacalendar/pageIncludes/newsfeed.html" %}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class='right-body'>
+			<div class='innercont-body'>
+				<div class='innercont-nav'>
+					<div class='innercont-title'>
+						<h2>Calendar</h2>
+					</div>
+					<a href="pagesForms/eventForm.html">
+						<div class='btn btn-add-new-event'>Add New Event</div>
+					</a>
+				</div>
+				<div class='innercont-inner'>
+					<div id='calendar'>
+						{% include "atriacalendar/pageIncludes/calendar.html" %}
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+{% endblock %}
