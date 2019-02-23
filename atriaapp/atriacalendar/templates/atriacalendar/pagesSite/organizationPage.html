@@ -6,6 +6,8 @@
 {# Set local template variable: #}
 {% get_settings_value LANGUAGES "LANGUAGES" %}
 
+{% load static %}
+
 {% block main_content %}
 	<div class='profile'>
 		<div class='profile-org-top-cont'>
@@ -66,8 +68,6 @@ lorem ipsum dolor sit amet</h5>
 
 	<script>
 		$(document).ready(function() {
-
-			$("#navigation").load("../pageIncludes/navigation.html");
 
 			$(".profile-tab-bio").click(function() {
 				$(".profile-tab-bio").addClass("tab-white");

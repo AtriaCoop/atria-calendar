@@ -6,10 +6,12 @@
 {# Set local template variable: #}
 {% get_settings_value LANGUAGES "LANGUAGES" %}
 
+{% load static %}
+
 {% block main_content %}
 	<div class='profile'>
 		<div class='profile-header-img'>
-			<img src='../imgs/background.jpg'>
+			<img src="{% static "/atriacalendar/background.jpg" %}">
 		</div>
 
 		<div class='profile-top-cont'>
@@ -101,8 +103,6 @@
 
 	<script>
 		$(document).ready(function() {
-
-			$("#navigation").load("../pageIncludes/navigation.html");
 
 			$(".profile-tab-bio").click(function() {
 				$(".profile-tab-bio").addClass("tab-white");
