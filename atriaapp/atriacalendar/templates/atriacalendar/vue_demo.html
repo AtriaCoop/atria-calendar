@@ -1,28 +1,63 @@
 <html>
   <body>
-    <div id="example">
-      <p>{% templatetag openvariable %} hello {% templatetag closevariable %}</p>
+    <div id="ws-app">
+      <h1>Atria Event List</h1>
+
+      <section v-if="errored">
+        <p>We're sorry, we're not able to retrieve this information at the moment, please try back later</p>
+      </section>
+
+      <section v-else>
+        <div v-if="loading">Loading...</div>
+
+        <div
+          v-else
+          v-for="event in events"
+          class="event"
+        >
+          {% templatetag openvariable %} event.title {% templatetag closevariable %}:
+          {% templatetag openvariable %} event.description {% templatetag closevariable %}
+          ({% templatetag openvariable %} event.event_type {% templatetag closevariable %})
+        </div>
+
+      </section>
     </div>
 
-    <div id="app-2">
-      <span v-bind:title="message">
-        Hover your mouse over me for a few seconds
-        to see my dynamically bound title!
-      </span>
-    </div>
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- production version, optimized for size and speed -->
+    <!-- script src="https://unpkg.com/vue"></script -->
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
 
-    <div id="app-4">
-      <ol>
-        <li v-for="todo in todos">
-          {% templatetag openvariable %} todo.text {% templatetag closevariable %}
-        </li>
-      </ol>
-    </div>
-
-    <div id="app-5">
-      <p>{% templatetag openvariable %} message {% templatetag closevariable %}</p>
-      <button v-on:click="reverseMessage">Reverse Message</button>
-    </div>
+    <script>
+      new Vue({
+        el: '#ws-app',
+        data () {
+          return {
+            events: null,
+            loading: true,
+            errored: false
+          }
+        },
+        filters: {
+          currencydecimal (value) {
+            return value.toFixed(2)
+          }
+        },
+        mounted () {
+          axios
+            .get('http://localhost:8000/api/atria/events/?format=json')
+            .then(response => {
+              this.events = response.data.events
+            })
+            .catch(error => {
+              console.log(error)
+              this.errored = true
+            })
+            .finally(() => this.loading = false)
+        }
+      })
+    </script>
 
     <div id="app-7">
       <ol>
@@ -39,55 +74,6 @@
         ></todo-item>
       </ol>
     </div>
-
-    <!-- development version, includes helpful console warnings -->
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <!-- production version, optimized for size and speed -->
-    <!-- script src="https://unpkg.com/vue"></script -->
-
-    <script>
-        new Vue({
-            el: '#example',
-            data: { hello: 'Hello World!' }
-        })
-    </script>
-
-    <script>
-        var app2 = new Vue({
-          el: '#app-2',
-          data: {
-            message: 'You loaded this page on ' + new Date().toLocaleString()
-          }
-        })
-    </script>
-
-    <script>
-        var app4 = new Vue({
-          el: '#app-4',
-          data: {
-            todos: [
-              { text: 'Learn JavaScript' },
-              { text: 'Learn Vue' },
-              { text: 'Build something awesome' }
-            ]
-          }
-        });
-        app4.todos.push({ text: 'New item' });
-    </script>
-
-    <script>
-        var app5 = new Vue({
-          el: '#app-5',
-          data: {
-            message: 'MadA m I m AdaM'
-          },
-          methods: {
-            reverseMessage: function () {
-              this.message = this.message.split('').reverse().join('')
-            }
-          }
-        })
-    </script>
 
     <script>
         Vue.component('todo-item', {
@@ -119,7 +105,6 @@
     <!-- and collections of general-purpose utility methods, Vue core -->
     <!-- is able to remain small by not reinventing them. This also   -->
     <!-- gives you the freedom to use what you're familiar with. -->
-    <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
     <script>
         var watchExampleVM = new Vue({
