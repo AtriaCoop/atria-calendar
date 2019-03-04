@@ -1,0 +1,169 @@
+<html>
+  <body>
+    <div id="example">
+      <p>{% templatetag openvariable %} hello {% templatetag closevariable %}</p>
+    </div>
+
+    <div id="app-2">
+      <span v-bind:title="message">
+        Hover your mouse over me for a few seconds
+        to see my dynamically bound title!
+      </span>
+    </div>
+
+    <div id="app-4">
+      <ol>
+        <li v-for="todo in todos">
+          {% templatetag openvariable %} todo.text {% templatetag closevariable %}
+        </li>
+      </ol>
+    </div>
+
+    <div id="app-5">
+      <p>{% templatetag openvariable %} message {% templatetag closevariable %}</p>
+      <button v-on:click="reverseMessage">Reverse Message</button>
+    </div>
+
+    <div id="app-7">
+      <ol>
+        <!--
+          Now we provide each todo-item with the todo object
+          it's representing, so that its content can be dynamic.
+          We also need to provide each component with a "key",
+          which will be explained later.
+        -->
+        <todo-item
+          v-for="item in groceryList"
+          v-bind:todo="item"
+          v-bind:key="item.id"
+        ></todo-item>
+      </ol>
+    </div>
+
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- production version, optimized for size and speed -->
+    <!-- script src="https://unpkg.com/vue"></script -->
+
+    <script>
+        new Vue({
+            el: '#example',
+            data: { hello: 'Hello World!' }
+        })
+    </script>
+
+    <script>
+        var app2 = new Vue({
+          el: '#app-2',
+          data: {
+            message: 'You loaded this page on ' + new Date().toLocaleString()
+          }
+        })
+    </script>
+
+    <script>
+        var app4 = new Vue({
+          el: '#app-4',
+          data: {
+            todos: [
+              { text: 'Learn JavaScript' },
+              { text: 'Learn Vue' },
+              { text: 'Build something awesome' }
+            ]
+          }
+        });
+        app4.todos.push({ text: 'New item' });
+    </script>
+
+    <script>
+        var app5 = new Vue({
+          el: '#app-5',
+          data: {
+            message: 'MadA m I m AdaM'
+          },
+          methods: {
+            reverseMessage: function () {
+              this.message = this.message.split('').reverse().join('')
+            }
+          }
+        })
+    </script>
+
+    <script>
+        Vue.component('todo-item', {
+          props: ['todo'],
+          template: '<li>{% templatetag openvariable %} todo.text {% templatetag closevariable %}</li>'
+        })
+
+        var app7 = new Vue({
+          el: '#app-7',
+          data: {
+            groceryList: [
+              { id: 0, text: 'Vegetables' },
+              { id: 1, text: 'Cheese' },
+              { id: 2, text: 'Whatever else humans are supposed to eat' }
+            ]
+          }
+        })
+    </script>
+
+    <div id="watch-example">
+      <p>
+        Ask a yes/no question:
+        <input v-model="question">
+      </p>
+      <p>{% templatetag openvariable %} answer {% templatetag closevariable %}</p>
+    </div>
+
+    <!-- Since there is already a rich ecosystem of ajax libraries    -->
+    <!-- and collections of general-purpose utility methods, Vue core -->
+    <!-- is able to remain small by not reinventing them. This also   -->
+    <!-- gives you the freedom to use what you're familiar with. -->
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+    <script>
+        var watchExampleVM = new Vue({
+          el: '#watch-example',
+          data: {
+            question: '',
+            answer: 'I cannot give you an answer until you ask a question!'
+          },
+          watch: {
+            // whenever question changes, this function will run
+            question: function (newQuestion, oldQuestion) {
+              this.answer = 'Waiting for you to stop typing...'
+              this.debouncedGetAnswer()
+            }
+          },
+          created: function () {
+            // _.debounce is a function provided by lodash to limit how
+            // often a particularly expensive operation can be run.
+            // In this case, we want to limit how often we access
+            // yesno.wtf/api, waiting until the user has completely
+            // finished typing before making the ajax request. To learn
+            // more about the _.debounce function (and its cousin
+            // _.throttle), visit: https://lodash.com/docs#debounce
+            this.debouncedGetAnswer = _.debounce(this.getAnswer, 500)
+          },
+          methods: {
+            getAnswer:  function () {
+              if (this.question.indexOf('?') === -1) {
+                this.answer = 'Questions usually contain a question mark. ;-)'
+                return
+              }
+              this.answer = 'Thinking...'
+              var vm = this
+              axios.get('https://yesno.wtf/api')
+                .then(function (response) {
+                  vm.answer = _.capitalize(response.data.answer)
+                })
+                .catch(function (error) {
+                  vm.answer = 'Error! Could not reach the API. ' + error
+                })
+            }
+          }
+        })
+    </script>
+
+  </body>
+</html>

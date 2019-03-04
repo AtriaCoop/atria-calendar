@@ -369,3 +369,6 @@ def search_neighbour_view(request):
 
 def search_organization_view(request):
     return render(request, 'atriacalendar/pagesSearch/organizationsSearch.html')
+
+def handle_vue_demo(request):
+    return render(request, 'atriacalendar/vue_demo.html')
