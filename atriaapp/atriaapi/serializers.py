@@ -10,3 +10,7 @@ class AtriaEventSerializer(serializers.Serializer):
     description = serializers.CharField(max_length=100)
     event_type = serializers.CharField(max_length=4)
 
+class AtriaOccurrenceSerializer(serializers.Serializer):
+    start_time = serializers.DateTimeField()
+    end_time = serializers.DateTimeField()
+    event = AtriaEventSerializer()

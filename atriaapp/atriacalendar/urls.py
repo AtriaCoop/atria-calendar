@@ -22,6 +22,8 @@ urlpatterns = [
     path('search_neighbour', search_neighbour_view, name='search_neighbour'),
     path('search_organization', search_organization_view, name='search_organization'),
     path('vue_demo/', handle_vue_demo, name='vue_demo'),
+    path('vue_demo2/', handle_vue_demo2, name='vue_demo2'),
+    path('vue_demo3/', handle_vue_demo3, name='vue_demo3'),
     path('', auth_views.LoginView.as_view(), name='login'),
 ]
 

@@ -12,12 +12,18 @@
 
         <div
           v-else
-          v-for="event in events"
-          class="event"
+          v-for="occurrence in occurrences"
+          class="occurrence"
         >
-          {% templatetag openvariable %} event.title {% templatetag closevariable %}:
-          {% templatetag openvariable %} event.description {% templatetag closevariable %}
-          ({% templatetag openvariable %} event.event_type {% templatetag closevariable %})
+          <p>
+            {% templatetag openvariable %} occurrence.event.title {% templatetag closevariable %}:
+            {% templatetag openvariable %} occurrence.event.description {% templatetag closevariable %}
+            ({% templatetag openvariable %} occurrence.event.event_type {% templatetag closevariable %})
+          </p>
+          <p>
+            {% templatetag openvariable %} occurrence.start_time {% templatetag closevariable %} -
+            {% templatetag openvariable %} occurrence.end_time {% templatetag closevariable %}
+          </p>
         </div>
 
       </section>
@@ -34,7 +40,11 @@
         el: '#ws-app',
         data () {
           return {
-            events: null,
+            occurrences: null,
+            year: null,
+            month: null,
+            start_dt: null,
+            end_dt: null,
             loading: true,
             errored: false
           }
@@ -46,9 +56,13 @@
         },
         mounted () {
           axios
-            .get('http://localhost:8000/api/atria/events/?format=json')
+            .get('http://localhost:8000/api/atria/calendar/2019/2/')
             .then(response => {
-              this.events = response.data.events
+              this.occurrences = response.data.occurrences
+              this.year = response.data.year
+              this.month = response.data.month
+              this.start_dt = response.data.start_dt
+              this.end_dt = response.data.end_dt
             })
             .catch(error => {
               console.log(error)
