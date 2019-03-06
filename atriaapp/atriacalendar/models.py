@@ -1,5 +1,6 @@
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import Group, PermissionsMixin
+from django.contrib.auth.signals import user_logged_in, user_logged_out
 from django.db import models
 from django.utils import timezone
 
@@ -11,6 +12,51 @@ USER_ROLES = (
     'Volunteer',
     'Attendee',
 )
+
+
+def url_namespace(role):
+    if role == 'Admin':
+        return 'organization:'
+    else:
+        return 'neighbour:'
+
+
+def init_user_session(sender, user, request, **kwargs):
+    target = request.POST.get('next', '/neighbour/')
+    if 'organization' in target:
+        if user.has_role('Admin'):
+            request.session['ACTIVE_ROLE'] = 'Admin'
+            orgs = AtriaRelationship.objects.filter(user=user).all()
+            if 0 < len(orgs):
+                request.session['ACTIVE_ORG'] = str(orgs[0].id)
+        else:
+            # TODO for now just set a dummy default - logged in user with no role assigned
+            request.session['ACTIVE_ROLE'] = 'Attendee'
+    else:
+        if user.has_role('Volunteer'):
+            request.session['ACTIVE_ROLE'] = 'Volunteer'
+        elif user.has_role('Attendee'):
+            request.session['ACTIVE_ROLE'] = 'Attendee'
+        else:
+            # TODO for now just set a dummy default - logged in user with no role assigned
+            request.session['ACTIVE_ROLE'] = 'Attendee'
+
+    role = request.session['ACTIVE_ROLE']
+    namespace = url_namespace(role)
+    request.session['URL_NAMESPACE'] = namespace
+
+
+def clear_user_session(sender, user, request, **kwargs):
+    if 'ACTIVE_ROLE' in request.session:
+        del request.session['ACTIVE_ROLE']
+    if 'ACTIVE_ORG' in request.session:
+        del request.session['ACTIVE_ORG']
+    request.session['URL_NAMESPACE'] = ''
+
+
+user_logged_in.connect(init_user_session)
+
+user_logged_out.connect(clear_user_session)
 
 
 class UserManager(BaseUserManager):
@@ -113,10 +159,27 @@ class AtriaOrganization(models.Model):
     description = models.TextField(max_length=4000)
     location = models.CharField(max_length=80)
 
+    def __str__(self):
+        return self.org_name + ", " + self.location
+
+
+# collect events into a "calendar" that has a name and owner (can be an org or individual user)
+class AtriaCalendar(models.Model):
+    org_owner = models.ForeignKey(AtriaOrganization, on_delete=models.CASCADE, blank=True, null=True)
+    user_owner = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    calendar_name = models.CharField(max_length=40, blank=True)
+
+    def __str__(self):
+        if self.org_owner:
+            owner = str(self.org_owner)
+        else:
+            owner = str(self.user_owner)
+        return owner + ':' + self.calendar_name
+    
 
 # Extend swingtime Event to add some custom fields
 class AtriaEvent(swingtime_models.Event):
-    org = models.ForeignKey(AtriaOrganization, on_delete=models.CASCADE, blank=True, null=True)
+    calendar = models.ForeignKey(AtriaCalendar, on_delete=models.CASCADE, blank=True, null=True)
     program = models.CharField(max_length=32, blank=True)
     event_program = models.ForeignKey(
         AtriaEventProgram,
@@ -137,7 +200,10 @@ class AtriaOrgAnnouncement(models.Model):
     content = models.TextField(max_length=4000)
     date_added = models.DateTimeField(default=timezone.now)
     effective_date = models.DateTimeField(default=timezone.now)
-    end_date = models.DateTimeField(blank=True)
+    end_date = models.DateTimeField(blank=True, null=True)
+
+    def __str__(self):
+        return self.org.org_name + ':' + self.title
 
 
 # type of user/org relationship, type can be:
@@ -148,6 +214,9 @@ class RelationType(models.Model):
     relation_type = models.CharField(max_length=20)
     relation_description = models.CharField(max_length=80)
 
+    def __str__(self):
+        return self.relation_type
+
 
 # Association class for user/organization relationship
 class AtriaRelationship(models.Model):
@@ -156,7 +225,10 @@ class AtriaRelationship(models.Model):
     relation_type = models.ForeignKey(RelationType, verbose_name='relationship', on_delete=models.CASCADE)
     status = models.CharField(max_length=8)
     effective_date = models.DateTimeField(default=timezone.now)
-    end_date = models.DateTimeField(blank=True)
+    end_date = models.DateTimeField(blank=True, null=True)
+
+    def __str__(self):
+        return self.user.email + ':' + self.org.org_name + ' = ' + str(self.relation_type)
 
 
 # type of user/event relationship:
@@ -168,6 +240,9 @@ class EventAttendanceType(models.Model):
     attendance_type = models.CharField(max_length=20)
     attendance_description = models.CharField(max_length=80)
 
+    def __str__(self):
+        return self.attendance_type
+
 
 # set of "bookmarked" events (for a user)
 class AtriaBookmark(models.Model):
@@ -176,6 +251,9 @@ class AtriaBookmark(models.Model):
     bookmark_type = models.ForeignKey(EventAttendanceType, on_delete=models.CASCADE)
     date_added = models.DateTimeField(default=timezone.now)
     notes = models.TextField(max_length=4000, blank=True)
+
+    def __str__(self):
+        return self.user.email + ':' + str(self.event)
 
 
 # event history tracking (for an organization)
@@ -187,4 +265,8 @@ class AtriaEventAttendance(models.Model):
     user_count = models.IntegerField(default=0)
     date_added = models.DateTimeField(default=timezone.now)
     notes = models.TextField(max_length=4000, blank=True)
+
+    def __str__(self):
+        return str(self.event) + ':' + self.user.email + ' - ' + self.attendance_type
+
 

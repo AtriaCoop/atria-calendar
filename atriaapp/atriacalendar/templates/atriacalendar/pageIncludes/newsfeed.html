@@ -1,0 +1,31 @@
+{% load i18n %}
+{% load atria_custom_tags %}
+
+{# Set local template variable: #}
+{% get_settings_value LANGUAGES "LANGUAGES" %}
+
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Newsfeed</title>
+</head>
+
+<body>
+	<div class='newsfeed-cont'>
+		<div id='eventnewsfeed'>
+			{% include "atriacalendar/pageIncludes/eventnewsfeed.html" %}
+		</div>
+		<div id='opportunitynewsfeed'>
+			{% include "atriacalendar/pageIncludes/opportunitynewsfeed.html" %}
+		</div>
+		<div id='statusnewsfeed'>
+			{% include "atriacalendar/pageIncludes/statusnewsfeed.html" %}
+		</div>
+	</div>
+
+</body>
+
+</html>

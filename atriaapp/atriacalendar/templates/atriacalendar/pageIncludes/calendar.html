@@ -1,0 +1,302 @@
+{% load i18n %}
+{% load atria_custom_tags %}
+
+{# Set local template variable: #}
+{% get_settings_value LANGUAGES "LANGUAGES" %}
+
+{% load static %}
+
+<div class='cal-body'>
+
+	<div class='cal-top'>
+		<div class='cal-top-title'>
+			<i class="fas fa-caret-left"></i>
+			<span class='cal-top-month'>
+				<h3>FEBRUARY </h3>
+			</span>
+			<span class='cal-top-year'>
+				<h3>2019 </h3>
+			</span>
+			<i class="fas fa-caret-right"></i>
+		</div>
+		<div class='cal-top-nav'>
+			<span class='cal-selector calWeekSelect'>
+				<h5>Week </h5>
+			</span>
+			<span class='cal-selector calMonthSelect cal-highlight'>
+				<h5>Month </h5>
+			</span>
+			<span class='cal-selector calYearSelect'>
+				<h5>Year </h5>
+			</span>
+		</div>
+	</div>
+
+	<div class='cal-year-cont'>
+
+	</div>
+
+	<div class='cal-month-cont'>
+		<div>
+			<ul>
+				<li>
+					Sun
+				</li>
+				<li>
+					Mon
+				</li>
+				<li>
+					Tue
+				</li>
+				<li>
+					Wed
+				</li>
+				<li>
+					Thu
+				</li>
+				<li>
+					Fri
+				</li>
+				<li>
+					Sat
+				</li>
+			</ul>
+		</div>
+
+		<div class='cal-days-month'>
+			<div class='week'>
+				<ul>
+					<li class='grey'>
+						<span>27</span>
+					</li>
+					<li class='grey'>
+						<span>28</span>
+					</li>
+					<li class='grey'>
+						<span>29</span>
+					</li>
+					<li class='grey'>
+						<span>30</span>
+					</li>
+					<li class='grey'>
+						<span>31</span>
+					</li>
+					<li>
+						<span>1</span>
+					</li>
+					<li>
+						<span>2</span>
+					</li>
+				</ul>
+			</div>
+			<div class='week'>
+				<ul>
+					<li>
+						<span>3</span>
+					</li>
+					<li>
+						<span>4</span>
+					</li>
+					<li>
+						<span>5</span>
+					</li>
+					<li>
+						<span>6</span>
+					</li>
+					<li>
+						<span>7</span>
+					</li>
+					<li>
+						<span>8</span>
+					</li>
+					<li>
+						<span>9</span>
+					</li>
+				</ul>
+			</div>
+			<div class='week'>
+				<ul>
+					<li>
+						<span>10</span>
+					</li>
+					<li>
+						<span>11</span>
+					</li>
+					<li class='today'>
+						<span>12</span>
+					</li>
+					<li>
+						<span>13</span>
+					</li>
+					<li>
+						<span>14</span>
+					</li>
+					<li>
+						<span>15</span>
+					</li>
+					<li>
+						<span>16</span>
+					</li>
+				</ul>
+			</div>
+			<div class='week'>
+				<ul>
+					<li>
+						<span>17</span>
+					</li>
+					<li>
+						<span>18</span>
+					</li>
+					<li>
+						<span>19</span>
+					</li>
+					<li>
+						<span>20</span>
+					</li>
+					<li>
+						<span>21</span>
+					</li>
+					<li>
+						<span>22</span>
+					</li>
+					<li>
+						<span>23</span>
+					</li>
+				</ul>
+			</div>
+			<div class='week'>
+				<ul>
+					<li>
+						<span>24</span>
+					</li>
+					<li>
+						<span>25</span>
+					</li>
+					<li>
+						<span>26</span>
+					</li>
+					<li>
+						<span>27</span>
+					</li>
+					<li>
+						<span>28</span>
+					</li>
+					<li class='grey'>
+						<span>1</span>
+					</li>
+					<li class='grey'>
+						<span>2</span>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class='cal-week-cont'>
+		<div>
+			<ul>
+				<li>
+					Sun
+				</li>
+				<li>
+					Mon
+				</li>
+				<li>
+					Tues
+				</li>
+				<li>
+					Wed
+				</li>
+				<li>
+					Thurs
+				</li>
+				<li>
+					Fri
+				</li>
+				<li>
+					Sat
+				</li>
+			</ul>
+		</div>
+		<div class='week'>
+			<ul>
+				<li>
+					<span>10</span>
+				</li>
+				<li>
+					<span>11</span>
+				</li>
+				<li class='today'>
+					<span>12</span>
+				</li>
+				<li>
+					<span>13</span>
+				</li>
+				<li>
+					<span>14</span>
+				</li>
+				<li>
+					<span>15</span>
+				</li>
+				<li>
+					<span>16</span>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+</div>
+
+<div class='calendar-conts-seperator'></div>
+
+<div class='cal-selected-date-cont'>
+	<span class='cal-selected-month'>
+		<h3>FEBRUARY </h3>
+		<div class='cal-selected-day'>13</div>
+	</span>
+	<span class='cal-selected-year'>
+		<h3>2019 </h3>
+	</span>
+</div>
+
+<div class='calendar-conts-seperator'></div>
+
+<div class='cal-event-body'>
+	<div id='eventcalendar'>
+       {% include "atriacalendar/pageIncludes/eventcalendar.html" %}
+	</div>
+</div>
+
+<script>
+	$(document).ready(function() {
+
+		$(".calWeekSelect").click(function() {
+			$(".calWeekSelect").addClass("cal-highlight");
+			$(".calMonthSelect").removeClass("cal-highlight");
+			$(".calYearSelect").removeClass("cal-highlight");
+
+			$(".cal-week-cont").css("display", "flex");
+			$(".cal-month-cont").css("display", "none");
+		});
+
+		$(".calMonthSelect").click(function() {
+			$(".calMonthSelect").addClass("cal-highlight");
+			$(".calWeekSelect").removeClass("cal-highlight");
+			$(".calYearSelect").removeClass("cal-highlight");
+
+			$(".cal-week-cont").css("display", "none");
+			$(".cal-month-cont").css("display", "block");
+		});
+
+		$(".calYearSelect").click(function() {
+			$(".calYearSelect").addClass("cal-highlight");
+			$(".calMonthSelect").removeClass("cal-highlight");
+			$(".calWeekSelect").removeClass("cal-highlight");
+
+			$(".cal-week-cont").css("display", "none");
+			$(".cal-month-cont").css("display", "none");
+		});
+
+	});
+
+</script>

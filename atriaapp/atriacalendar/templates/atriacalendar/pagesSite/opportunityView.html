@@ -1,0 +1,69 @@
+{% extends 'base_nav.html' %}
+
+{% load i18n %}
+{% load atria_custom_tags %}
+
+{# Set local template variable: #}
+{% get_settings_value LANGUAGES "LANGUAGES" %}
+
+{% load static %}
+
+{% block main_content %}
+	<div class='inside-body'>
+
+		<div class='center-body'>
+			<div class='innercont-body'>
+				<div class='innercont-nav'>
+					<div class='innercont-title'>
+						<h2>Opportunity View</h2>
+					</div>
+				</div>
+				<div class='accounts-events'>
+					<div class='newsfeed-posted-cont'>
+
+						<div class='newsfeed-posted-top-cont'>
+							<div class='newsfeed-posted-img-info'>
+								<div class='newsfeed-posted-img'>
+									<img src="{% static "/atriacalendar/accounticon.png" %}">
+								</div>
+
+								<div class='newsfeed-posted-info'>
+									<div>
+										<a href=''>
+											<h2>Organization Name</h2>
+										</a>
+									</div>
+									<div>
+										<h5>Organization tagline</h5>
+									</div>
+									<div>
+										<h6>Date Posted</h6>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div>
+							<div>
+								<h4>Opportunity Title</h4>
+							</div>
+							<div>
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+							</div>
+						</div>
+
+						<div>
+							<h4>Start Date / Location</h4>
+							<p id='form-view-date'>March 14th, 2019</p>
+							<p id='form-view-local'>123 Main St, Vancouver BC, V1Z 3A4</p>
+						</div>
+						<br>
+						<div class='btn btn-apply'>Apply to Opportunity</div>
+					</div>
+
+					<div class='newsfeed-post-seperator'></div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

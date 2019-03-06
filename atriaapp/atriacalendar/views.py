@@ -1,4 +1,4 @@
-from django.http import HttpResponseBadRequest
+from django.http import HttpResponseBadRequest, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.utils import timezone, translation
 from django.contrib.auth import authenticate, get_user_model, login
@@ -12,6 +12,7 @@ from swingtime import forms as swingtime_forms
 from swingtime import views as swingtime_views
 
 from .forms import *
+from .models import *
 
 
 class TranslatedFormMixin(object):
@@ -55,7 +56,6 @@ class TranslatedFormMixin(object):
 # Wrappers around swingtme views:
 ####################################################################
 
-@login_required
 def atria_year_view(
     request,
     year,
@@ -85,7 +85,6 @@ def atria_year_view(
     return swingtime_views.year_view(request, year, template, queryset)
 
 
-@login_required
 def atria_month_view(
     request,
     year,
@@ -119,7 +118,6 @@ def atria_month_view(
     return swingtime_views.month_view(request, year, month, template, queryset)
 
 
-@login_required
 def atria_day_view(
     request,
     year,
@@ -132,11 +130,13 @@ def atria_day_view(
     See documentation for function``_datetime_view``.
 
     '''
+
+    namespace = request.session['URL_NAMESPACE']
+
     return swingtime_views.day_view(request, year, month, day, template,
                                     **params)
 
 
-@login_required
 def atria_occurrence_view(
     request,
     event_pk,
@@ -190,7 +190,6 @@ def add_atria_event(
 # Atria custom views:
 ####################################################################
 
-
 class SignupView(CreateView):
     # form_class = SignUpForm
     form_class = SignUpForm
@@ -198,42 +197,37 @@ class SignupView(CreateView):
     template_name = 'registration/signup.html'
 
     def get_success_url(self):
-        return reverse('calendar_home')
+        return reverse('login')
 
+    def form_valid(self, form):
+        self.object = form.save()
 
-def signup_view(request):
-    if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
-            # need to auto-login with Atria custom user
-            # login(request, user)
-            return redirect('calendar_home')
-    else:
-        form = SignUpForm()
-    return render(request, 'registration/signup.html', {'form': form})
+        calendar = AtriaCalendar(user_owner=self.object, calendar_name='Events')
+        calendar.save()
+
+        return HttpResponseRedirect(self.get_success_url())
 
 
 @login_required
 def calendar_home(request):
     """Home page shell view."""
 
+    namespace = request.session['URL_NAMESPACE']
+
     return render(request, 'atriacalendar/calendar_home.html',
-                  context={'active_view': 'calendar_home'})
+                  context={'active_view': namespace + 'calendar_home'})
 
 
-@login_required
 def calendar_view(request, *args, **kwargs):
     """Whole Calendar shell view."""
 
     the_year = kwargs['year']
     the_month = kwargs['month']
 
+    namespace = request.session['URL_NAMESPACE']
+
     return render(request, 'atriacalendar/calendar_view.html',
-                  context={'active_view': 'calendar_view', 'year': the_year,
+                  context={'active_view': namespace + 'calendar_view', 'year': the_year,
                            'month': the_month})
 
 
@@ -241,8 +235,10 @@ def calendar_view(request, *args, **kwargs):
 def create_event(request):
     """Create Calendar Event shell view."""
 
+    namespace = request.session['URL_NAMESPACE']
+
     return render(request, 'atriacalendar/create_event.html',
-                  context={'active_view': 'create_event'})
+                  context={'active_view': namespace + 'create_event'})
 
 
 @login_required
@@ -252,22 +248,21 @@ def add_participants(request):
     return render(request, 'atriacalendar/add_participants.html')
 
 
-@login_required
 def event_list(request):
     """List/Manage Calendar Events shell view."""
 
+    namespace = request.session['URL_NAMESPACE']
+
     return render(request, 'atriacalendar/event_list.html',
-                  context={'active_view': 'calendar_list'})
+                  context={'active_view': namespace + 'calendar_list'})
 
 
-@login_required
 def event_detail(request):
     """Shell view for viewing/editing a single Event."""
 
     return render(request, 'atriacalendar/event_detail.html')
 
 
-@login_required
 def event_view(request, pk):
     lang = request.GET.get('event_lang')
 
@@ -330,3 +325,47 @@ class EventUpdateView(TranslatedFormMixin, UpdateView, LoginRequiredMixin):
             return super().post(*args, **kwargs)
         else:
             return HttpResponseBadRequest('Bad Request')
+
+
+# design v2
+def dashboard_view(request):
+    return render(request, 'atriacalendar/dashboard.html')
+
+def contact_view(request):
+    return render(request, 'atriacalendar/pagesSite/contactPage.html')
+
+def settings_view(request):
+    return render(request, 'atriacalendar/pagesSite/settingsPage.html')
+
+def neighbour_profile_view(request):
+    return render(request, 'atriacalendar/pagesSite/neighbourPage.html')
+
+def organization_profile_view(request):
+    return render(request, 'atriacalendar/pagesSite/organizationPage.html')
+
+def create_manage_view(request):
+    return render(request, 'atriacalendar/pagesSite/createManagePage.html')
+
+def view_event_view(request):
+    return render(request, 'atriacalendar/pagesSite/eventView.html')
+
+def view_opportunity_view(request):
+    return render(request, 'atriacalendar/pagesSite/opportunityView.html')
+
+def manage_event_view(request):
+    return render(request, 'atriacalendar/pagesForms/eventForm.html')
+
+def manage_opportunity_view(request):
+    return render(request, 'atriacalendar/pagesForms/opportunityForm.html')
+
+def search_event_view(request):
+    return render(request, 'atriacalendar/pagesSearch/eventsSearch.html')
+
+def search_opportunity_view(request):
+    return render(request, 'atriacalendar/pagesSearch/opportunitiesSearch.html')
+
+def search_neighbour_view(request):
+    return render(request, 'atriacalendar/pagesSearch/neighboursSearch.html')
+
+def search_organization_view(request):
+    return render(request, 'atriacalendar/pagesSearch/organizationsSearch.html')

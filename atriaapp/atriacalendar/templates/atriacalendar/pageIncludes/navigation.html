@@ -1,0 +1,188 @@
+{% load i18n %}
+{% load atria_custom_tags %}
+
+{# Set local template variable: #}
+{% get_settings_value LANGUAGES "LANGUAGES" %}
+
+{% load static %}
+
+<div class='site-nav'>
+
+	<div class='topnav'>
+		<div class='topnav-con topnav-title'>
+			<div class='topnav-item'>
+				<h1>
+				    {% if request.user.is_authenticated %}
+				        {% with request.session.URL_NAMESPACE as namespace %}
+						<a href="{% url namespace|add:'calendar_home' %}">
+							<img src="{% static "/atriacalendar/bare-logo.png" %}">
+						</a>
+						{% endwith %}
+					{% else %}
+						<a href="{% url 'login' %}">
+							<img src="{% static "/atriacalendar/bare-logo.png" %}">
+						</a>
+					{% endif %}
+				</h1>
+			</div>
+		</div>
+
+		<div class='topnav-con'>
+			<div class='topnav-item'>
+				<!--- #topNavSearch input value for searching keywords across entire site -->
+				<div class='topnav-searchcon' id='topNavSearch'>
+					<input placeholder='Search'>
+					<i class='fas fa-search'></i>
+				</div>
+				<!-- #topNavSearch drop down to narrow search options -->
+				<div class='topnav-search-dropdown'>
+					<h4>Search For:</h4>
+					<ul>
+						<li><a href="{% url 'search_organization' %}">Organizations</a></li>
+						<li><a href="{% url 'search_neighbour' %}">Neighbours</a></li>
+						<li><a href="{% url 'search_event' %}">Events</a></li>
+						<li><a href="{% url 'search_opportunity' %}">Opportunities</a></li>
+					</ul>
+				</div> <!-- search dropdown ends -->
+			</div>
+
+		    {% if request.user.is_authenticated %}
+		        {% with request.session.URL_NAMESPACE as namespace %}
+				<div class='topnav-rightcon'>
+					<div class='topnav-item'>
+						<div class='topnav-notifycons'>
+							<!--- #msgsNotifyCount value increases here as new messages come in -->
+							<i class='fas fa-comment'></i>
+							<span>0</span>
+						</div>
+					</div>
+
+					<div class='topnav-item'>
+						<div class='topnav-notifycons' id='notifications'>
+							<!--- #topNavNotificat value increases here as new notifications come in -->
+							<i class='fas fa-bell'></i>
+							<span>3</span>
+						</div>
+						<!--- topnav-notificat-dropdown all notifications values put here in necessary spans -->
+						<div class='topnav-notificat-dropdown'>
+							<h4>Notifications</h4>
+							<ul>
+								<li>
+									<a href=''>
+										<div>
+											<img src="{% static "/atriacalendar/accounticon.png" %}">
+										</div>
+										<div class='notifi-infocon'>
+											<span class='notifi-name'>Account Name </span>
+											<span class='notifi-description'>the notification description</span>
+											<br>
+											<span class='notifi-date'>date &amp; time</span>
+										</div>
+									</a>
+									<a href=''>
+										<div>
+											<img src="{% static "/atriacalendar/accounticon.png" %}"></div>
+										<div class='notifi-infocon'>
+											<span class='notifi-name'>Account Name </span>
+											<span class='notifi-description'>the notification description</span>
+											<br>
+											<span class='notifi-date'>date &amp; time</span>
+										</div>
+									</a>
+									<a href=''>
+										<div>
+											<img src="{% static "/atriacalendar/accounticon.png" %}"></div>
+										<div class='notifi-infocon'>
+											<span class='notifi-name'>Account Name </span>
+											<span class='notifi-description'>the notification description</span>
+											<br>
+											<span class='notifi-date'>date &amp; time</span>
+										</div>
+									</a>
+								</li>
+							</ul>
+						</div> <!-- notification dropdown ends -->
+					</div> <!-- notification container ends -->
+
+					<div class='topnav-item topnav-accountnamecon'>
+						<a href="{% url namespace|add:'profile' %}">
+				          {{ request.user }} 
+				          {% if request.session.ACTIVE_ROLE %}
+				            [ {{ request.session.ACTIVE_ROLE }} ]
+				          {% endif %}
+				          {% if request.session.ACTIVE_ORG %}
+				            [ {{ request.session.ACTIVE_ORG }} ]
+				          {% endif %}
+						</a>
+					</div>
+				</div> <!-- top nav right container ends -->
+		        {% endwith %}
+			{% else %}
+				<!-- TODO anon user -->
+			{% endif %}
+		</div>
+	</div> <!-- top nav ends -->
+
+    {% if request.user.is_authenticated %}
+        {% with request.session.URL_NAMESPACE as namespace %}
+		<div class='sidenav'>
+			<i class='fas fa-bars'></i>
+			<div class='sidenav-con sidenav-top'>
+				<ul>
+					<li><a href="{% url namespace|add:'create_manage' %}">Create &amp; Manage</a></li>
+					<li><a href="{% url namespace|add:'event' %}">Create Event</a></li>
+					<li><a href="{% url namespace|add:'opportunity' %}">Create Opportunity</a></li>
+		            <li>
+		              {% now 'Y' as cur_year %} {% now 'm' as cur_month %}
+		              <a href="{% url namespace|add:'swingtime-monthly-view' cur_year cur_month %}">{% trans "View Calendar (old)" %}</a>
+		            </li>
+				</ul>
+			</div>
+
+			<div class='sidenav-con sidenav-bottom'>
+				<ul>
+					<li><a href="{% url 'contact' %}">Contact Us</a></li>
+					<li><a href="{% url namespace|add:'settings' %}"><i class="fas fa-cog"></i> Settings</a></li>
+		            <li><a href="{% url 'logout' %}">{% trans "Log Out" %}</a></li>
+				</ul>
+			</div>
+		</div> <!-- side nav ends -->
+        {% endwith %}
+	{% else %}
+		<!-- TODO anon user -->
+	{% endif %}
+
+</div>
+
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+
+<script>
+	$(document).ready(function() {
+
+		$("#topNavSearch").click(function() {
+			$(".topnav-search-dropdown").slideToggle("fast");
+			$(".topnav-notificat-dropdown").hide();
+			$(".sidenavShow").addClass("sidenav");
+			$(".sidenav").removeClass("sidenavShow");
+			$(".fa-bars").removeClass("fa-times");
+		});
+
+		$("#notifications").click(function() {
+			$(".topnav-notificat-dropdown").slideToggle("fast");
+			$(".topnav-search-dropdown").hide();
+			$(".sidenavShow").addClass("sidenav");
+			$(".sidenav").removeClass("sidenavShow");
+			$(".fa-bars").removeClass("fa-times");
+		});
+
+		$(".fa-bars").click(function() {
+			$(".sidenav").toggleClass("sidenavShow");
+			$(".fa-bars").toggleClass("fa-times");
+			$(".topnav-search-dropdown").hide();
+			$(".topnav-notificat-dropdown").hide();
+		});
+
+	});
+
+</script>

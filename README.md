@@ -40,3 +40,16 @@ python manage.py runserver
 
 Navigate to http://localhost:8000/, or http://localhost:8000/admin and login as the admin user (admin@mail.com/pass1234).
 
+## Deploying on Heroku
+
+Here are some useful heroku commands:
+
+```
+git commit --allow-empty -m "Trigger Heroku deploy"
+git push heroku master
+
+heroku pg:reset DATABASE
+heroku run rake db:migrate
+
+```
+

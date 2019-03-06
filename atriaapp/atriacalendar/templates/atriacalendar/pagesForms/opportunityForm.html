@@ -1,0 +1,96 @@
+{% extends 'base_nav.html' %}
+
+{% load i18n %}
+{% load atria_custom_tags %}
+
+{# Set local template variable: #}
+{% get_settings_value LANGUAGES "LANGUAGES" %}
+
+{% load static %}
+
+{% block main_content %}
+	<div class='inside-body'>
+
+		<div class='center-body'>
+			<div class='innercont-center-body'>
+				<div class='innercont-center-inner'>
+					<div class='form-cont'>
+						<h2>Opportunity Form</h2>
+						<div class='newsfeed-post-seperator'></div>
+						<div>
+							<h5>Title</h5>
+							<input type="text" id='event-form-title'>
+						</div>
+
+						<div>
+							<h5>Description</h5>
+							<textarea rows="6" cols="37" id='event-form-desc'></textarea>
+						</div>
+
+						<div>
+							<h5>Start Date</h5>
+							<input type="date" id='event-form-date'>
+						</div>
+					</div>
+					<div class='form-view-cont'>
+						<h2>Preview Opportunity Post</h2>
+						<div class='newsfeed-post-seperator'></div>
+						<div class='form-view-top-cont'>
+							<div class='form-view-img-info'>
+								<div class='form-view-img'>
+									<img src="{% static "/atriacalendar/accounticon.png" %}">
+								</div>
+
+								<div class='form-view-info'>
+									<div>
+										<h2>Your Organization Name</h2>
+									</div>
+									<div>
+										<h5>Your Organization tagline</h5>
+									</div>
+									<div>
+										<h6>Todays Date</h6>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div>
+							<h4 id='form-view-title'></h4>
+							<p id='form-view-desc'></p>
+						</div>
+
+						<div>
+							<h4>Start Date</h4>
+							<p id='form-view-time'></p>
+						</div>
+						<br>
+						<div class='btn btn-create-post'>Post</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		$(document).ready(function() {
+
+			$('#event-form-title').keyup(function() {
+				$('#form-view-title').text($(this).val());
+			});
+
+			$('#event-form-desc').keyup(function() {
+				$('#form-view-desc').text($(this).val());
+			});
+
+			$('#event-form-time').keyup(function() {
+				$('#form-view-time').text($(this).val());
+			});
+
+			$('#event-form-local').keyup(function() {
+				$('#form-view-local').text($(this).val());
+			});
+
+		});
+	</script>
+{% endblock %}

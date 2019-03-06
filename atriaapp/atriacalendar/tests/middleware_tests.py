@@ -13,6 +13,7 @@ User = get_user_model()
         (r'/en/organization', ('Admin',)),
     ]},
 )
+
 class URLPermissionsMiddlewareTests(TestCase):
     PASSWORD = 'example'
 
@@ -39,38 +40,38 @@ class URLPermissionsMiddlewareTests(TestCase):
     def test_attendee_ok(self):
         # TODO: change expected status code to 200 once URL is implemented
         response = self.request_url_as_user(self.attendee,
-                                            '/en/neighbour')
+                                            '/en/neighbour/')
 
         self.assertEqual(200, response.status_code)
 
     def test_attendee_forbidden(self):
         response = self.request_url_as_user(self.attendee,
-                                            '/en/organization')
+                                            '/en/organization/')
 
         self.assertEqual(403, response.status_code)
 
     def test_volunteer_ok(self):
         # TODO: change expected status code to 200 once URL is implemented
         response = self.request_url_as_user(self.volunteer,
-                                            '/en/neighbour')
+                                            '/en/neighbour/')
 
         self.assertEqual(200, response.status_code)
 
     def test_volunteer_forbidden(self):
         response = self.request_url_as_user(self.volunteer,
-                                            '/en/organization')
+                                            '/en/organization/')
 
         self.assertEqual(403, response.status_code)
 
     def test_admin_ok(self):
         # TODO: change expected status code to 200 once URL is implemented
         response = self.request_url_as_user(self.admin,
-                                            '/en/organization')
+                                            '/en/organization/')
 
         self.assertEqual(200, response.status_code)
 
     def test_admin_forbidden(self):
         response = self.request_url_as_user(self.admin,
-                                            '/en/neighbour')
+                                            '/en/neighbour/')
 
         self.assertEqual(403, response.status_code)

@@ -13,6 +13,9 @@ from ..views import EventUpdateView, TranslatedFormMixin
 User = get_user_model()
 
 
+ORG_NAMESPACE = 'organization:'
+
+
 class UserTests(TestCase):
     """
     Tests for Atria custom User class.
@@ -123,8 +126,22 @@ class EventTests(TestCase):
     """
     Tests for creating, retrieving, updating, and deleting Events.
     """
+    PASSWORD = 'example'
 
     def setUp(self):
+        for role in ('Attendee', 'Volunteer', 'Admin'):
+            setattr(self, role.lower(), User.objects.create(
+                email='%s@example.com' % role.lower(),
+                first_name=role,
+                last_name='User'
+            ))
+
+            user = getattr(self, role.lower())
+
+            user.add_role(role)
+            user.set_password(self.PASSWORD)
+            user.save()
+
         # Creates a single Event with some translated fields.
         translation.activate('en')
 
@@ -151,6 +168,10 @@ class EventTests(TestCase):
 
         translation.activate('en')
 
+    def login_as_user(self, user):
+        # import pdb; pdb.set_trace()
+        self.client.login(email=user.email, password=self.PASSWORD)
+
     def test_create_event(self):
         # Tests creating an Event.
         # TODO
@@ -159,7 +180,7 @@ class EventTests(TestCase):
     def test_retrieve_event(self):
         # Tests retrieving the view/edit view for a single Event.
         response = self.client.get(
-            reverse('swingtime-event', args=(self.event.pk,)))
+            reverse(ORG_NAMESPACE + 'swingtime-event', args=(self.event.pk,)))
 
         self.assertEqual(response.status_code, 200)
 
@@ -172,7 +193,10 @@ class EventTests(TestCase):
             'description': "New English Description",
             'event_program': self.event_program.pk,
         }
-        url = reverse('swingtime-event', args=(self.event.pk,))
+        url = reverse(ORG_NAMESPACE + 'swingtime-event', args=(self.event.pk,))
+
+        self.login_as_user(self.admin)
+
         response = self.client.post(url, data=post_data)
 
         self.assertEqual(response.status_code, 302)
@@ -193,8 +217,11 @@ class EventTests(TestCase):
         }
 
         url = reverse(
-            'swingtime-event', args=(self.event.pk,)
+            ORG_NAMESPACE + 'swingtime-event', args=(self.event.pk,)
         ) + '?%s=fr' % EventUpdateView.query_parameter
+
+        self.login_as_user(self.admin)
+
         response = self.client.post(url, data=post_data)
 
         self.assertEqual(response.status_code, 302)

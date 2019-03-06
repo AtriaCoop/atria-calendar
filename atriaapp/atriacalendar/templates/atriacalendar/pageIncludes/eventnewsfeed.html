@@ -1,0 +1,70 @@
+{% load i18n %}
+{% load atria_custom_tags %}
+
+{# Set local template variable: #}
+{% get_settings_value LANGUAGES "LANGUAGES" %}
+
+{% load static %}
+
+<div class='newsfeed-posted-cont'>
+
+	<div class='newsfeed-posted-top-cont'>
+		<div class='newsfeed-posted-img-info'>
+			<div class='newsfeed-posted-img'>
+				<img src="{% static "/atriacalendar/accounticon.png" %}">
+			</div>
+
+			<div class='newsfeed-posted-info'>
+				<div>
+					<a href=''>
+						<h2>Organization Name</h2>
+					</a>
+				</div>
+				<div>
+					<h5>Organization tagline</h5>
+				</div>
+				<div>
+					<h6>Date Posted</h6>
+				</div>
+			</div>
+		</div>
+		<div class='newsfeed-posted-event-date'>
+			<div>
+				<h3>FEB</h3>
+			</div>
+			<div class='num'>13</div>
+		</div>
+
+	</div>
+
+	<div>
+		<div>
+			<a href="{% url 'view_event' %}">
+				<h4>Event Name</h4>
+			</a>
+		</div>
+		<div>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat<span class='see-more-link'><a herf="{% url 'view_event' %}"> ... see more</a></span></p>
+		</div>
+	</div>
+
+	<div class='newsfeed-posted-event-opps-cont'>
+		<div>
+			<a href="{% url 'view_opportunity' %}">
+				<h4>Event Opportunities:</h4>
+			</a>
+		</div>
+		<div class='newsfeed-posted-event-opps-list'>
+			<ul>
+				<li>Print Designer</li>
+				<li>Cashier</li>
+				<li>Accountant</li>
+				<li>Cleaning Crew</li>
+				<li>Project Manager</li>
+			</ul>
+		</div>
+	</div>
+
+</div>
+
+<div class='newsfeed-post-seperator'></div>

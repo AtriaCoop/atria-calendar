@@ -1,0 +1,37 @@
+{% extends 'base_nav.html' %}
+
+{% load i18n %}
+{% load atria_custom_tags %}
+
+{# Set local template variable: #}
+{% get_settings_value LANGUAGES "LANGUAGES" %}
+
+{% load static %}
+
+{% block main_content %}
+	<div class='inside-body'>
+
+		<div class='center-body'>
+			<div class='innercont-body'>
+				<div class='innercont-nav'>
+					<div class='innercont-title'>
+						<h2>Manage Your Events</h2>
+					</div>
+				</div>
+				<div class='accounts-events'>
+					<div class='btns-cont'>
+				        {% with request.session.URL_NAMESPACE as namespace %}
+						<a href="{% url namespace|add:'event' %}">
+							<div class='btn btn-add-new-event'>Post New Event</div>
+						</a>
+						<a href="{% url namespace|add:'opportunity' %}">
+							<div class='btn btn-add-new-opp'>Post New Opportunity</div>
+						</a>
+						{% endwith %}
+					</div>
+					<h4>~ List of Accounts Posted Events ~</h4>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

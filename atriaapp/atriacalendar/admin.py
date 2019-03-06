@@ -23,6 +23,27 @@ class CustomUserAdmin(UserAdmin):
     search_fields = ('first_name', 'last_name', 'email')
     ordering = ('email',)
 
+
+class AtriaOrganizationAdmin(admin.ModelAdmin):
+    def save_model(self, request, obj, form, change):
+        if change:
+            action = "change"
+        else:
+            action = "add"
+        super().save_model(request, obj, form, change)
+        if not change:
+            # add a default calendar for the organization
+            calendar = AtriaCalendar(org_owner=obj, calendar_name='Events')
+            calendar.save()
+
+
 admin.site.register(AtriaEventProgram)
 admin.site.register(AtriaEvent)
-admin.site.register(AtriaOrganization)
+admin.site.register(AtriaCalendar)
+admin.site.register(AtriaOrganization, AtriaOrganizationAdmin)
+admin.site.register(AtriaOrgAnnouncement)
+admin.site.register(RelationType)
+admin.site.register(AtriaRelationship)
+admin.site.register(EventAttendanceType)
+admin.site.register(AtriaBookmark)
+admin.site.register(AtriaEventAttendance)
