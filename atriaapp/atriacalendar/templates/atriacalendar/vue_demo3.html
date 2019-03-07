@@ -11,29 +11,37 @@
 
     <template id='calendar'>
       <div class='calendar'>
-        <div class='header'>
-          <a class='arrow' @click='movePreviousYear'>&laquo;</a>
-          <a class='arrow' @click='movePreviousMonth'>&lsaquo;</a>
-          <span class='title' @click='moveThisMonth'>
-            {% templatetag openvariable %} header.label {% templatetag closevariable %}
-          </span>
-          <a class='arrow' @click='moveNextMonth'>&rsaquo;</a>
-          <a class='arrow' @click='moveNextYear'>&raquo;</a>
-        </div>
-        <div class='weekdays'>
-          <div class="weekday" v-for='weekday in weekdays'>
-            {% templatetag openvariable %} weekday.label_3 {% templatetag closevariable %}
+        <div v-if="loading">Loading...</div>
+        <div v-else>
+          <div class='header'>
+            <a class='arrow' @click='movePreviousYear'>&laquo;</a>
+            <a class='arrow' @click='movePreviousMonth'>&lsaquo;</a>
+            <span class='title' @click='moveThisMonth'>
+              {% templatetag openvariable %} header.label {% templatetag closevariable %}
+            </span>
+            <a class='arrow' @click='moveNextMonth'>&rsaquo;</a>
+            <a class='arrow' @click='moveNextYear'>&raquo;</a>
           </div>
-        </div>
-        <div class='week' v-for='week in weeks'>
-          <div
-            class='day'
-            :class='{ today: day.isToday, "not-in-month": !day.inMonth, "selected": day.isSelected && !day.dragActive, "dragged": day.isDragged }'
-            v-for='day in week'
-            @click='$emit("selectDay", day)'
-            @mouseenter='$emit("enterDay", day)'
-            @mouseleave='$emit("leaveDay", day)'>
-            {% templatetag openvariable %} day[dayKey] {% templatetag closevariable %}
+          <div class='weekdays'>
+            <div class="weekday" v-for='weekday in weekdays'>
+              {% templatetag openvariable %} weekday.label_3 {% templatetag closevariable %}
+            </div>
+          </div>
+          <div class='week' v-for='week in weeks'>
+            <div
+              class='day'
+              :class='{ today: day.isToday, "not-in-month": !day.inMonth, "selected": day.isSelected && !day.dragActive, "dragged": day.isDragged }'
+              v-for='day in week'
+              @click='$emit("selectDay", day)'
+              @mouseenter='$emit("enterDay", day)'
+              @mouseleave='$emit("leaveDay", day)'>
+              {% templatetag openvariable %} day[dayKey] {% templatetag closevariable %}
+              <div class='events' v-for='occurrence in occurrences'>
+                <div v-if='day.day == occurrence.start_time.substring(8, 10) && day.month == occurrence.start_time.substring(5, 7) && day.year == occurrence.start_time.substring(0, 4)'>
+                  <p> {% templatetag openvariable %} occurrence.start_time.substring(11) {% templatetag closevariable %} {% templatetag openvariable %} occurrence.event.title {% templatetag closevariable %}</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -56,8 +64,12 @@
         </div>
         <h4>Value</h4>
         <div v-if='dateSelection'>
-          <p v-if='selectMode === "single"'>{% templatetag openvariable %} dateSelection {% templatetag closevariable %}</p>
-          <p v-if='selectMode === "multiple"' v-for='date in dateSelection'>{{ date {% templatetag closevariable %}</p>
+          <p v-if='selectMode === "single"'>
+            {% templatetag openvariable %} dateSelection {% templatetag closevariable %}
+          </p>
+          <p v-if='selectMode === "multiple"' v-for='date in dateSelection'>
+            {% templatetag openvariable %} date {% templatetag closevariable %}
+          </p>
           <div v-if='selectMode === "range"'>
             <p>start: {% templatetag openvariable %} dateSelection.start {% templatetag closevariable %}</p>
             <p>end: {% templatetag openvariable %} dateSelection.end {% templatetag closevariable %}</p>
@@ -107,6 +119,9 @@
           return {
             month: _todayComps.month,
             year: _todayComps.year,
+            occurrences: null,
+            loading: true,
+            errored: false,
           };
         },
         props: {
@@ -251,26 +266,55 @@
           },
         },
         methods: {
+          eventIsSameDay(day, month, year, in_time) {
+            let start_time = new Date(in_time);
+            //console.log(in_time, start_time, day, month, year);
+            let in_day = (start_time.getDay() == day && start_time.getMonth() == month && start_time.getYear() == year);
+            //console.log(in_day);
+            return in_day;
+          },
           moveThisMonth() {
             this.month = _todayComps.month;
             this.year = _todayComps.year;
+            this.loadMonthlyOccurrences();
           },
           moveNextMonth() {
             const { month, year } = this.nextMonthComps;
             this.month = month;
             this.year = year;
+            this.loadMonthlyOccurrences();
           },
           movePreviousMonth() {
             const { month, year } = this.previousMonthComps;
             this.month = month;
             this.year = year;
+            this.loadMonthlyOccurrences();
           },
           moveNextYear() {
             this.year++;
+            this.loadMonthlyOccurrences();
           },
           movePreviousYear() {
             this.year--;
+            this.loadMonthlyOccurrences();
           },
+          loadMonthlyOccurrences() {
+            this.loading = true;
+            url = 'http://localhost:8000/api/atria/calendar/' + this.year + '/' + this.month + '/';
+            axios
+              .get(url)
+              .then(response => {
+                this.occurrences = response.data.occurrences
+              })
+              .catch(error => {
+                console.log(error)
+                this.errored = true
+              })
+              .finally(() => this.loading = false)
+          },
+        },
+        mounted () {
+          this.loadMonthlyOccurrences();
         },
       });
 

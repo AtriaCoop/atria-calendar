@@ -79,11 +79,15 @@
   height: 50px;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: top;
   color: #3a3a3a;
   background-color: white;
   border: solid 1px #aaaaaa;
   cursor: default;
+}
+
+.events {
+  font-size: 0.6rem;
 }
 
 .today {
