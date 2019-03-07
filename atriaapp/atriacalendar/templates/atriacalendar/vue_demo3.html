@@ -66,6 +66,22 @@
         <div v-if='dateSelection'>
           <p v-if='selectMode === "single"'>
             {% templatetag openvariable %} dateSelection {% templatetag closevariable %}
+            <div v-if="daily_loading">Loading...</div>
+            <div
+              v-else
+              v-for="occurrence in daily_occurrences"
+              class="occurrence"
+            >
+              <p>
+                {% templatetag openvariable %} occurrence.event.title {% templatetag closevariable %}:
+                {% templatetag openvariable %} occurrence.event.description {% templatetag closevariable %}
+                ({% templatetag openvariable %} occurrence.event.event_type {% templatetag closevariable %})
+              </p>
+              <p>
+                {% templatetag openvariable %} occurrence.start_time {% templatetag closevariable %} -
+                {% templatetag openvariable %} occurrence.end_time {% templatetag closevariable %}
+              </p>
+            </div>
           </p>
           <p v-if='selectMode === "multiple"' v-for='date in dateSelection'>
             {% templatetag openvariable %} date {% templatetag closevariable %}
@@ -323,7 +339,7 @@
       /*************************************************/
 
       Vue.component('single-date-picker', {
-          created() {
+        created() {
           this.$on('configureDay', this.configureDay);
           this.$on('selectDay', this.selectDay);
         },
@@ -344,8 +360,26 @@
               day.isSelected = day.date.getTime() === this.valueTime;
           },
           selectDay(day) {
-              this.$emit('input', day.isSelected ? null : day.date);
-          }
+              this.loadDailyOccurrences(day);
+              //this.$emit('input', day.isSelected ? null : day.date);
+          },
+          loadDailyOccurrences(day) {
+            this.daily_loading = true;
+            url = 'http://localhost:8000/api/atria/calendar/' + this.year + '/' + this.month + '/' + day.day + '/';
+            axios
+              .get(url)
+              .then(response => {
+                this.daily_occurrences = response.data.occurrences
+              })
+              .catch(error => {
+                console.log(error)
+                this.daily_errored = true
+              })
+              .finally(() => {
+                this.$emit('input', day.isSelected ? null : day.date);
+                this.daily_loading = false;
+              })
+          },
         },
       });
 
@@ -510,6 +544,9 @@
           showCustomUI: false,
           dateSelection: null,
           dragSelection: null,
+          daily_occurrences: null,
+          daily_loading: true,
+          daily_errored: false,
         },
         computed: {
           datePicker() {
