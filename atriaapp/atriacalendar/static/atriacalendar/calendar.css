@@ -103,6 +103,11 @@
 	color: #ccc;
 }
 
+.day-event-list {
+	font-size: 8px;
+	margin: 1rem 0 0 0;
+}
+
 .cal-week-cont {
 	display: none;
 	margin: 1rem 0 0 0;
@@ -135,6 +140,10 @@
 .cal-week-cont li span {
 	padding: 6px 8px;
 	border-radius: 100%;
+}
+
+.cal-week-events {
+	font-size: 8px;
 }
 
 .cal-selected-date-cont {

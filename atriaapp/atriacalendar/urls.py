@@ -24,6 +24,7 @@ urlpatterns = [
     path('vue_demo/', handle_vue_demo, name='vue_demo'),
     path('vue_demo2/', handle_vue_demo2, name='vue_demo2'),
     path('vue_demo3/', handle_vue_demo3, name='vue_demo3'),
+    path('vue_demo4/', handle_vue_demo4, name='vue_demo4'),
     path('', auth_views.LoginView.as_view(), name='login'),
 ]
 

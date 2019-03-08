@@ -378,3 +378,6 @@ def handle_vue_demo2(request):
 
 def handle_vue_demo3(request):
     return render(request, 'atriacalendar/vue_demo3.html')
+
+def handle_vue_demo4(request):
+    return render(request, 'atriacalendar/vue_demo4.html')
