@@ -9,5 +9,60 @@
 {% load static %}
 
 {% block main_content %}
-	TBD Search
+
+	<div id='navigation'>
+	</div>
+		
+	<div class='inside-body'>
+		<div class='center-body'>
+			<div class='innercont-body'>
+				<div class='innercont-nav'>
+					<div class='innercont-title'>
+						<h2>Search Opportunities</h2>
+					</div>
+				</div>
+				<div class='inner-cont-search'>
+					<h4>Search by:</h4> 
+					<div class='search-btns-cont'>
+						<div class='btn btn-search'>Organization</div> 
+						<div class='btn btn-search'>Opportunity Title</div>
+						<div class='btn btn-search'>Keyword</div>
+					</div>
+					<div class='newsfeed-post-seperator'></div>
+					<div class='search-input-cont'>
+						<input placeholder='Search'>
+						<div class='btn btn-search-input'>
+							<i class='fas fa-search'></i>
+						</div>
+					</div>
+					<div>
+						<div id='opportunitysearch1'>
+							{% include "atriacalendar/pageIncludes/opportunitynewsfeed.html" %}
+						</div>
+						<div id='opportunitysearch2'>
+							{% include "atriacalendar/pageIncludes/opportunitynewsfeed.html" %}
+						</div>
+						<div id='opportunitysearch3'>
+							{% include "atriacalendar/pageIncludes/opportunitynewsfeed.html" %}
+						</div>
+						<div id='opportunitysearch4'>
+							{% include "atriacalendar/pageIncludes/opportunitynewsfeed.html" %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+		<script>
+			$(document).ready(function() {
+				$(".btn-search").click(function() {
+					$(".btn-search").removeClass("btn-search-active");
+					$(this).addClass("btn-search-active");
+					$(".search-input-cont").css("display", "block");
+				});
+				
+			});
+		</script>
+
 {% endblock %}

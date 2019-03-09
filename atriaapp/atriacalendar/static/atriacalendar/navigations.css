@@ -29,6 +29,12 @@
 	z-index: 3;
 }
 
+.topnav img {
+	height: 70%;
+	position: absolute;
+	top: 5px;
+}
+
 .topnav-con {
 	display: flex;
 	align-items: center;
@@ -314,7 +320,7 @@
 		max-height: 100vh;
 		position: fixed;
 	}
-	
+
 	.sidenav-con a {
 		width: 16rem;
 		padding: 2rem 0 .5rem 0;

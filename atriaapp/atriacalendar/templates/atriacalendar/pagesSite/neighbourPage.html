@@ -9,6 +9,7 @@
 {% load static %}
 
 {% block main_content %}
+
 	<div class='profile'>
 		<div class='profile-header-img'>
 			<img src="{% static "/atriacalendar/background.jpg" %}">
@@ -51,22 +52,23 @@
 					</div>
 				</div>
 				<div class='profile-nav'>
-					<div>
+					<div class='profile-nav-btn profile-nav-btn-info active-profile-nav'>
+						<h5>Info</h5><i class="fas fa-plus"></i>
+					</div>
+					<div class='profile-nav-btn profile-nav-btn-newsfeed'>
 						<h5>Newsfeed</h5><i class="fas fa-plus"></i>
 					</div>
-					<div>
+					<div class='profile-nav-btn profile-nav-btn-connections'>
 						<h5>Connections</h5><i class="fas fa-plus"></i>
-					</div>
-					<div>
-						<h5>Reviews</h5><i class="fas fa-plus"></i>
 					</div>
 				</div>
 			</div>
 
 			<div class='profile-tab-cont'>
-
-				<div class='profile-tabs'>
-
+			
+			<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+			
+				<div class='profile-tabs profile-tabs-info'>
 					<div class='tab-cont'>
 						<div class='tab tab-white profile-tab-bio'>
 							<h5>Biography</h5><i class="fas fa-caret-down"></i>
@@ -95,63 +97,81 @@
 						<p class='tab-info profile-tab-exp-vol-info'>Volunteer Experience</p>
 						<p class='tab-info profile-tab-exp-work-info'>Work Experience</p>
 					</div>
-
 				</div>
+				
+ 				<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->				
+				
+				<div class='profile-tabs profile-tabs-newsfeed'>
+					<div id='profilenewsfeed'>
+						{% include "atriacalendar/pageIncludes/profilenewsfeed.html" %}
+					</div>
+				</div>
+				
+				<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->				
+				
+				<div class='profile-tabs profile-tabs-connections'>
+					<div id='profileconnections'>
+						{% include "atriacalendar/pageIncludes/profileconnections.html" %}
+					</div>
+				</div>
+				
+				<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+				
 			</div>
 		</div>
 	</div>
 
 	<script>
 		$(document).ready(function() {
-
-			$(".profile-tab-bio").click(function() {
-				$(".profile-tab-bio").addClass("tab-white");
-				$(".profile-tab-help").removeClass("tab-white");
-				$(".profile-tab-exp-vol").removeClass("tab-white");
-				$(".profile-tab-exp-work").removeClass("tab-white");
-
-				$(".profile-tab-bio-info").addClass("tab-info-display");
-				$(".profile-tab-help-info").removeClass("tab-info-display");
-				$(".profile-tab-exp-vol-info").removeClass("tab-info-display");
-				$(".profile-tab-exp-work-info").removeClass("tab-info-display");
+			$(".profile-tabs").hide();
+			$(".profile-tabs-info").show();
+			
+			$(".profile-nav-btn").click(function() {
+				$(".profile-nav-btn").removeClass("active-profile-nav");
+				$(this).addClass("active-profile-nav");
+			});
+			
+			$(".profile-nav-btn-info").click(function() {
+				$(".profile-tabs").hide();
+				$(".profile-tabs-info").show();
+			});
+			
+			$(".profile-nav-btn-newsfeed").click(function() {
+				$(".profile-tabs").hide();
+				$(".profile-tabs-newsfeed").show();
+			});
+						
+			$(".profile-nav-btn-connections").click(function() {
+				$(".profile-tabs").hide();
+				$(".profile-tabs-connections").show();
+			});
+			
+			
+			$(".tab").click(function() {
+				$(".tab").removeClass("tab-white");
+				$(this).addClass("tab-white");
+			});
+			
+			$(".profile-tab-bio-info").click(function() {
+				$(".tab-info").hide();
+				$(".profile-tab-bio-info").show();
 			});
 
 			$(".profile-tab-help").click(function() {
-				$(".profile-tab-bio").removeClass("tab-white");
-				$(".profile-tab-help").addClass("tab-white");
-				$(".profile-tab-exp-vol").removeClass("tab-white");
-				$(".profile-tab-exp-work").removeClass("tab-white");
-
-				$(".profile-tab-bio-info").removeClass("tab-info-display");
-				$(".profile-tab-help-info").addClass("tab-info-display");
-				$(".profile-tab-exp-vol-info").removeClass("tab-info-display");
-				$(".profile-tab-exp-work-info").removeClass("tab-info-display");
+				$(".tab-info").hide();
+				$(".profile-tab-help-info").show();
 			});
 
 			$(".profile-tab-exp-vol").click(function() {
-				$(".profile-tab-bio").removeClass("tab-white");
-				$(".profile-tab-help").removeClass("tab-white");
-				$(".profile-tab-exp-vol").addClass("tab-white");
-				$(".profile-tab-exp-work").removeClass("tab-white");
-
-				$(".profile-tab-bio-info").removeClass("tab-info-display");
-				$(".profile-tab-help-info").removeClass("tab-info-display");
-				$(".profile-tab-exp-vol-info").addClass("tab-info-display");
-				$(".profile-tab-exp-work-info").removeClass("tab-info-display");
+				$(".tab-info").hide();
+				$(".profile-tab-exp-vol-info").show();
 			});
 
 			$(".profile-tab-exp-work").click(function() {
-				$(".profile-tab-bio").removeClass("tab-white");
-				$(".profile-tab-help").removeClass("tab-white");
-				$(".profile-tab-exp-vol").removeClass("tab-white");
-				$(".profile-tab-exp-work").addClass("tab-white");
-
-				$(".profile-tab-bio-info").removeClass("tab-info-display");
-				$(".profile-tab-help-info").removeClass("tab-info-display");
-				$(".profile-tab-exp-vol-info").removeClass("tab-info-display");
-				$(".profile-tab-exp-work-info").addClass("tab-info-display");
+				$(".tab-info").hide();
+				$(".profile-tab-exp-work-info").show();
 			});
-
 		});
 	</script>
+
 {% endblock %}

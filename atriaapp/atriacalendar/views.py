@@ -343,6 +343,12 @@ def neighbour_profile_view(request):
 def organization_profile_view(request):
     return render(request, 'atriacalendar/pagesSite/organizationPage.html')
 
+def view_neighbour_view(request):
+    return render(request, 'atriacalendar/pagesSite/neighbourPage.html')
+
+def view_organization_view(request):
+    return render(request, 'atriacalendar/pagesSite/organizationPage.html')
+
 def create_manage_view(request):
     return render(request, 'atriacalendar/pagesSite/createManagePage.html')
 
