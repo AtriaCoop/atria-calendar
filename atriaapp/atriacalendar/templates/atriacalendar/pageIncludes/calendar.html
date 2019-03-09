@@ -6,7 +6,186 @@
 
 {% load static %}
 
-<div class='cal-body'>
+{% verbatim %}
+<template id='calendar'>
+  <div class='cal-month-cont'>
+    <div v-if="loading">Loading...</div>
+    <div v-else>
+      <div class='header'>
+        <a class='arrow' @click='movePreviousYear'>&laquo;</a>
+        <a class='arrow' @click='movePreviousMonth'>&lsaquo;</a>
+		<span class='cal-top-month'>
+			<h3>{{ header.label_month }}</h3>
+		</span>
+		<span class='cal-top-year'>
+			<h3>{{ header.label_year }}</h3>
+		</span>
+        <a class='arrow' @click='moveNextMonth'>&rsaquo;</a>
+        <a class='arrow' @click='moveNextYear'>&raquo;</a>
+      </div>
+      <div class='weekdays'>
+      	<ul>
+        <div class="weekday" v-for='weekday in weekdays'>
+          <li> {{ weekday.label_3 }} </li>
+        </div>
+    	</ul>
+      </div>
+
+		<div class='cal-days-month'>
+			<div class='week'>
+				<ul>
+					<li class='grey'>
+						<span>27</span>
+					</li>
+					<li class='grey'>
+						<span>28</span>
+					</li>
+					<li class='grey'>
+						<span>29</span>
+					</li>
+					<li class='grey'>
+						<span>30</span>
+						<div class='day-event-list'>
+							2:30 Some list event <br>
+							4:30 Other event <br>
+						</div>
+					</li>
+					<li class='grey'>
+						<span>31</span>
+					</li>
+					<li>
+						<span>1</span>
+						<div class='day-event-list'>
+							3:30 Some list event <br>
+							4:30 Other event <br>
+						</div>
+					</li>
+					<li>
+						<span>2</span>
+					</li>
+				</ul>
+			</div>
+			<div class='week'>
+				<ul>
+					<li>
+						<span>3</span>
+					</li>
+					<li>
+						<span>4</span>
+						<div class='day-event-list'>
+							7:00 Some list event <br>
+							9:30 Other event <br>
+						</div>
+					</li>
+					<li>
+						<span>5</span>
+					</li>
+					<li>
+						<span>6</span>
+					</li>
+					<li>
+						<span>7</span>
+					</li>
+					<li>
+						<span>8</span>
+					</li>
+					<li>
+						<span>9</span>
+					</li>
+				</ul>
+			</div>
+			<div class='week'>
+				<ul>
+					<li>
+						<span>10</span>
+					</li>
+					<li>
+						<span>11</span>
+					</li>
+					<li class='today'>
+						<span>12</span>
+						<div class='day-event-list'>
+							7:00 Some list event <br>
+							9:30 Other event <br>
+						</div>
+					</li>
+					<li>
+						<span>13</span>
+					</li>
+					<li>
+						<span>14</span>
+						<div class='day-event-list'>
+							1:00 Some list event <br>
+							2:00 Some list event <br>
+							3:00 Some list event <br>
+							... <br>
+						</div>
+					</li>
+					<li>
+						<span>15</span>
+					</li>
+					<li>
+						<span>16</span>
+					</li>
+				</ul>
+			</div>
+			<div class='week'>
+				<ul>
+					<li>
+						<span>17</span>
+					</li>
+					<li>
+						<span>18</span>
+					</li>
+					<li>
+						<span>19</span>
+					</li>
+					<li>
+						<span>20</span>
+					</li>
+					<li>
+						<span>21</span>
+					</li>
+					<li>
+						<span>22</span>
+					</li>
+					<li>
+						<span>23</span>
+					</li>
+				</ul>
+			</div>
+			<div class='week'>
+				<ul>
+					<li>
+						<span>24</span>
+					</li>
+					<li>
+						<span>25</span>
+					</li>
+					<li>
+						<span>26</span>
+					</li>
+					<li>
+						<span>27</span>
+					</li>
+					<li>
+						<span>28</span>
+					</li>
+					<li class='grey'>
+						<span>1</span>
+					</li>
+					<li class='grey'>
+						<span>2</span>
+					</li>
+				</ul>
+			</div>
+		</div>
+    </div>
+  </div>
+</template>
+{% endverbatim %}
+
+<div class='cal-body' id="cal-app">
 
 	<div class='cal-top'>
 		<div class='cal-top-title'>
@@ -288,6 +467,13 @@
        {% include "atriacalendar/pageIncludes/eventcalendar.html" %}
 	</div>
 </div>
+
+<!-- development version, includes helpful console warnings -->
+<!-- script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script -->
+<!-- production version, optimized for size and speed -->
+<script src="https://unpkg.com/vue"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+<script src="{% static "/atriacalendar/vue_calendar.js" %}"></script>
 
 <script>
 	$(document).ready(function() {

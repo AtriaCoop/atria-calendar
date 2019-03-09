@@ -89,6 +89,8 @@ const calendar = Vue.component('calendar', {
         year: this.year.toString(),
         shortYear: this.year.toString().substring(2, 4),
         label: month.label + ' ' + this.year,
+        label_month: month.label,
+        label_year: this.year,
       };
     },
     // Returns number for first weekday (1-7), starting from Sunday
