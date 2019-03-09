@@ -20,7 +20,9 @@ urlpatterns = [
     path('search_event', search_event_view, name='search_event'),
     path('search_opportunity', search_opportunity_view, name='search_opportunity'),
     path('search_neighbour', search_neighbour_view, name='search_neighbour'),
+    path('view_neighbour', view_neighbour_view, name='view_neighbour'),
     path('search_organization', search_organization_view, name='search_organization'),
+    path('view_organization', view_organization_view, name='view_organization'),
     path('', auth_views.LoginView.as_view(), name='login'),
 ]
 

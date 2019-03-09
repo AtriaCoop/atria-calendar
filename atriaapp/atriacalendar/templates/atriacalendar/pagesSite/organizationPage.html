@@ -9,6 +9,7 @@
 {% load static %}
 
 {% block main_content %}
+
 	<div class='profile'>
 		<div class='profile-org-top-cont'>
 			<div class='profile-org-img-cont'>
@@ -43,80 +44,110 @@ lorem ipsum dolor sit amet</h5>
 					</div>
 				</div>
 				<div class='profile-nav'>
-					<div>
-						<h5>Newsfeed</h5><i class="fas fa-plus"></i>
+					<div class='profile-nav-btn profile-nav-btn-info active-profile-nav'>
+						<h5>Info</h5><i class="fas fa-plus"></i>
 					</div>
-					<div>
+					<div class='profile-nav-btn profile-nav-btn-events'>
 						<h5>Events</h5><i class="fas fa-plus"></i>
 					</div>
-					<div>
+					<div class='profile-nav-btn profile-nav-btn-opportunities'>
 						<h5>Opportunities</h5><i class="fas fa-plus"></i>
 					</div>
-					<div>
-						<h5>Connections</h5><i class="fas fa-plus"></i>
+					<div class='profile-nav-btn profile-nav-btn-newsfeed'>
+						<h5>Newsfeed</h5><i class="fas fa-plus"></i>
 					</div>
-					<div>
-						<h5>Reviews</h5><i class="fas fa-plus"></i>
+					<div class='profile-nav-btn profile-nav-btn-connections'>
+						<h5>Connections</h5><i class="fas fa-plus"></i>
 					</div>
 				</div>
 			</div>
 
 			<div class='profile-tab-cont'>
+			
+			<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+			
+				<div class='profile-tabs profile-tabs-info'>
+					<div class='tab-info-cont'>
+						About Organization
+					</div>
+				</div>
+				
+ 				<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+ 				
+				<div class='profile-tabs profile-tabs-events'>
+					<div id='profilecalendar'>
+						{% include "atriacalendar/pageIncludes/profilecalendar.html" %}
+					</div>
+					<div id='profilenewsfeed'>
+						{% include "atriacalendar/pageIncludes/profilenewsfeed.html" %}
+					</div>
+				</div>
+				
+				<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+				
+				<div class='profile-tabs profile-tabs-opportunities'>
+					<div id='profileopportunity'>
+						{% include "atriacalendar/pageIncludes/profileopportunity.html" %}
+					</div>
+				</div>
+				
+				<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+				
+				<div class='profile-tabs profile-tabs-newsfeed'>
+					<div id='profilenewsfeed2'>
+						{% include "atriacalendar/pageIncludes/profilenewsfeed.html" %}
+					</div>
+				</div>
+				
+				<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->				
+				
+				<div class='profile-tabs profile-tabs-connections'>
+					<div id='profileconnections'>
+						{% include "atriacalendar/pageIncludes/profileconnections.html" %}
+					</div>
+				</div>
+				
+				<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+				
 			</div>
 		</div>
 	</div>
 
 	<script>
 		$(document).ready(function() {
-
-			$(".profile-tab-bio").click(function() {
-				$(".profile-tab-bio").addClass("tab-white");
-				$(".profile-tab-help").removeClass("tab-white");
-				$(".profile-tab-exp-vol").removeClass("tab-white");
-				$(".profile-tab-exp-work").removeClass("tab-white");
-
-				$(".profile-tab-bio-info").addClass("tab-info-display");
-				$(".profile-tab-help-info").removeClass("tab-info-display");
-				$(".profile-tab-exp-vol-info").removeClass("tab-info-display");
-				$(".profile-tab-exp-work-info").removeClass("tab-info-display");
+			$(".profile-tabs").hide();
+			$(".profile-tabs-info").show();
+			
+			$(".profile-nav-btn").click(function() {
+				$(".profile-nav-btn").removeClass("active-profile-nav");
+				$(this).addClass("active-profile-nav");
 			});
-
-			$(".profile-tab-help").click(function() {
-				$(".profile-tab-bio").removeClass("tab-white");
-				$(".profile-tab-help").addClass("tab-white");
-				$(".profile-tab-exp-vol").removeClass("tab-white");
-				$(".profile-tab-exp-work").removeClass("tab-white");
-
-				$(".profile-tab-bio-info").removeClass("tab-info-display");
-				$(".profile-tab-help-info").addClass("tab-info-display");
-				$(".profile-tab-exp-vol-info").removeClass("tab-info-display");
-				$(".profile-tab-exp-work-info").removeClass("tab-info-display");
+			
+			$(".profile-nav-btn-info").click(function() {
+				$(".profile-tabs").hide();
+				$(".profile-tabs-info").show();
 			});
-
-			$(".profile-tab-exp-vol").click(function() {
-				$(".profile-tab-bio").removeClass("tab-white");
-				$(".profile-tab-help").removeClass("tab-white");
-				$(".profile-tab-exp-vol").addClass("tab-white");
-				$(".profile-tab-exp-work").removeClass("tab-white");
-
-				$(".profile-tab-bio-info").removeClass("tab-info-display");
-				$(".profile-tab-help-info").removeClass("tab-info-display");
-				$(".profile-tab-exp-vol-info").addClass("tab-info-display");
-				$(".profile-tab-exp-work-info").removeClass("tab-info-display");
+			
+			$(".profile-nav-btn-events").click(function() {
+				$(".profile-tabs").hide();
+				$(".profile-tabs-events").show();
 			});
-
-			$(".profile-tab-exp-work").click(function() {
-				$(".profile-tab-bio").removeClass("tab-white");
-				$(".profile-tab-help").removeClass("tab-white");
-				$(".profile-tab-exp-vol").removeClass("tab-white");
-				$(".profile-tab-exp-work").addClass("tab-white");
-
-				$(".profile-tab-bio-info").removeClass("tab-info-display");
-				$(".profile-tab-help-info").removeClass("tab-info-display");
-				$(".profile-tab-exp-vol-info").removeClass("tab-info-display");
-				$(".profile-tab-exp-work-info").addClass("tab-info-display");
+						
+			$(".profile-nav-btn-opportunities").click(function() {
+				$(".profile-tabs").hide();
+				$(".profile-tabs-opportunities").show();
 			});
-
+			
+			$(".profile-nav-btn-newsfeed").click(function() {
+				$(".profile-tabs").hide();
+				$(".profile-tabs-newsfeed").show();
+			});
+			
+			$(".profile-nav-btn-connections").click(function() {
+				$(".profile-tabs").hide();
+				$(".profile-tabs-connections").show();
+			});
 		});
 	</script>
+
 {% endblock %}
