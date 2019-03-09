@@ -8,195 +8,61 @@
 
 {% verbatim %}
 <template id='calendar'>
-  <div class='cal-month-cont'>
+  <div>
     <div v-if="loading">Loading...</div>
-    <div v-else>
-      <div class='header'>
-        <a class='arrow' @click='movePreviousYear'>&laquo;</a>
-        <a class='arrow' @click='movePreviousMonth'>&lsaquo;</a>
-		<span class='cal-top-month'>
-			<h3>{{ header.label_month }}</h3>
-		</span>
-		<span class='cal-top-year'>
-			<h3>{{ header.label_year }}</h3>
-		</span>
-        <a class='arrow' @click='moveNextMonth'>&rsaquo;</a>
-        <a class='arrow' @click='moveNextYear'>&raquo;</a>
-      </div>
-      <div class='weekdays'>
-      	<ul>
-        <div class="weekday" v-for='weekday in weekdays'>
-          <li> {{ weekday.label_3 }} </li>
-        </div>
-    	</ul>
-      </div>
-
-		<div class='cal-days-month'>
-			<div class='week'>
-				<ul>
-					<li class='grey'>
-						<span>27</span>
-					</li>
-					<li class='grey'>
-						<span>28</span>
-					</li>
-					<li class='grey'>
-						<span>29</span>
-					</li>
-					<li class='grey'>
-						<span>30</span>
-						<div class='day-event-list'>
-							2:30 Some list event <br>
-							4:30 Other event <br>
-						</div>
-					</li>
-					<li class='grey'>
-						<span>31</span>
-					</li>
-					<li>
-						<span>1</span>
-						<div class='day-event-list'>
-							3:30 Some list event <br>
-							4:30 Other event <br>
-						</div>
-					</li>
-					<li>
-						<span>2</span>
-					</li>
-				</ul>
-			</div>
-			<div class='week'>
-				<ul>
-					<li>
-						<span>3</span>
-					</li>
-					<li>
-						<span>4</span>
-						<div class='day-event-list'>
-							7:00 Some list event <br>
-							9:30 Other event <br>
-						</div>
-					</li>
-					<li>
-						<span>5</span>
-					</li>
-					<li>
-						<span>6</span>
-					</li>
-					<li>
-						<span>7</span>
-					</li>
-					<li>
-						<span>8</span>
-					</li>
-					<li>
-						<span>9</span>
-					</li>
-				</ul>
-			</div>
-			<div class='week'>
-				<ul>
-					<li>
-						<span>10</span>
-					</li>
-					<li>
-						<span>11</span>
-					</li>
-					<li class='today'>
-						<span>12</span>
-						<div class='day-event-list'>
-							7:00 Some list event <br>
-							9:30 Other event <br>
-						</div>
-					</li>
-					<li>
-						<span>13</span>
-					</li>
-					<li>
-						<span>14</span>
-						<div class='day-event-list'>
-							1:00 Some list event <br>
-							2:00 Some list event <br>
-							3:00 Some list event <br>
-							... <br>
-						</div>
-					</li>
-					<li>
-						<span>15</span>
-					</li>
-					<li>
-						<span>16</span>
-					</li>
-				</ul>
-			</div>
-			<div class='week'>
-				<ul>
-					<li>
-						<span>17</span>
-					</li>
-					<li>
-						<span>18</span>
-					</li>
-					<li>
-						<span>19</span>
-					</li>
-					<li>
-						<span>20</span>
-					</li>
-					<li>
-						<span>21</span>
-					</li>
-					<li>
-						<span>22</span>
-					</li>
-					<li>
-						<span>23</span>
-					</li>
-				</ul>
-			</div>
-			<div class='week'>
-				<ul>
-					<li>
-						<span>24</span>
-					</li>
-					<li>
-						<span>25</span>
-					</li>
-					<li>
-						<span>26</span>
-					</li>
-					<li>
-						<span>27</span>
-					</li>
-					<li>
-						<span>28</span>
-					</li>
-					<li class='grey'>
-						<span>1</span>
-					</li>
-					<li class='grey'>
-						<span>2</span>
-					</li>
-				</ul>
-			</div>
+    <div v-else class='cal-body'>
+      <div class='cal-top'>
+		<div class='cal-top-title'>
+		    <a class='arrow' @click='movePreviousYear'>&laquo;</a>
+		    <a class='arrow' @click='movePreviousMonth'>&lsaquo;</a>
+			<span class='cal-top-month'>
+				<h3>{{ header.label_month }}</h3>
+			</span>
+			<span class='cal-top-year'>
+				<h3>{{ header.label_year }}</h3>
+			</span>
+		    <a class='arrow' @click='moveNextMonth'>&rsaquo;</a>
+		    <a class='arrow' @click='moveNextYear'>&raquo;</a>
 		</div>
+		<div class='cal-top-nav'>
+        </div>
+      </div>
+      <div class='cal-month-cont'>
+	      <div>
+	      	<ul>
+	          <li v-for='weekday in weekdays'> {{ weekday.label_3 }} </li>
+	    	</ul>
+	      </div>
+	      <div class='cal-days-month'>
+			  <div class='week' v-for='week in weeks'>
+			  	<ul>
+				    <li
+				      class='day'
+				      :class='{ "today": day.isToday, "grey": !day.inMonth, "selected": day.isSelected && !day.dragActive, "dragged": day.isDragged }'
+				      v-for='day in week'
+				      @click='$emit("selectDay", day)'
+				      @mouseenter='$emit("enterDay", day)'
+				      @mouseleave='$emit("leaveDay", day)'>
+				      <span>{{ day[dayKey] }}</span>
+				      <div v-for='occurrence in occurrences'>
+				        <div v-if='day.day == occurrence.start_time.substring(8, 10) && day.month == occurrence.start_time.substring(5, 7) && day.year == occurrence.start_time.substring(0, 4)'>
+				          <p class='day-event-list'> {{ occurrence.start_time.substring(11) }} {{ occurrence.event.title }}</p>
+				        </div>
+				      </div>
+					</li>
+				</ul>
+			  </div>
+		    </div>
+		</div>
+	  </div>
     </div>
   </div>
 </template>
 {% endverbatim %}
 
 <div class='cal-body' id="cal-app">
-
 	<div class='cal-top'>
 		<div class='cal-top-title'>
-			<i class="fas fa-caret-left"></i>
-			<span class='cal-top-month'>
-				<h3>FEBRUARY </h3>
-			</span>
-			<span class='cal-top-year'>
-				<h3>2019 </h3>
-			</span>
-			<i class="fas fa-caret-right"></i>
 		</div>
 		<div class='cal-top-nav'>
 			<span class='cal-selector calWeekSelect'>
@@ -212,185 +78,17 @@
 	</div>
 
 	<div class='cal-year-cont'>
-
 	</div>
 
-	<div class='cal-month-cont'>
-		<div>
-			<ul>
-				<li>
-					Sun
-				</li>
-				<li>
-					Mon
-				</li>
-				<li>
-					Tue
-				</li>
-				<li>
-					Wed
-				</li>
-				<li>
-					Thu
-				</li>
-				<li>
-					Fri
-				</li>
-				<li>
-					Sat
-				</li>
-			</ul>
-		</div>
-
-		<div class='cal-days-month'>
-			<div class='week'>
-				<ul>
-					<li class='grey'>
-						<span>27</span>
-					</li>
-					<li class='grey'>
-						<span>28</span>
-					</li>
-					<li class='grey'>
-						<span>29</span>
-					</li>
-					<li class='grey'>
-						<span>30</span>
-						<div class='day-event-list'>
-							2:30 Some list event <br>
-							4:30 Other event <br>
-						</div>
-					</li>
-					<li class='grey'>
-						<span>31</span>
-					</li>
-					<li>
-						<span>1</span>
-						<div class='day-event-list'>
-							3:30 Some list event <br>
-							4:30 Other event <br>
-						</div>
-					</li>
-					<li>
-						<span>2</span>
-					</li>
-				</ul>
-			</div>
-			<div class='week'>
-				<ul>
-					<li>
-						<span>3</span>
-					</li>
-					<li>
-						<span>4</span>
-						<div class='day-event-list'>
-							7:00 Some list event <br>
-							9:30 Other event <br>
-						</div>
-					</li>
-					<li>
-						<span>5</span>
-					</li>
-					<li>
-						<span>6</span>
-					</li>
-					<li>
-						<span>7</span>
-					</li>
-					<li>
-						<span>8</span>
-					</li>
-					<li>
-						<span>9</span>
-					</li>
-				</ul>
-			</div>
-			<div class='week'>
-				<ul>
-					<li>
-						<span>10</span>
-					</li>
-					<li>
-						<span>11</span>
-					</li>
-					<li class='today'>
-						<span>12</span>
-						<div class='day-event-list'>
-							7:00 Some list event <br>
-							9:30 Other event <br>
-						</div>
-					</li>
-					<li>
-						<span>13</span>
-					</li>
-					<li>
-						<span>14</span>
-						<div class='day-event-list'>
-							1:00 Some list event <br>
-							2:00 Some list event <br>
-							3:00 Some list event <br>
-							... <br>
-						</div>
-					</li>
-					<li>
-						<span>15</span>
-					</li>
-					<li>
-						<span>16</span>
-					</li>
-				</ul>
-			</div>
-			<div class='week'>
-				<ul>
-					<li>
-						<span>17</span>
-					</li>
-					<li>
-						<span>18</span>
-					</li>
-					<li>
-						<span>19</span>
-					</li>
-					<li>
-						<span>20</span>
-					</li>
-					<li>
-						<span>21</span>
-					</li>
-					<li>
-						<span>22</span>
-					</li>
-					<li>
-						<span>23</span>
-					</li>
-				</ul>
-			</div>
-			<div class='week'>
-				<ul>
-					<li>
-						<span>24</span>
-					</li>
-					<li>
-						<span>25</span>
-					</li>
-					<li>
-						<span>26</span>
-					</li>
-					<li>
-						<span>27</span>
-					</li>
-					<li>
-						<span>28</span>
-					</li>
-					<li class='grey'>
-						<span>1</span>
-					</li>
-					<li class='grey'>
-						<span>2</span>
-					</li>
-				</ul>
-			</div>
-		</div>
+	<div class='cal-month-content'>
+      <div class="calendar-layout">
+        <component
+          :is='datePicker'
+          :day-key='displayKey'
+          v-model='dateSelection'
+          @drag='dragSelection = $event'>
+        </component>
+      </div>
 	</div>
 
 	<div class='cal-week-cont'>
@@ -445,7 +143,6 @@
 			</ul>
 		</div>
 	</div>
-
 </div>
 
 <div class='calendar-conts-seperator'></div>
@@ -520,7 +217,7 @@
 			$(".calYearSelect").removeClass("cal-highlight");
 
 			$(".cal-week-cont").css("display", "flex");
-			$(".cal-month-cont").css("display", "none");
+			$(".cal-month-content").css("display", "none");
 		});
 
 		$(".calMonthSelect").click(function() {
@@ -529,7 +226,7 @@
 			$(".calYearSelect").removeClass("cal-highlight");
 
 			$(".cal-week-cont").css("display", "none");
-			$(".cal-month-cont").css("display", "block");
+			$(".cal-month-content").css("display", "block");
 		});
 
 		$(".calYearSelect").click(function() {
@@ -538,7 +235,7 @@
 			$(".calWeekSelect").removeClass("cal-highlight");
 
 			$(".cal-week-cont").css("display", "none");
-			$(".cal-month-cont").css("display", "none");
+			$(".cal-month-content").css("display", "none");
 		});
 
 	});
