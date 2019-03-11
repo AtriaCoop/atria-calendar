@@ -22,6 +22,7 @@ const calendar = Vue.component('calendar', {
       occurrences: null,
       loading: true,
       errored: false,
+      how_to_display: 'month',
     };
   },
   props: {
@@ -174,6 +175,15 @@ const calendar = Vue.component('calendar', {
       let in_day = (start_time.getDay() == day && start_time.getMonth() == month && start_time.getYear() == year);
       //console.log(in_day);
       return in_day;
+    },
+    calMonthSelectDisplay() {
+      this.how_to_display = 'month';
+    },
+    calWeekSelectDisplay() {
+      this.how_to_display = 'week';
+    },
+    calYearSelectDisplay() {
+      this.how_to_display = 'year';
     },
     moveThisMonth() {
       this.month = _todayComps.month;

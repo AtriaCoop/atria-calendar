@@ -1,3 +1,7 @@
+.fa-angle-right,
+.fa-angle-left,
+.fa-angle-double-right,
+.fa-angle-double-left,
 .fa-caret-right,
 .fa-caret-left {
 	font-size: 22px;
@@ -49,7 +53,6 @@
 .cal-top span {
 	display: inline-block;
 	margin: 0 0 0 .5rem;
-
 }
 
 .cal-month-cont {
@@ -110,7 +113,7 @@
 }
 
 .cal-week-cont {
-	display: none;
+	display: flex;
 	margin: 1rem 0 0 0;
 }
 
@@ -145,6 +148,11 @@
 
 .cal-week-events {
 	font-size: 8px;
+}
+
+.cal-year-cont {
+	display: flex;
+	margin: 1rem 0 0 0;
 }
 
 .cal-selected-date-cont {
