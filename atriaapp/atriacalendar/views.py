@@ -375,15 +375,3 @@ def search_neighbour_view(request):
 
 def search_organization_view(request):
     return render(request, 'atriacalendar/pagesSearch/organizationsSearch.html')
-
-def handle_vue_demo(request):
-    return render(request, 'atriacalendar/vue_demo.html')
-
-def handle_vue_demo2(request):
-    return render(request, 'atriacalendar/vue_demo2.html')
-
-def handle_vue_demo3(request):
-    return render(request, 'atriacalendar/vue_demo3.html')
-
-def handle_vue_demo4(request):
-    return render(request, 'atriacalendar/vue_demo4.html')
