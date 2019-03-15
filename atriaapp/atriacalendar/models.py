@@ -4,6 +4,8 @@ from django.contrib.auth.signals import user_logged_in, user_logged_out
 from django.db import models
 from django.utils import timezone
 
+from datetime import datetime, date, timedelta
+
 from swingtime import models as swingtime_models
 
 
@@ -190,6 +192,45 @@ class AtriaEvent(swingtime_models.Event):
 
     def __str__(self):
         return self.title + ", " + self.location
+
+
+class AtriaOccurrenceManager(swingtime_models.OccurrenceManager):
+
+    def period_occurrences(self, start_dt=None, end_dt=None, event=None):
+        '''
+        Returns a queryset of for instances that have any overlap with a
+        particular period.
+
+        * ``*_dt`` may be either a datetime.datetime, datetime.date object, or
+          ``None``. If ``None``, default to the current day.
+
+        * ``event`` can be an ``Event`` instance for further filtering.
+        '''
+        start_dt = start_dt or datetime.now()
+        start = datetime(start_dt.year, start_dt.month, start_dt.day)
+        end_dt = end_dt or start
+        end = end_dt.replace(hour=23, minute=59, second=59)
+        qs = self.filter(
+            models.Q(
+                start_time__gte=start,
+                start_time__lte=end,
+            ) |
+            models.Q(
+                end_time__gte=start,
+                end_time__lte=end,
+            ) |
+            models.Q(
+                start_time__lt=start,
+                end_time__gt=end
+            )
+        )
+
+        return qs.filter(event=event) if event else qs
+
+
+class AtriaOccurrence(swingtime_models.Occurrence):
+
+    objects = AtriaOccurrenceManager()
 
 
 # general announcements from an Org (will show up on a user's feed if they have an org relationship)
