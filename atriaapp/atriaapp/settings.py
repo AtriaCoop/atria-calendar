@@ -71,12 +71,10 @@ TEMPLATES = [
 WSGI_APPLICATION = 'atriaapp.wsgi.application'
 
 LOGOUT_REDIRECT_URL = '/'
-URL_PERMISSIONS = [
-    (r'/.*/neighbour', ('Volunteer', 'Attendee')),
-    (r'/.*/neighbour/.*', ('Volunteer', 'Attendee')),
-    (r'/.*/organization', ('Admin',)),
-    (r'/.*/organization/.*', ('Admin',)),
-]
+URL_NAMESPACE_PERMISSIONS = {
+    'neighbour': ('Volunteer', 'Attendee'),
+    'organization': ('Admin',),
+}
 
 SWINGTIME = {
     'TIMESLOT_START_TIME': datetime.time(14),

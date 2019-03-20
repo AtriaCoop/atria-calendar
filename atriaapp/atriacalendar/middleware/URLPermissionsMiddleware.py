@@ -21,19 +21,27 @@ class URLPermissionsMiddleware:
     def request_allowed(self, request):
         user = request.user
         path = request.path
-        url_permissions = getattr(settings, 'URL_PERMISSIONS', [])
+        url_permissions = getattr(settings, 'URL_NAMESPACE_PERMISSIONS', [])
 
-        if user.is_anonymous or user.is_staff:
+        if user.is_anonymous:
             return True
 
-        for url in url_permissions:
-            pattern, roles = url
+        url_namespace = request.session.get('URL_NAMESPACE')
 
-            if re.match(pattern, path):
-                for role in roles:
-                    if user.has_role(role):
-                        return True
+        if url_namespace is None:
+            return False
 
-                return False
+        url_namespace = url_namespace.replace(':', '')
 
-        return True
+        if url_namespace in path:
+
+            if user.is_staff:
+                return True
+
+            allowed_roles = url_permissions.get(url_namespace, ())
+
+            for role in allowed_roles:
+                if user.has_role(role):
+                    return True
+
+        return False

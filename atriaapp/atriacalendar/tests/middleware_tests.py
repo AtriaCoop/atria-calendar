@@ -1,19 +1,15 @@
 from django.contrib.auth import get_user_model
-from django.test import TestCase, modify_settings
-
-from ..middleware import URLPermissionsMiddleware
+from django.test import TestCase, modify_settings, override_settings
 
 User = get_user_model()
 
 
 @modify_settings(
-    MIDDLEWARE={'append': 'atriacalendar.middleware.URLPermissionsMiddleware'},
-    URL_PERMISSIONS={'append': [
-        (r'/en/neighbour', ('Volunteer', 'Attendee')),
-        (r'/en/organization', ('Admin',)),
-    ]},
-)
-
+    MIDDLEWARE={'append': 'atriacalendar.middleware.URLPermissionsMiddleware'})
+@override_settings(URL_NAMESPACE_PERMISSIONS={
+        'neighbour': ('Volunteer', 'Attendee'),
+        'organization': ('Admin',)
+})
 class URLPermissionsMiddlewareTests(TestCase):
     PASSWORD = 'example'
 
@@ -31,47 +27,47 @@ class URLPermissionsMiddlewareTests(TestCase):
             user.set_password(self.PASSWORD)
             user.save()
 
-    def request_url_as_user(self, user, url):
-        # import pdb; pdb.set_trace()
+    def request_url_as_user_with_namespace(self, user, url, namespace):
         self.client.login(email=user.email, password=self.PASSWORD)
+
+        session = self.client.session
+        session['URL_NAMESPACE'] = namespace
+        session.save()
 
         return self.client.get(url)
 
     def test_attendee_ok(self):
-        # TODO: change expected status code to 200 once URL is implemented
-        response = self.request_url_as_user(self.attendee,
-                                            '/en/neighbour/')
+        response = self.request_url_as_user_with_namespace(
+            self.attendee, '/en/neighbour/', 'neighbour:')
 
         self.assertEqual(200, response.status_code)
 
     def test_attendee_forbidden(self):
-        response = self.request_url_as_user(self.attendee,
-                                            '/en/organization/')
+        response = self.request_url_as_user_with_namespace(
+            self.attendee, '/en/organization/', 'neighbour:')
 
         self.assertEqual(403, response.status_code)
 
     def test_volunteer_ok(self):
-        # TODO: change expected status code to 200 once URL is implemented
-        response = self.request_url_as_user(self.volunteer,
-                                            '/en/neighbour/')
+        response = self.request_url_as_user_with_namespace(
+            self.volunteer, '/en/neighbour/', 'neighbour:')
 
         self.assertEqual(200, response.status_code)
 
     def test_volunteer_forbidden(self):
-        response = self.request_url_as_user(self.volunteer,
-                                            '/en/organization/')
+        response = self.request_url_as_user_with_namespace(
+            self.volunteer, '/en/organization/', 'neighbour:')
 
         self.assertEqual(403, response.status_code)
 
     def test_admin_ok(self):
-        # TODO: change expected status code to 200 once URL is implemented
-        response = self.request_url_as_user(self.admin,
-                                            '/en/organization/')
+        response = self.request_url_as_user_with_namespace(
+            self.admin, '/en/organization/', 'organization:')
 
         self.assertEqual(200, response.status_code)
 
     def test_admin_forbidden(self):
-        response = self.request_url_as_user(self.admin,
-                                            '/en/neighbour/')
+        response = self.request_url_as_user_with_namespace(
+            self.admin, '/en/neighbour/', 'organization:')
 
         self.assertEqual(403, response.status_code)
