@@ -17,9 +17,9 @@
 					<div class='innercont-title'>
 						<h2>Newsfeed</h2>
 					</div>
-				    {% if request.user.is_authenticated %}
-				        {% with request.session.URL_NAMESPACE as namespace %}
-						<div class='btn btn-create-post'>Add Post</div>
+					{% if request.user.is_authenticated %}
+						{% with request.session.URL_NAMESPACE as namespace %}
+							<div class='btn btn-create-post'>Add Post</div>
 						{% endwith %}
 					{% endif %}
 				</div>
