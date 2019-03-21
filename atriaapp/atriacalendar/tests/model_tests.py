@@ -197,6 +197,10 @@ class EventTests(TestCase):
 
         self.login_as_user(self.admin)
 
+        session = self.client.session
+        session['URL_NAMESPACE'] = 'organization:'
+        session.save()
+
         response = self.client.post(url, data=post_data)
 
         self.assertEqual(response.status_code, 302)
@@ -221,6 +225,10 @@ class EventTests(TestCase):
         ) + '?%s=fr' % EventUpdateView.query_parameter
 
         self.login_as_user(self.admin)
+
+        session = self.client.session
+        session['URL_NAMESPACE'] = 'organization:'
+        session.save()
 
         response = self.client.post(url, data=post_data)
 
