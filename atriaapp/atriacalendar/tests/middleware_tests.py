@@ -9,7 +9,9 @@ User = get_user_model()
 @override_settings(URL_NAMESPACE_PERMISSIONS={
         'neighbour': ('Volunteer', 'Attendee'),
         'organization': ('Admin',)
-})
+}, URL_NAMESPACE_PATHS=(
+    r'^(/[^/]+)?/(neighbour|organization)($|/.*$)',
+))
 class URLPermissionsMiddlewareTests(TestCase):
     PASSWORD = 'example'
 
@@ -71,3 +73,18 @@ class URLPermissionsMiddlewareTests(TestCase):
             self.admin, '/en/neighbour/', 'organization:')
 
         self.assertEqual(403, response.status_code)
+
+    def test_non_covered_path_accessible(self):
+        user = User.objects.create(
+            email='staff@example.com', first_name='staff', last_name='user',
+            is_staff=True)
+        password = 'himalayanGoat'
+
+        user.set_password(password)
+        user.save()
+
+        self.client.login(email=user.email, password=password)
+
+        response = self.client.get('/admin/')
+
+        self.assertEqual(200, response.status_code)

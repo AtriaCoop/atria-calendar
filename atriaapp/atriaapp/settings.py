@@ -71,6 +71,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'atriaapp.wsgi.application'
 
 LOGOUT_REDIRECT_URL = '/'
+URL_NAMESPACE_PATHS = (r'^(/[^/]+)?/(neighbour|organization)($|/.*$)',)
 URL_NAMESPACE_PERMISSIONS = {
     'neighbour': ('Volunteer', 'Attendee'),
     'organization': ('Admin',),

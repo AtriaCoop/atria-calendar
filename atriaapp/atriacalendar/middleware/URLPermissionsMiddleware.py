@@ -13,15 +13,23 @@ class URLPermissionsMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        if self.request_allowed(request):
+        if not self.applicable_path(request.path) or\
+                self.request_allowed(request):
             return self.get_response(request)
         else:
             raise PermissionDenied
 
+    def applicable_path(self, path):
+        for pattern in getattr(settings, 'URL_NAMESPACE_PATHS', ()):
+            if re.match(pattern, path):
+                return True
+
+        return False
+
     def request_allowed(self, request):
         user = request.user
         path = request.path
-        url_permissions = getattr(settings, 'URL_NAMESPACE_PERMISSIONS', [])
+        url_permissions = getattr(settings, 'URL_NAMESPACE_PERMISSIONS', {})
 
         if user.is_anonymous:
             return True
