@@ -45,15 +45,29 @@ class SignUpForm(UserCreationForm):
         max_length=254, help_text='Required. Inform a valid email address.')
 
     def save(self):
+        user = super().save()
         if Group.objects.filter(name='Attendee').exists():
-            user = super().save()
-
             user.groups.add(Group.objects.get(name='Attendee'))
 
-            return user
-
-        return super().save()
+        return user
 
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email', 'password1', 'password2')
+
+
+class OrgSignUpForm(SignUpForm):
+    org_name = forms.CharField(max_length=40, required=True,
+                                 help_text='Required.')
+    description = forms.CharField(max_length=4000, required=True,
+                                 help_text='Required.', widget=forms.Textarea)
+    location = forms.CharField(max_length=80, required=True,
+                                 help_text='Required.')
+
+    def save(self):
+        user = super(OrgSignUpForm, self).save()
+        if Group.objects.filter(name='Admin').exists():
+            user.groups.add(Group.objects.get(name='Admin'))
+
+        return user
+
