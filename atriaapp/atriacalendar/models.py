@@ -30,7 +30,7 @@ def init_user_session(sender, user, request, **kwargs):
             request.session['ACTIVE_ROLE'] = 'Admin'
             orgs = AtriaRelationship.objects.filter(user=user).all()
             if 0 < len(orgs):
-                request.session['ACTIVE_ORG'] = str(orgs[0].id)
+                request.session['ACTIVE_ORG'] = str(orgs[0].org.id)
         else:
             # TODO for now just set a dummy default - logged in user with no role assigned
             request.session['ACTIVE_ROLE'] = 'Attendee'

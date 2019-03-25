@@ -31,23 +31,24 @@ class AtriaEventForm(swingtime_forms.EventForm, TranslationModelForm):
         fields = "__all__"
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        request = kwargs.pop('request') if 'request' in kwargs else None
+
+        super(AtriaEventForm, self).__init__(*args, **kwargs)
         self.fields['program'].required = False
         # self.fields['location'].required = False
 
-        """ - depends on request, which is not available here ...
         cur_org = None
-        if 'URL_NAMESPACE' in request.session and 'organization' in request.session['URL_NAMESPACE']:
-            cur_orgs = AtriaOrganization.ojects.filter(id=request.session['ACTIVE_ORG'])
-            if 0 < len(cur_orgs):
-                cur_org = cur_orgs[0]
-        if cur_org:
-            # determine current org calendar
-            self.fields['calendar'].queryset = AtriaCalendar.objects.filter(org_owner=cur_org)
-        else:
-            # default to user calendar
-            self.fields['calendar'].queryset = AtriaCalendar.objects.filter(user_owner=request.user)
-        """
+        if request:
+            if 'URL_NAMESPACE' in request.session and 'organization' in request.session['URL_NAMESPACE']:
+                cur_orgs = AtriaOrganization.objects.filter(id=request.session['ACTIVE_ORG'])
+                if 0 < len(cur_orgs):
+                    cur_org = cur_orgs[0]
+            if cur_org:
+                # determine current org calendar
+                self.fields['calendar'].queryset = AtriaCalendar.objects.filter(org_owner=cur_org)
+            else:
+                # default to user calendar
+                self.fields['calendar'].queryset = AtriaCalendar.objects.filter(user_owner=request.user)
 
 
 class SignUpForm(UserCreationForm):

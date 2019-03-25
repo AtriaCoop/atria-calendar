@@ -352,11 +352,11 @@ class EventUpdateView(TranslatedFormMixin, UpdateView, LoginRequiredMixin):
         if self.form_class == self.recurrence_form_class:
             # There's been a validation error in the recurrence form
             context_data['recurrence_form'] = context_data['form']
-            context_data['event_form'] = EventForm(instance=self.object)
+            context_data['event_form'] = AtriaEventForm(instance=self.object, request=self.request)
         else:
             context_data['recurrence_form'] = self.recurrence_form_class(
                 initial={'dstart': timezone.now()})
-            context_data['event_form'] = context_data['form']
+            context_data['event_form'] = AtriaEventForm(instance=self.object, request=self.request)
 
         return context_data
 
@@ -372,6 +372,9 @@ class EventUpdateView(TranslatedFormMixin, UpdateView, LoginRequiredMixin):
             return super().post(*args, **kwargs)
         else:
             return HttpResponseBadRequest('Bad Request')
+
+    def get(self, *args, **kwargs):
+        return super().get(*args, **kwargs)
 
 
 # design v2
