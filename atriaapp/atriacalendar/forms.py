@@ -46,7 +46,7 @@ class AtriaEventForm(swingtime_forms.EventForm, TranslationModelForm):
             if cur_org:
                 # determine current org calendar
                 self.fields['calendar'].queryset = AtriaCalendar.objects.filter(org_owner=cur_org)
-            else:
+            elif request.user.is_authenticated:
                 # default to user calendar
                 self.fields['calendar'].queryset = AtriaCalendar.objects.filter(user_owner=request.user)
 

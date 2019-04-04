@@ -7,6 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.list import ListView
 from django.urls import reverse
+from django.conf import settings
 
 from datetime import datetime
 
@@ -15,6 +16,12 @@ from swingtime import views as swingtime_views
 
 from .forms import *
 from .models import *
+
+
+USER_ROLE = getattr(settings, "DEFAULT_USER_ROLE", 'Attendee')
+ORG_ROLE = getattr(settings, "DEFAULT_ORG_ROLE", 'Admin')
+USER_NAMESPACE = getattr(settings, "USER_NAMESPACE", 'neighbour') + ':'
+ORG_NAMESPACE = getattr(settings, "ORG_NAMESPACE", 'organization') + ':'
 
 
 class TranslatedFormMixin(object):
@@ -236,7 +243,7 @@ class OrgSignupView(SignupView):
             )
         org.save()
 
-        relation_types = RelationType.objects.filter(relation_type='Admin').all()
+        relation_types = RelationType.objects.filter(relation_type=ORG_ROLE).all()
         if 0 == len(relation_types):
             relation_types = RelationType.objects.all()
         relation = AtriaRelationship(
