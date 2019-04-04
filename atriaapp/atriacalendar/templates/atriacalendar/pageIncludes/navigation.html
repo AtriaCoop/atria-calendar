@@ -135,6 +135,13 @@
                           	{% trans "View Calendar (old)" %}
                           </a>
                         </li>
+                        <li>
+			              {% with request.session.URL_NAMESPACE as namespace %}
+			                <a href="{% url namespace|add:'profile' %}">
+			                   {% trans "Indy Wallet Profile" %}
+			                </a>
+			              {% endwith %}
+			            </li>
 					</ul>
 				</div>
 

@@ -1,6 +1,6 @@
 import os
 import datetime
-
+import platform
 
 try:
     # dateutil is an absolute requirement

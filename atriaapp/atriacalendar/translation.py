@@ -1,5 +1,6 @@
 from modeltranslation.translator import translator, TranslationOptions
 from swingtime.models import Note, EventType, Event
+from indy_community.models import IndyOrganization
 from .models import AtriaEventProgram, AtriaEvent, AtriaOrganization
 
 
@@ -18,7 +19,7 @@ class AtriaEventProgramTranslationOptions(TranslationOptions):
 class AtriaEventTranslationOptions(TranslationOptions):
     fields = ('program',)
 
-class AtriaOrganizationTranslationOptions(TranslationOptions):
+class IndyOrganizationTranslationOptions(TranslationOptions):
     fields = ('org_name',)
 
 translator.register(Note, NoteTranslationOptions)
@@ -26,4 +27,5 @@ translator.register(EventType, EventTypeTranslationOptions)
 translator.register(Event, EventTranslationOptions)
 translator.register(AtriaEventProgram, AtriaEventProgramTranslationOptions)
 translator.register(AtriaEvent, AtriaEventTranslationOptions)
-translator.register(AtriaOrganization, AtriaOrganizationTranslationOptions)
+translator.register(IndyOrganization, IndyOrganizationTranslationOptions)
+#translator.register(AtriaOrganization, AtriaOrganizationTranslationOptions)
