@@ -1,0 +1,19 @@
+
+Molecular You Inc:
+  first_name: Molecular
+  last_name: You
+  email: myco@mail.com
+  password: pass12345
+  role: MYco
+UBC Ethics Review Board:
+  first_name: UBC
+  last_name: Ethics
+  email: irb@mail.com
+  password: pass12345
+  role: IRB
+Joe Research Co:
+  first_name: Joe
+  last_name: Research
+  email: joe@mail.com
+  password: pass12345
+  role: Researcher

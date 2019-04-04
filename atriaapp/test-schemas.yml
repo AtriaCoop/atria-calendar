@@ -1,0 +1,81 @@
+Transcript:
+  type: schema
+  version: $generate
+  issuing_roles:
+    - Test
+  attributes:
+    - first_name
+    - last_name
+    - degree
+    - status
+    - date
+    - average
+    - ssn
+Job Certificate:
+  type: schema
+  version: $generate
+  issuing_roles:
+    - Test
+  attributes:
+    - first_name
+    - last_name
+    - ssn
+    - salary
+    - employee_status
+    - experience
+Drivers License:
+  type: schema
+  version: $generate
+  issuing_roles:
+    - Test
+  attributes:
+    - last_name
+    - first_name
+    - middle_name
+    - dl_number
+    - dl_class
+    - issued_date
+    - expire_date
+    - birth_date
+    - age
+    - height
+    - weight
+    - sex
+    - eyes
+    - hair
+    - address
+Passport:
+  type: schema
+  version: $generate
+  issuing_roles:
+    - Test
+  attributes:
+    - last_name
+    - first_name
+    - middle_name
+    - passport_no
+    - ppt_type
+    - issued_date
+    - issued_location
+    - expire_date
+    - nationality
+    - birth_date
+    - age
+    - issuing_country
+    - issuing_authority
+Proof of Age:
+  type: proof_request
+  description: Proof of Age
+  revealed_attributes:
+    - {'name':'first_name', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
+    - {'name':'last_name', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
+  predicates:
+    - {'name': 'age','p_type': '>=','p_value': '$VALUE', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
+Proof of DOB:
+  type: proof_request
+  description: Proof of DOB
+  revealed_attributes:
+    - {'name':'first_name', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
+    - {'name':'last_name', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
+  predicates:
+    - {'name': 'birth_date','p_type': '>=','p_value': '$VALUE', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}

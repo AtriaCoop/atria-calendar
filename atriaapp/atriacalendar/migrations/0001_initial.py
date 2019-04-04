@@ -3,6 +3,7 @@
 from django.db import migrations, models
 import django.db.models.deletion
 import django.utils.timezone
+from django.conf import settings
 
 
 class Migration(migrations.Migration):
@@ -13,28 +14,34 @@ class Migration(migrations.Migration):
         #('swingtime', '0003_auto_20181019_1411'),
         ('swingtime', '0001_initial'),
         ('auth', '0009_alter_user_last_name_max_length'),
+        ('indy_community', '0004_auto_20190328_0248'),
     ]
 
     operations = [
         migrations.CreateModel(
             name='User',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('password', models.CharField(max_length=128, verbose_name='password')),
-                ('is_superuser', models.BooleanField(default=False, help_text='Designates that this user has all permissions without explicitly assigning them.', verbose_name='superuser status')),
-                ('email', models.EmailField(max_length=254, unique=True)),
-                ('first_name', models.CharField(blank=True, max_length=30)),
-                ('last_name', models.CharField(blank=True, max_length=150)),
-                ('is_staff', models.BooleanField(default=False, help_text='Designates whether the user can log into this admin site.')),
-                ('is_active', models.BooleanField(default=True, help_text='Designates whether this user should be treated as active. Unselect this instead of deleting accounts.')),
-                ('date_joined', models.DateTimeField(default=django.utils.timezone.now)),
-                ('last_login', models.DateTimeField(blank=True, null=True)),
-                ('groups', models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', related_name='user_set', related_query_name='user', to='auth.Group', verbose_name='groups')),
-                ('user_permissions', models.ManyToManyField(blank=True, help_text='Specific permissions for this user.', related_name='user_set', related_query_name='user', to='auth.Permission', verbose_name='user permissions')),
+                ('indyuser_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='indy_community.IndyUser')),
             ],
             options={
                 'abstract': False,
             },
+            bases=('indy_community.indyuser',),
+        ),
+        migrations.CreateModel(
+            name='AtriaBookmark',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('date_added', models.DateTimeField(default=django.utils.timezone.now)),
+                ('notes', models.TextField(blank=True, max_length=4000)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='AtriaCalendar',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('calendar_name', models.CharField(blank=True, max_length=40)),
+            ],
         ),
         migrations.CreateModel(
             name='AtriaEvent',
@@ -43,11 +50,21 @@ class Migration(migrations.Migration):
                 ('program', models.CharField(blank=True, max_length=32)),
                 ('program_en', models.CharField(blank=True, max_length=32, null=True)),
                 ('program_es', models.CharField(blank=True, max_length=32, null=True)),
-                ('program_zh', models.CharField(blank=True, max_length=32, null=True)),
+                ('program_zh_hans', models.CharField(blank=True, max_length=32, null=True)),
                 ('program_fr', models.CharField(blank=True, max_length=32, null=True)),
                 ('location', models.CharField(blank=True, max_length=100)),
+                ('calendar', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='atriacalendar.AtriaCalendar')),
             ],
             bases=('swingtime.event',),
+        ),
+        migrations.CreateModel(
+            name='AtriaEventAttendance',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('user_count', models.IntegerField(default=0)),
+                ('date_added', models.DateTimeField(default=django.utils.timezone.now)),
+                ('notes', models.TextField(blank=True, max_length=4000)),
+            ],
         ),
         migrations.CreateModel(
             name='AtriaEventProgram',
@@ -57,20 +74,115 @@ class Migration(migrations.Migration):
                 ('label', models.CharField(max_length=50)),
                 ('label_en', models.CharField(max_length=50, null=True)),
                 ('label_es', models.CharField(max_length=50, null=True)),
-                ('label_zh', models.CharField(max_length=50, null=True)),
+                ('label_zh_hans', models.CharField(max_length=50, null=True)),
                 ('label_fr', models.CharField(max_length=50, null=True)),
             ],
+        ),
+        migrations.CreateModel(
+            name='AtriaOccurrence',
+            fields=[
+                ('occurrence_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='swingtime.Occurrence')),
+            ],
+            bases=('swingtime.occurrence',),
+        ),
+        migrations.CreateModel(
+            name='AtriaOrganization',
+            fields=[
+                ('indyorganization_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='indy_community.IndyOrganization')),
+                ('date_joined', models.DateTimeField(default=django.utils.timezone.now)),
+                ('status', models.CharField(max_length=8)),
+                ('description', models.TextField(max_length=4000)),
+                ('location', models.CharField(max_length=80)),
+            ],
+            bases=('indy_community.indyorganization',),
+        ),
+        migrations.CreateModel(
+            name='AtriaOrgAnnouncement',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('title', models.CharField(max_length=80)),
+                ('content', models.TextField(max_length=4000)),
+                ('date_added', models.DateTimeField(default=django.utils.timezone.now)),
+                ('effective_date', models.DateTimeField(default=django.utils.timezone.now)),
+                ('end_date', models.DateTimeField(blank=True, null=True)),
+                ('added_by_user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('org', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='atriacalendar.AtriaOrganization')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='AtriaRelationship',
+            fields=[
+                ('indyorgrelationship_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='indy_community.IndyOrgRelationship')),
+                ('status', models.CharField(max_length=8)),
+                ('effective_date', models.DateTimeField(default=django.utils.timezone.now)),
+                ('end_date', models.DateTimeField(blank=True, null=True)),
+            ],
+            bases=('indy_community.indyorgrelationship',),
+        ),
+        migrations.CreateModel(
+            name='EventAttendanceType',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('attendance_type', models.CharField(max_length=20)),
+                ('attendance_description', models.CharField(max_length=80)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='RelationType',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('relation_type', models.CharField(max_length=20)),
+                ('relation_description', models.CharField(max_length=80)),
+            ],
+        ),
+        migrations.AddField(
+            model_name='atriarelationship',
+            name='relation_type',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='atriacalendar.RelationType', verbose_name='relationship'),
+        ),
+        migrations.AddField(
+            model_name='atriaeventattendance',
+            name='attendance_type',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='atriacalendar.EventAttendanceType'),
+        ),
+        migrations.AddField(
+            model_name='atriaeventattendance',
+            name='event',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='atriacalendar.AtriaEvent'),
+        ),
+        migrations.AddField(
+            model_name='atriaeventattendance',
+            name='user',
+            field=models.ForeignKey(blank=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='atriaevent',
             name='event_program',
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='atriacalendar.AtriaEventProgram', verbose_name='event program'),
         ),
-        migrations.CreateModel(
-            name='AtriaNote',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('note_ptr', models.CharField(blank=True, max_length=32, null=True)),
-            ],
+        migrations.AddField(
+            model_name='atriacalendar',
+            name='org_owner',
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='atriacalendar.AtriaOrganization'),
+        ),
+        migrations.AddField(
+            model_name='atriacalendar',
+            name='user_owner',
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+        ),
+        migrations.AddField(
+            model_name='atriabookmark',
+            name='bookmark_type',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='atriacalendar.EventAttendanceType'),
+        ),
+        migrations.AddField(
+            model_name='atriabookmark',
+            name='event',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='atriacalendar.AtriaEvent'),
+        ),
+        migrations.AddField(
+            model_name='atriabookmark',
+            name='user',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
         ),
     ]
