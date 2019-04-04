@@ -26,6 +26,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'indy_community.apps.IndyCoreConfig',
     'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -33,10 +34,58 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'background_task',
     'rest_framework',
     'swingtime',
     'atriacalendar',
 ]
+
+def file_ext():
+    if platform.system() == 'Linux':
+        return '.so'
+    elif platform.system() == 'Darwin':
+        return '.dylib'
+    elif platform.system() == 'Windows':
+        return '.dll'
+    else:
+        return '.so'
+
+INDY_CONFIG = {
+    'storage_dll': 'libindystrgpostgres' + file_ext(),
+    'storage_entrypoint': 'postgresstorage_init',
+    'payment_dll': 'libnullpay' + file_ext(),
+    'payment_entrypoint': 'nullpay_init',
+    'wallet_config': {'id': '', 'storage_type': 'postgres_storage'},
+    'wallet_credentials': {'key': ''},
+    'storage_config': {'url': 'localhost:5432'},
+    'storage_credentials': {'account': 'postgres', 'password': 'mysecretpassword', 'admin_account': 'postgres', 'admin_password': 'mysecretpassword'},
+    'vcx_agency_url': 'http://localhost:8080',
+    'vcx_agency_did': 'VsKV7grR1BUE29mG2Fm2kX',
+    'vcx_agency_verkey': 'Hezce2UWMZ3wUhVkh2LfKSs8nDzWwzs2Win7EzNN3YaR',
+    'vcx_payment_method': 'null',
+    'vcx_enterprise_seed': '000000000000000000000000Trustee1',
+    'vcx_institution_seed': '00000000000000000000000000000000',
+    'vcx_genesis_path': '/tmp/atria-genesis.txt',
+    'register_dids': True,
+    'ledger_url': 'http://localhost:9000',
+}
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+}
+
+BACKGROUND_TASK_RUN_ASYNC = False
+BACKGROUND_TASK_ASYNC_THREADS = 1
+MAX_ATTEMPTS = 1
+#MAX_RUN_TIME = 120
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -51,6 +100,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'atriaapp.urls'
+
+#SESSION_COOKIE_AGE = 1800
 
 TEMPLATES = [
     {
