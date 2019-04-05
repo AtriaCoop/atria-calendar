@@ -22,10 +22,13 @@ class AtriaEventTranslationOptions(TranslationOptions):
 class IndyOrganizationTranslationOptions(TranslationOptions):
     fields = ('org_name',)
 
+class AtriaOrganizationTranslationOptions(TranslationOptions):
+    fields = ()
+
 translator.register(Note, NoteTranslationOptions)
 translator.register(EventType, EventTypeTranslationOptions)
 translator.register(Event, EventTranslationOptions)
 translator.register(AtriaEventProgram, AtriaEventProgramTranslationOptions)
 translator.register(AtriaEvent, AtriaEventTranslationOptions)
 translator.register(IndyOrganization, IndyOrganizationTranslationOptions)
-#translator.register(AtriaOrganization, AtriaOrganizationTranslationOptions)
+translator.register(AtriaOrganization, AtriaOrganizationTranslationOptions)

@@ -12,6 +12,8 @@ from .views import *
 USER_NAMESPACE = getattr(settings, "USER_NAMESPACE", 'neighbour')
 ORG_NAMESPACE = getattr(settings, "ORG_NAMESPACE", 'organization')
 
+#app_name = "atriacalendar"
+
 # Publicly accessible URL patterns
 urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
