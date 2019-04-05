@@ -1,23 +1,31 @@
-{% extends 'base.html' %}
+{% extends 'base_nav.html' %}
 
 {% block main_nav %}{% endblock %}
 
 {% block main_content %}
-  <h2>Sign up</h2>
-  <form method="post">
-    {% csrf_token %}
-    {% for field in form %}
-      <p>
-        {{ field.label_tag }}<br>
-        {{ field }}
-        {% if field.help_text %}
-          <small style="color: grey">{{ field.help_text|safe }}</small>
-        {% endif %}
-        {% for error in field.errors %}
-          <p style="color: red">{{ error }}</p>
-        {% endfor %}
-      </p>
-    {% endfor %}
-    <button type="submit">Sign up</button>
-  </form>
+  <div class='inside-body'>
+    <div class='center-body'>
+      <div class='innercont-center-body'>
+        <div class='innercont-center-inner'>
+          <div class='form-cont'>
+            <h2>Signup</h2>
+            <div class='newsfeed-post-seperator'></div>
+            <form method="POST">
+              {% csrf_token %}
+              {% for field in form %}
+                <div>
+                  <h5>{{ field.label_tag }}</h5>
+                  {{ field }}
+                  {% for error in field.errors %}
+                    <p style="color: red">{{ error }}</p>
+                  {% endfor %}
+                </div>
+              {% endfor %}
+              <button class='btn' type="submit">Sign up</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}

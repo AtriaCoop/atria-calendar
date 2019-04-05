@@ -7,12 +7,21 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.list import ListView
 from django.urls import reverse
+from django.conf import settings
+
+from datetime import datetime
 
 from swingtime import forms as swingtime_forms
 from swingtime import views as swingtime_views
 
 from .forms import *
 from .models import *
+
+
+USER_ROLE = getattr(settings, "DEFAULT_USER_ROLE", 'Attendee')
+ORG_ROLE = getattr(settings, "DEFAULT_ORG_ROLE", 'Admin')
+USER_NAMESPACE = getattr(settings, "USER_NAMESPACE", 'neighbour') + ':'
+ORG_NAMESPACE = getattr(settings, "ORG_NAMESPACE", 'organization') + ':'
 
 
 class TranslatedFormMixin(object):
@@ -208,6 +217,51 @@ class SignupView(CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
 
+class OrgSignupView(SignupView):
+    # form_class = SignUpForm
+    form_class = OrgSignUpForm
+
+    def get_success_url(self):
+        return reverse('login')
+
+    def form_valid(self, form):
+        # call super's method to save user and create user calendar
+        super(OrgSignupView, self).form_valid(form)
+
+        # now create the org and associate with the user
+        org_name = form.cleaned_data.get('org_name')
+        description = form.cleaned_data.get('description')
+        location = form.cleaned_data.get('location')
+        status = 'Active'
+        date_joined = datetime.now()
+        org = AtriaOrganization(
+                org_name=org_name,
+                description=description,
+                location=location,
+                status=status,
+                date_joined=date_joined
+            )
+        org.save()
+
+        relation_types = RelationType.objects.filter(relation_type=ORG_ROLE).all()
+        if 0 == len(relation_types):
+            relation_types = RelationType.objects.all()
+        relation = AtriaRelationship(
+                user=self.object,
+                org=org,
+                relation_type=relation_types[0],
+                status=status,
+                effective_date=date_joined
+            )
+        relation.save()
+
+        # creae a default calendar for this org
+        calendar = AtriaCalendar(org_owner=org, calendar_name='Events')
+        calendar.save()
+
+        return HttpResponseRedirect(self.get_success_url())
+
+
 @login_required
 def calendar_home(request):
     """Home page shell view."""
@@ -305,11 +359,11 @@ class EventUpdateView(TranslatedFormMixin, UpdateView, LoginRequiredMixin):
         if self.form_class == self.recurrence_form_class:
             # There's been a validation error in the recurrence form
             context_data['recurrence_form'] = context_data['form']
-            context_data['event_form'] = EventForm(instance=self.object)
+            context_data['event_form'] = AtriaEventForm(instance=self.object, request=self.request)
         else:
             context_data['recurrence_form'] = self.recurrence_form_class(
                 initial={'dstart': timezone.now()})
-            context_data['event_form'] = context_data['form']
+            context_data['event_form'] = AtriaEventForm(instance=self.object, request=self.request)
 
         return context_data
 
@@ -325,6 +379,9 @@ class EventUpdateView(TranslatedFormMixin, UpdateView, LoginRequiredMixin):
             return super().post(*args, **kwargs)
         else:
             return HttpResponseBadRequest('Bad Request')
+
+    def get(self, *args, **kwargs):
+        return super().get(*args, **kwargs)
 
 
 # design v2

@@ -31,9 +31,24 @@ class AtriaEventForm(swingtime_forms.EventForm, TranslationModelForm):
         fields = "__all__"
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        request = kwargs.pop('request') if 'request' in kwargs else None
+
+        super(AtriaEventForm, self).__init__(*args, **kwargs)
         self.fields['program'].required = False
         # self.fields['location'].required = False
+
+        cur_org = None
+        if request:
+            if 'URL_NAMESPACE' in request.session and 'organization' in request.session['URL_NAMESPACE']:
+                cur_orgs = AtriaOrganization.objects.filter(id=request.session['ACTIVE_ORG'])
+                if 0 < len(cur_orgs):
+                    cur_org = cur_orgs[0]
+            if cur_org:
+                # determine current org calendar
+                self.fields['calendar'].queryset = AtriaCalendar.objects.filter(org_owner=cur_org)
+            elif request.user.is_authenticated:
+                # default to user calendar
+                self.fields['calendar'].queryset = AtriaCalendar.objects.filter(user_owner=request.user)
 
 
 class SignUpForm(UserCreationForm):
@@ -45,15 +60,29 @@ class SignUpForm(UserCreationForm):
         max_length=254, help_text='Required. Inform a valid email address.')
 
     def save(self):
+        user = super().save()
         if Group.objects.filter(name='Attendee').exists():
-            user = super().save()
-
             user.groups.add(Group.objects.get(name='Attendee'))
 
-            return user
-
-        return super().save()
+        return user
 
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email', 'password1', 'password2')
+
+
+class OrgSignUpForm(SignUpForm):
+    org_name = forms.CharField(max_length=40, required=True,
+                                 help_text='Required.')
+    description = forms.CharField(max_length=4000, required=True,
+                                 help_text='Required.', widget=forms.Textarea)
+    location = forms.CharField(max_length=80, required=True,
+                                 help_text='Required.')
+
+    def save(self):
+        user = super(OrgSignUpForm, self).save()
+        if Group.objects.filter(name='Admin').exists():
+            user.groups.add(Group.objects.get(name='Admin'))
+
+        return user
+

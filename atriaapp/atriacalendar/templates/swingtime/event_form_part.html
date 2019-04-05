@@ -1,4 +1,11 @@
 <tr>
+  <th>{{ event_form.calendar.label_tag }}</th>
+  <td>
+    {{ event_form.calendar.errors }}
+    {{ event_form.calendar }}
+  </td>
+</tr>
+<tr>
   <th>{{ event_form.event_type.label_tag }}</th>
   <td>
     {{ event_form.event_type.errors }}

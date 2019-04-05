@@ -13,7 +13,7 @@ class URLPermissionsMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        if not self.applicable_path(request.path) or\
+        if not self.applicable_path(request.path) or \
                 self.request_allowed(request):
             return self.get_response(request)
         else:
@@ -31,12 +31,14 @@ class URLPermissionsMiddleware:
         path = request.path
         url_permissions = getattr(settings, 'URL_NAMESPACE_PERMISSIONS', {})
 
-        if user.is_anonymous:
-            return True
-
-        url_namespace = request.session.get('URL_NAMESPACE')
+        url_namespace = request.session.get('URL_NAMESPACE', None)
 
         if url_namespace is None:
+            if user.is_anonymous:
+                return True
+            return False
+
+        if user.is_anonymous:
             return False
 
         url_namespace = url_namespace.replace(':', '')

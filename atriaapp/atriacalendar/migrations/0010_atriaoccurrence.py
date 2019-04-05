@@ -7,7 +7,8 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('swingtime', '0002_auto_20190210_1236'),
+        #('swingtime', '0002_auto_20190210_1236'),
+        ('swingtime', '0001_initial'),
         ('atriacalendar', '0009_auto_20190215_1744'),
     ]
 

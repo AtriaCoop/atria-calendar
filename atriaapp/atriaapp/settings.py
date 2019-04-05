@@ -70,11 +70,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'atriaapp.wsgi.application'
 
+DEFAULT_USER_ROLE = 'Attendee'
+DEFAULT_ORG_ROLE = 'Admin'
+USER_NAMESPACE = 'neighbour'
+ORG_NAMESPACE = 'organization'
+
 LOGOUT_REDIRECT_URL = '/'
-URL_NAMESPACE_PATHS = (r'^(/[^/]+)?/(neighbour|organization)($|/.*$)',)
+URL_NAMESPACE_PATHS = (r'^(/[^/]+)?/(USER_NAMESPACE|ORG_NAMESPACE)($|/.*$)',)
 URL_NAMESPACE_PERMISSIONS = {
-    'neighbour': ('Volunteer', 'Attendee'),
-    'organization': ('Admin',),
+    USER_NAMESPACE: ('Volunteer', DEFAULT_USER_ROLE),
+    ORG_NAMESPACE: (DEFAULT_ORG_ROLE,),
 }
 
 SWINGTIME = {

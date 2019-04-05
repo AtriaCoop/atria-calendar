@@ -3,10 +3,17 @@ from django.contrib.auth.models import Group, PermissionsMixin
 from django.contrib.auth.signals import user_logged_in, user_logged_out
 from django.db import models
 from django.utils import timezone
+from django.conf import settings
 
 from datetime import datetime, date, timedelta
 
 from swingtime import models as swingtime_models
+
+
+USER_ROLE = getattr(settings, "DEFAULT_USER_ROLE", 'Attendee')
+ORG_ROLE = getattr(settings, "DEFAULT_ORG_ROLE", 'Admin')
+USER_NAMESPACE = getattr(settings, "USER_NAMESPACE", 'neighbour') + ':'
+ORG_NAMESPACE = getattr(settings, "ORG_NAMESPACE", 'organization') + ':'
 
 
 USER_ROLES = (
@@ -17,31 +24,31 @@ USER_ROLES = (
 
 
 def url_namespace(role):
-    if role == 'Admin':
-        return 'organization:'
+    if role == ORG_ROLE:
+        return ORG_NAMESPACE
     else:
-        return 'neighbour:'
+        return USER_NAMESPACE
 
 
 def init_user_session(sender, user, request, **kwargs):
     target = request.POST.get('next', '/neighbour/')
     if 'organization' in target:
-        if user.has_role('Admin'):
-            request.session['ACTIVE_ROLE'] = 'Admin'
+        if user.has_role(ORG_ROLE):
+            request.session['ACTIVE_ROLE'] = ORG_ROLE
             orgs = AtriaRelationship.objects.filter(user=user).all()
             if 0 < len(orgs):
-                request.session['ACTIVE_ORG'] = str(orgs[0].id)
+                request.session['ACTIVE_ORG'] = str(orgs[0].org.id)
         else:
             # TODO for now just set a dummy default - logged in user with no role assigned
-            request.session['ACTIVE_ROLE'] = 'Attendee'
+            request.session['ACTIVE_ROLE'] = USER_ROLE
     else:
         if user.has_role('Volunteer'):
             request.session['ACTIVE_ROLE'] = 'Volunteer'
-        elif user.has_role('Attendee'):
-            request.session['ACTIVE_ROLE'] = 'Attendee'
+        elif user.has_role(USER_ROLE):
+            request.session['ACTIVE_ROLE'] = USER_ROLE
         else:
             # TODO for now just set a dummy default - logged in user with no role assigned
-            request.session['ACTIVE_ROLE'] = 'Attendee'
+            request.session['ACTIVE_ROLE'] = USER_ROLE
 
     role = request.session['ACTIVE_ROLE']
     namespace = url_namespace(role)

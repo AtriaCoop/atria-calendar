@@ -4,15 +4,19 @@ URL configuration for Atria Calendar app.
 
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
+from django.conf import settings
 
 from .forms import *
 from .views import *
 
+USER_NAMESPACE = getattr(settings, "USER_NAMESPACE", 'neighbour')
+ORG_NAMESPACE = getattr(settings, "ORG_NAMESPACE", 'organization')
 
 # Publicly accessible URL patterns
 urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('signup/', SignupView.as_view(), name='signup'),
+    path('org_signup/', OrgSignupView.as_view(), name='org_signup'),
     path('dashboard', dashboard_view, name='dashboard'),
     path('contact', contact_view, name='contact'),
     path('event/', view_event_view, name='view_event'),
@@ -69,7 +73,7 @@ organizationpatterns = [
         ])),
 ]
 
-urlpatterns.append(path('neighbour/', include((neighbourpatterns, 'atriacalendar'), namespace='neighbour')))
-urlpatterns.append(path('organization/', include((organizationpatterns, 'atriacalendar'), namespace='organization')))
+urlpatterns.append(path(USER_NAMESPACE+'/', include((neighbourpatterns, 'atriacalendar'), namespace=USER_NAMESPACE)))
+urlpatterns.append(path(ORG_NAMESPACE+'/', include((organizationpatterns, 'atriacalendar'), namespace=ORG_NAMESPACE)))
 urlpatterns.append(path('', include(calendarpatterns)))
 

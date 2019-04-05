@@ -1,4 +1,9 @@
-python-dateutil==2.7.2
+python-dateutil==2.7.5
 Django>=2.1.6
-django-swingtime==0.9.0
+#django-swingtime==0.9.0
+# support some atria-specific library changes
+-e git+https://github.com/atriacoop/django-swingtime.git#egg=django-swingtime
+# use the following if you have the code locally
+#-e ../django-swingtime
 djangorestframework==3.9.2
+-e git+https://github.com/deschler/django-modeltranslation.git#egg=django-modeltranslation
