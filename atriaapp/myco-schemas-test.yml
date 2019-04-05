@@ -1,0 +1,110 @@
+
+MYco Health Certificate:
+  type: schema
+  version: $generate
+  issuing_roles:
+    - MYco
+  attributes:
+    - myco_id
+    - level
+    - name
+    - short_name
+    - type
+    - category
+    - superclass
+    - output_type
+    - ref_unit
+    - ref_unit_timestamp
+    - range
+    - concentration
+    - unit
+MYco Research Project Ethics Approval:
+  type: schema
+  version: $generate
+  issuing_roles:
+    - IRB
+  attributes:
+    - project_name
+    - PI_last_name
+    - PI_first_name
+    - institutional_affiliation
+    - project_description
+    - myco_id
+    - level
+    - name
+    - short_name
+    - type
+    - category
+    - superclass
+    - output_type
+    - range
+    - ethics_approval_description
+MYco Consent Enablement:
+  type: schema
+  version: $generate
+  issuing_roles:
+    - Researcher
+  attributes:
+    - jurisdiction
+    - iat
+    - moc
+    - iss
+    - jti
+    - sub
+    # {data_controller is an object containing the following array of strings: "on_behalf": true, "contact": "Dave Controller", "company": "Data Controller Inc.", "address": "123 St., Place", "email": "dave@datacontroller.com", "phone": "00-123-341-2351"},
+    - data_controller
+    - policy_url
+    - purpose
+    - sensitive
+    # {sharing is an object containing the following array of strings: “party_name”: "3rd Party Name or/3rd Party Category"},
+    - sharing
+    - notice
+    - scopes
+MYco Research Project Participation:
+  type: schema
+  version: $generate
+  issuing_roles:
+    - Researcher
+  attributes:
+    - project_name
+    - PI_last_name
+    - PI_first_name
+    - institutional_affiliation
+    - project_description
+    - myco_id
+    - participation_description
+MYco Proof of Ethics:
+  type: proof_request
+  description: Proof that a Researcher has been audited and is certified to follow the terms of their research study
+  revealed_attributes:
+    - {'name':'project_name', 'restrictions':[{'issuer_did': '$IRB_DID'}]}
+    - {'name':'myco_id', 'restrictions':[{'issuer_did': '$IRB_DID'}]}
+    - {'name':'level', 'restrictions':[{'issuer_did': '$IRB_DID'}]}
+    - {'name':'name', 'restrictions':[{'issuer_did': '$IRB_DID'}]}
+MYco Proof of Suitability:
+  type: proof_request
+  description: Proof that a MYco Client is suitable according to the terms of the study
+  revealed_attributes:
+    - {'name':'short_name', 'restrictions':[{'issuer_did': '$MYCO_DID'}]}
+    - {'name':'myco_id', 'restrictions':[{'issuer_did': '$MYCO_DID'}]}
+    - {'name':'user_comments'}
+  predicates:
+    - {'name': 'concentration','p_type': '>=','p_value': '$VALUE', 'restrictions':[{'issuer_did': '$MYCO_DID'}]}
+MYco Proof of Consent:
+  type: proof_request
+  description: Proof that a MYco Client has consented to participate in study
+  revealed_attributes:
+    - {'name':'data_controller', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
+    - {'name':'policy_url', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
+    - {'name':'sensitive', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
+    - {'name':'sharing', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
+    - {'name':'user_comments'}
+MYco Proof of Data:
+  type: proof_request
+  description: Data revealed by a MYco Client for use in a study
+  revealed_attributes:
+    - {'name':'data_controller', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
+    - {'name':'policy_url', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
+    - {'name':'sensitive', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
+    - {'name':'sharing', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
+    - {'name':'concentration', 'restrictions':[{'issuer_did': '$MYCO_DID'}]}
