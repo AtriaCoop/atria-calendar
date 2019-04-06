@@ -4,14 +4,14 @@ services:
   # indy-django
   # 
   indy-django:
-    image: anon/indy-base
+    image: atria/atria-indy-base
     networks:
       - anon
       - von
     ports:
       - 8000:8000
     volumes:
-      - "..:/home/indy/indy_community_demo"
+      - "..:/home/indy/atria-calendar"
     depends_on:
       - dummy-cloud-agent
       - wallet-db
@@ -19,21 +19,21 @@ services:
         /bin/bash -c "
         echo waiting for dependencies ...;
         sleep 5;
-        cd indy_community_demo/indy_community_demo;
+        cd atria-calendar/atriaapp;
         touch db.sqlite3;
-        DJANGO_SETTINGS_MODULE=indy_community_demo.docker_settings ./reload_db.sh;
+        DJANGO_SETTINGS_MODULE=atriaapp.docker_settings ./reload_db.sh;
         sleep 5;
-        DJANGO_SETTINGS_MODULE=indy_community_demo.docker_settings ./init_data.sh;
+        DJANGO_SETTINGS_MODULE=atriaapp.docker_settings ./init_data.sh;
         sleep 5;
-        DJANGO_SETTINGS_MODULE=indy_community_demo.docker_settings python manage.py runserver 0.0.0.0:8000 & disown;
+        DJANGO_SETTINGS_MODULE=atriaapp.docker_settings python manage.py runserver 0.0.0.0:8000 & disown;
         sleep 5;
-        DJANGO_SETTINGS_MODULE=indy_community_demo.docker_settings python manage.py process_tasks;"
+        DJANGO_SETTINGS_MODULE=atriaapp.docker_settings python manage.py process_tasks;"
 
   # 
   # dummy-cloud-agent
   #
   dummy-cloud-agent:
-    image: anon/indy-base
+    image: atria/atria-indy-base
     networks:
       - anon
       - von
@@ -49,7 +49,7 @@ services:
   # wallet-db
   # 
   wallet-db:
-    image: postgresql
+    image: postgres:latest
     environment:
       - POSTGRESQL_USER=${POSTGRESQL_USER}
       - POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD}

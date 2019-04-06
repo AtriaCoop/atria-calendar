@@ -1,0 +1,8 @@
+python-dateutil==2.7.2
+Django>=>=2.1.6
+#django-swingtime>=0.9.0
+-e git+https://github.com/ianco/django-swingtime.git#egg=django-swingtime
+-e git+https://github.com/deschler/django-modeltranslation.git#egg=django-modeltranslation
+file:///home/indy/indy-sdk/indy-sdk-3adea712abc98ddbd9e421b3e6ee7824385eb605/vcx/wrappers/python3#egg=python3-wrapper-vcx
+django-indy-community
+
