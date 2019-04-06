@@ -110,5 +110,31 @@
         },
         "model": "atriacalendar.eventattendancetype",
         "pk": 4
+    },
+    {
+        "model": "indy_community.indyuser",
+        "pk": 1,
+        "fields": {
+            "password": "pbkdf2_sha256$120000$x1k5YmF2MsLj$eVY8V8NXmX18HVuZJrBxJHgDbedvcRngp9H//3/7QDo=",
+            "is_superuser": true,
+            "email": "admin@mail.com",
+            "first_name": "",
+            "last_name": "",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2019-04-06T22:03:48.774",
+            "last_login": null,
+            "wallet": null,
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "atriacalendar.user",
+        "pk": 1,
+        "fields": {
+            "groups": [],
+            "user_permissions": []
+        }
     }
 ]
