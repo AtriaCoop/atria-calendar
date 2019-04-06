@@ -1,2 +1,2 @@
-docker build -f Dockerfile.ubuntu -t anon/indy-base ..
+docker build -f Dockerfile.ubuntu -t atria/atria-indy-base ..
 
