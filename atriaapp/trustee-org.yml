@@ -1,7 +1,16 @@
 
 Anon Solutions Inc:
-  first_name: Anon
-  last_name: Solutions
-  email: anon@mail.com
+  first_name: Atria
+  last_name: Technologies
+  email: atria@mail.com
   password: pass12345
   role: Trustee
+  org:
+    status: Active
+    description: Operator of atria.world web properties
+    location: Vancouver
+  relation:
+    relation_type: 
+        class: atriacalendar.RelationType
+        relation_type: Employee
+    status: Active

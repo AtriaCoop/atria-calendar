@@ -159,6 +159,10 @@ DATABASES = {
 
 AUTH_USER_MODEL = 'atriacalendar.User'
 
+# override to create app-specific models during data loading
+INDY_ORGANIZATION_MODEL = 'atriacalendar.AtriaOrganization'
+INDY_ORG_RELATION_MODEL = 'atriacalendar.AtriaRelationship'
+
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
 
