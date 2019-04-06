@@ -74,6 +74,8 @@ class SignUpForm(UserCreationForm):
 class OrgSignUpForm(SignUpForm):
     org_name = forms.CharField(max_length=40, required=True,
                                  help_text='Required.')
+    org_role_name = forms.CharField(max_length=40, required=True,
+                                 help_text='Required.')
     description = forms.CharField(max_length=4000, required=True,
                                  help_text='Required.', widget=forms.Textarea)
     location = forms.CharField(max_length=80, required=True,

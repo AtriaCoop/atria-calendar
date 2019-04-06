@@ -14,6 +14,9 @@ from datetime import datetime
 from swingtime import forms as swingtime_forms
 from swingtime import views as swingtime_views
 
+from indy_community.wallet_utils import *
+from indy_community.registration_utils import *
+
 from .forms import *
 from .models import *
 
@@ -211,8 +214,14 @@ class SignupView(CreateView):
     def form_valid(self, form):
         self.object = form.save()
 
-        calendar = AtriaCalendar(user_owner=self.object, calendar_name='Events')
+        user = self.object
+        raw_password = form.cleaned_data.get('password1')
+
+        calendar = AtriaCalendar(user_owner=user, calendar_name='Events')
         calendar.save()
+
+        # create an Indy wallet - derive wallet name from email, and re-use raw password
+        user = user_provision(user, raw_password)
 
         return HttpResponseRedirect(self.get_success_url())
 
@@ -228,20 +237,27 @@ class OrgSignupView(SignupView):
         # call super's method to save user and create user calendar
         super(OrgSignupView, self).form_valid(form)
 
+        user = self.object
+        raw_password = form.cleaned_data.get('password1')
+
         # now create the org and associate with the user
         org_name = form.cleaned_data.get('org_name')
+        org_role_name = form.cleaned_data.get('org_role_name')
+        org_role, created = IndyOrgRole.objects.get_or_create(name=org_role_name)
         description = form.cleaned_data.get('description')
         location = form.cleaned_data.get('location')
         status = 'Active'
         date_joined = datetime.now()
         org = AtriaOrganization(
                 org_name=org_name,
+                role=org_role,
                 description=description,
                 location=location,
                 status=status,
                 date_joined=date_joined
             )
         org.save()
+        org_provision(org, raw_password, org_role)
 
         relation_types = RelationType.objects.filter(relation_type=ORG_ROLE).all()
         if 0 == len(relation_types):
