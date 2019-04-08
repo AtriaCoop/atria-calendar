@@ -212,7 +212,9 @@ const calendar = Vue.component('calendar', {
     },
     loadMonthlyOccurrences() {
       this.loading = true;
-      url = 'http://localhost:8000/api/atria/calendar/' + this.year + '/' + this.month + '/';
+      var cur_url = window.location.href
+      var cur_host = cur_url.split("/");
+      url = cur_host[0] + "//" + cur_host[2] + '/api/atria/calendar/' + this.year + '/' + this.month + '/';
       axios
         .get(url)
         .then(response => {
@@ -261,7 +263,9 @@ Vue.component('single-date-picker', {
     },
     loadDailyOccurrences(day) {
       this.daily_loading = true;
-      url = 'http://localhost:8000/api/atria/calendar/' + this.year + '/' + this.month + '/' + day.day + '/';
+      var cur_url = window.location.href
+      var cur_host = cur_url.split("/");
+      url = cur_host[0] + "//" + cur_host[2] + '/api/atria/calendar/' + this.year + '/' + this.month + '/' + day.day + '/';
       axios
         .get(url)
         .then(response => {
