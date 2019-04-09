@@ -4,7 +4,7 @@ services:
   # indy-django
   # 
   indy-django:
-    image: atria/atria-indy-base
+    image: anonsolutions/indy-community
     networks:
       - anon
       - von
@@ -33,7 +33,7 @@ services:
   # dummy-cloud-agent
   #
   dummy-cloud-agent:
-    image: atria/atria-indy-base
+    image: anonsolutions/indy-community
     networks:
       - anon
       - von
@@ -49,7 +49,7 @@ services:
   # wallet-db
   # 
   wallet-db:
-    image: postgres:latest
+    image: postgres
     environment:
       - POSTGRESQL_USER=${POSTGRESQL_USER}
       - POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD}
