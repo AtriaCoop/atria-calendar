@@ -2,6 +2,7 @@
 
 {% load i18n %}
 {% load atria_custom_tags %}
+{% load session_namespaced_url %}
 
 {# Set local template variable: #}
 {% get_settings_value LANGUAGES "LANGUAGES" %}
@@ -20,14 +21,12 @@
 				</div>
 				<div class='accounts-events'>
 					<div class='btns-cont'>
-				        {% with request.session.URL_NAMESPACE as namespace %}
-						<a href="{% url namespace|add:'event' %}">
+						<a href="{% snurl 'event' %}">
 							<div class='btn btn-add-new-event'>Post New Event</div>
 						</a>
-						<a href="{% url namespace|add:'opportunity' %}">
+						<a href="{% snurl 'opportunity' %}">
 							<div class='btn btn-add-new-opp'>Post New Opportunity</div>
 						</a>
-						{% endwith %}
 					</div>
 					<h4>~ List of Accounts Posted Events ~</h4>
 				</div>

@@ -1,73 +1,70 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load session_namespaced_url %}
 
 {% block title %}Event: {{ event }}{% endblock %}
 {% block page_title %}{% trans "Event Detail" %}{% endblock %}
 
 {% block main_content %}
-{% with request.session.URL_NAMESPACE as namespace %}
-    <h3>Swingtime Event</h3>
-    <h4>Event Details</h4>
-      <form action="" method="post">{% csrf_token %}
-        <table>
-            <tfoot>
-                <tr>
-                    <td colspan="2">
-                        <input type="submit" name="_update" value="Update" />
-                    </td>
-                </tr>
-            </tfoot>
-            <tbody>
-              {% include "swingtime/event_form_part.html" %}
-            </tbody>
-        </table>
-        </form>
+	<h3>Swingtime Event</h3>
+	<h4>Event Details</h4>
+	<form action="" method="post">{% csrf_token %}
+		<table>
+			<tfoot>
+				<tr>
+					<td colspan="2">
+						<input type="submit" name="_update" value="Update" />
+					</td>
+				</tr>
+			</tfoot>
+			<tbody>
+				{% include "swingtime/event_form_part.html" %}
+			</tbody>
+		</table>
+	</form>
 
-        <h4>Notes</h4>
-        {% with event.notes.all as notes %}
-            {% if notes %}
-            <ul>
-                {% for note in notes %}
-                <li>{{ note }}</li>
-                {% endfor %}
-            </ul>
-            {% else %}
-            <p>None</p>
-            {% endif %}
-        {% endwith %}
+	<h4>Notes</h4>
+	{% with event.notes.all as notes %}
+		{% if notes %}
+			<ul>
+				{% for note in notes %}
+					<li>{{ note }}</li>
+				{% endfor %}
+			</ul>
+		{% else %}
+			<p>None</p>
+		{% endif %}
+	{% endwith %}
 
-        <h4>Occurrences</h4>
-        {% if event.occurrence_set.count %}
-        <ol>
-            {% for o in event.occurrence_set.all %}
-            <li>
-                {% if o.start_time.date == o.end_time.date %}
-                <a href="{% url namespace|add:'swingtime-occurrence' event.id o.id %}">
-                    {{ o.start_time|date:"l, F jS, Y" }} {{ o.start_time|date:"P" }} &ndash; {{ o.end_time|date:"P" }}</a>
-                {% else %}
-                <a href="{% url namespace|add:'swingtime-occurrence' event.id o.id %}">
-                    {{ o.start_time|date:"l, F jS, Y P" }} &ndash;
-                    {{ o.end_time|date:"l, F jS, Y P" }}</a>
-                {% endif %}
-            </li>
-            {% endfor %}
-        </ol>
-        {% else %}
-        {% endif %}
+	<h4>Occurrences</h4>
+		{% if event.occurrence_set.count %}
+			<ol>
+				{% for o in event.occurrence_set.all %}
+					<li>
+						{% if o.start_time.date == o.end_time.date %}
+							<a href="{% snurl 'swingtime-occurrence' event.id o.id %}">
+								{{ o.start_time|date:"l, F jS, Y" }} {{ o.start_time|date:"P" }} &ndash; {{ o.end_time|date:"P" }}</a>
+						{% else %}
+							<a href="{% snurl 'swingtime-occurrence' event.id o.id %}">
+								{{ o.start_time|date:"l, F jS, Y P" }} &ndash;
+								{{ o.end_time|date:"l, F jS, Y P" }}</a>
+						{% endif %}
+					</li>
+				{% endfor %}
+			</ol>
+		{% endif %}
 
-        <h4>Add Occurrences</h4>
-        <form action="" method="post">{% csrf_token %}
-        <table>
-            <tfoot>
-                <tr>
-                    <td colspan="2"><input type="submit" name="_add" value="Add" /></td>
-                </tr>
-            </tfoot>
-            <tbody>
-            {% include "swingtime/recurring_form_part.html" %}
-            </tbody>
-        </table>
-        </form>
-        </form>
-{% endwith %}
+	<h4>Add Occurrences</h4>
+	<form action="" method="post">{% csrf_token %}
+		<table>
+			<tfoot>
+				<tr>
+					<td colspan="2"><input type="submit" name="_add" value="Add" /></td>
+				</tr>
+			</tfoot>
+			<tbody>
+				{% include "swingtime/recurring_form_part.html" %}
+			</tbody>
+		</table>
+	</form>
 {% endblock %}
