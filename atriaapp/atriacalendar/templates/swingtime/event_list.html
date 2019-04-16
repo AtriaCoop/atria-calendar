@@ -1,13 +1,13 @@
 {% extends "base.html" %}
+
 {% load i18n %}
+{% load session_namespaced_url %}
 
 {% block title %}All Events{% endblock %}
 {% block page_title %}{% trans "All Events" %}{% endblock %}
 {% block main_content %}
-{% with request.session.URL_NAMESPACE as namespace %}
-    <h3>All Events</h3>
-    <ul>{% for e in events %}
-        <li><a href="{% url namespace|add:'swingtime-event' e.id %}">{{ e }}</a></li>
-    {% endfor %}</ul>
-{% endwith %}
+<h3>All Events</h3>
+<ul>{% for e in events %}
+	<li><a href="{% snurl 'swingtime-event' e.id %}">{{ e }}</a></li>
+	{% endfor %}</ul>
 {% endblock %}
