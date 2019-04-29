@@ -15,12 +15,6 @@ usage() {
     
       Commands:
     
-      build - Build the docker images for the project.
-              You need to do this first.
-    
-              You can build individual components as shown below, components that have dependencies will 
-              have these dependencies built too.
-    
       up -  Creates the application containers from the built images
             and starts the services based on the docker-compose.yml file.
 
@@ -29,7 +23,17 @@ usage() {
             
       start - Same as up
 
+      up-bcovrin -  Like "up", runs on the bcovrin network.
+      start-bcovrin - Same as up-bcovrin
+
+      up-stn -  Like "up", runs on the Sovrin Test Network (STN).
+      start-stn - Same as up-stn
+
+      cli - run indy CLI
+
       django - run python manage.py commands, such as loads_schemas and loads_orgs, and shell
+
+      shell/shell2 - run bash shell
 
       logs - Display the logs from the docker compose run (ctrl-c to exit).
 
@@ -46,6 +50,7 @@ EOF
 # Default Settings:
 # -----------------------------------------------------------------------------------------------------------------
 DEFAULT_CONTAINERS="wallet-db dummy-cloud-agent indy-django"
+STN_CONTAINERS="wallet-db indy-django"
 # -----------------------------------------------------------------------------------------------------------------
 # Functions:
 # -----------------------------------------------------------------------------------------------------------------
@@ -136,6 +141,48 @@ getStartupParams() {
   echo ${ARGS} ${CONTAINERS}
 }
 
+getStartupParamsStn() {
+  CONTAINERS=""
+  ARGS="--force-recreate"
+
+  for arg in $@; do
+    case "$arg" in
+    *=*)
+      # Skip it
+      ;;
+    -*)
+      ARGS+=" $arg"
+      ;;
+    *)
+      CONTAINERS+=" $arg"
+      ;;
+    esac
+  done
+
+  if [ -z "$CONTAINERS" ]; then
+    CONTAINERS="$STN_CONTAINERS"
+  fi
+
+  echo ${ARGS} ${CONTAINERS}
+}
+
+getStartupParamsCli() {
+  ARGS="--force-recreate"
+
+  for arg in $@; do
+    case "$arg" in
+    *=*)
+      # Skip it
+      ;;
+    -*)
+      ARGS+=" $arg"
+      ;;
+    esac
+  done
+
+  echo ${ARGS} 
+}
+
 deleteVolumes() {
   _projectName=${COMPOSE_PROJECT_NAME:-docker}
 
@@ -172,6 +219,18 @@ start|up)
   docker-compose up -d ${_startupParams} 
   docker-compose logs -f
  ;;
+start-bcovrin|up-bcovrin)
+  _startupParams=$(getStartupParams $@)
+  configureEnvironment $@
+  docker-compose -f docker-compose-bcovrin.yml up -d ${_startupParams} 
+  docker-compose logs -f
+ ;;
+start-stn|up-stn)
+  _startupParams=$(getStartupParams $@)
+  configureEnvironment $@
+  docker-compose -f docker-compose-stn.yml up -d ${_startupParams} 
+  docker-compose logs -f
+ ;;
 logs)
   configureEnvironment $@
   docker-compose logs -f
@@ -187,7 +246,17 @@ rm|down)
 shell)
   _startupParams=$(getStartupParams $@)
   configureEnvironment $@
-  docker-compose run indy-django bash
+  docker-compose run indy-shell bash
+  ;;
+shell2)
+  _startupParams=$(getStartupParams $@)
+  configureEnvironment $@
+  docker-compose run indy-shell2 bash
+  ;;
+cli)
+  _startupParams=$(getStartupParamsCli $@)
+  configureEnvironment $@
+  docker-compose run indy-cli 
   ;;
 django)
   _startupParams=$(getStartupParams $@)

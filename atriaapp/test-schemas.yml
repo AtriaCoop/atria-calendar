@@ -1,81 +1,76 @@
-Transcript:
+Verified Email:
   type: schema
   version: $generate
   issuing_roles:
-    - Test
+    - Admin
   attributes:
     - first_name
     - last_name
-    - degree
-    - status
-    - date
-    - average
-    - ssn
-Job Certificate:
+    - email
+    - verified_date
+Verified Identity:
   type: schema
   version: $generate
   issuing_roles:
-    - Test
+    - Association
   attributes:
     - first_name
     - last_name
-    - ssn
-    - salary
-    - employee_status
-    - experience
-Drivers License:
+    - identity_level
+    - verified_date
+Verified Background Check:
   type: schema
   version: $generate
   issuing_roles:
-    - Test
+    - Association
   attributes:
-    - last_name
     - first_name
-    - middle_name
-    - dl_number
-    - dl_class
-    - issued_date
-    - expire_date
-    - birth_date
-    - age
-    - height
-    - weight
-    - sex
-    - eyes
-    - hair
-    - address
-Passport:
+    - last_name
+    - verified_date
+    - verified_level
+Certified Volunteer:
   type: schema
   version: $generate
   issuing_roles:
-    - Test
+    - Admin
   attributes:
-    - last_name
     - first_name
-    - middle_name
-    - passport_no
-    - ppt_type
-    - issued_date
-    - issued_location
-    - expire_date
-    - nationality
-    - birth_date
-    - age
-    - issuing_country
-    - issuing_authority
-Proof of Age:
+    - last_name
+    - volunteer_role
+    - volunteer_date
+    - comments
+Proof of Verified Email:
   type: proof_request
-  description: Proof of Age
+  description: Proof of Verified Email
+  revealed_attributes:
+    - {'name':'first_name', 'restrictions':[{'issuer_did': '$ATRIA_DID'}]}
+    - {'name':'last_name', 'restrictions':[{'issuer_did': '$ATRIA_DID'}]}
+    - {'name':'email', 'restrictions':[{'issuer_did': '$ATRIA_DID'}]}
+    - {'name':'verified_date', 'restrictions':[{'issuer_did': '$ATRIA_DID'}]}
+Proof of Verified Identity:
+  type: proof_request
+  description: Proof of Verified Identity
   revealed_attributes:
     - {'name':'first_name', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
     - {'name':'last_name', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
+    - {'name':'verified_date', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
   predicates:
-    - {'name': 'age','p_type': '>=','p_value': '$VALUE', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
-Proof of DOB:
+    - {'name': 'identity_level','p_type': '>=','p_value': '$VALUE', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
+Proof of Background Check:
   type: proof_request
-  description: Proof of DOB
+  description: Proof of Background Check
   revealed_attributes:
     - {'name':'first_name', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
     - {'name':'last_name', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
+    - {'name':'verified_date', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
   predicates:
-    - {'name': 'birth_date','p_type': '>=','p_value': '$VALUE', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
+    - {'name': 'verified_level','p_type': '>=','p_value': '$VALUE', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
+Proof of Volunteer Experience:
+  type: proof_request
+  description: Proof of Background Check
+  revealed_attributes:
+    - {'name':'first_name', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
+    - {'name':'last_name', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
+    - {'name':'volunteer_role', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
+    - {'name':'volunteer_date', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
+

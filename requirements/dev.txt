@@ -12,5 +12,5 @@ tox>=2.7.0
 invoke>=0.22
 pycodestyle
 #-e .
-file:///Users/icostanzo/Projects/django-indy-community/distro/dist/django-indy-community-0.1.2.tar.gz
+file:///Users/icostanzo/Projects/django-indy-community/distro/dist/django-indy-community-0.1.6.tar.gz
 pyyaml

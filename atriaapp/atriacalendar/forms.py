@@ -1,6 +1,7 @@
 from django import forms
 from modeltranslation.forms import TranslationModelForm
 from django.contrib.auth.forms import UserCreationForm
+from django.db.models import Q
 
 from swingtime import models as swingtime_models
 from swingtime import forms as swingtime_forms
@@ -87,4 +88,13 @@ class OrgSignUpForm(SignUpForm):
             user.groups.add(Group.objects.get(name='Admin'))
 
         return user
+
+
+###############################################################
+# Forms to request a connection to a mobile wallet
+###############################################################
+class RequestMobileConnectionForm(forms.Form):
+    email = forms.CharField(label='Email', max_length=120)
+    org = forms.ModelChoiceField(label='Organization', queryset=AtriaOrganization.objects.filter(Q(role__name='Association')).all())
+
 
