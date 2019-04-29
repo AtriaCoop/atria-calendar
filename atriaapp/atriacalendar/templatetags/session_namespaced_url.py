@@ -16,7 +16,6 @@ class SNURLNode(URLNode):
             url_namespace = request.session.get('URL_NAMESPACE')
 
             if url_namespace:
-                v = self.view_name.var
                 # TODO not sure if this is a hack, tag is getting called recursively
                 # django.urls.exceptions.NoReverseMatch: 'organization' is not a registered namespace inside 'organization'
                 # organization:swingtime-occurrence organization: organization:organization:swingtime-occurrence
