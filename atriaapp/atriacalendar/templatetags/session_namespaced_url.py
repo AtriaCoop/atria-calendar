@@ -5,6 +5,9 @@ from django.template.defaulttags import URLNode
 register = template.Library()
 
 
+def has_namespace_already(view_var):
+    return (0 < view_var.find(':'))
+
 class SNURLNode(URLNode):
     def render(self, context):
         request = context.get('request')
@@ -13,7 +16,13 @@ class SNURLNode(URLNode):
             url_namespace = request.session.get('URL_NAMESPACE')
 
             if url_namespace:
-                self.view_name.var = url_namespace + self.view_name.var
+                v = self.view_name.var
+                # TODO not sure if this is a hack, tag is getting called recursively
+                # django.urls.exceptions.NoReverseMatch: 'organization' is not a registered namespace inside 'organization'
+                # organization:swingtime-occurrence organization: organization:organization:swingtime-occurrence
+                if not has_namespace_already(self.view_name.var):
+                    self.view_name.var = url_namespace + self.view_name.var
+
 
         return super().render(context)
 
