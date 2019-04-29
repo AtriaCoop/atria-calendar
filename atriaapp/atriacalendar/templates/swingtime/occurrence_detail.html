@@ -1,19 +1,20 @@
 {% extends "base.html" %}
+
 {% load i18n %}
+{% load session_namespaced_url %}
 
 {% block title %}Event Occurrence{% endblock %}
 {% block page_title %}{% trans "Event Occurrence" %}{% endblock %}
 {% block main_content %}
-{% with request.session.URL_NAMESPACE as namespace %}
      <h3>Swingtime Event Occurrence</h3>
      {% now 'Y-m-d' as now_str %}
      {% if now_str < occurrence.start_time|date:'Y-m-d' %}
         Event is in future <br>
          <h4>
-             <a href="{% url namespace|add:'swingtime-event' occurrence.event.id %}">{{ occurrence.title }}</a>
+             <a href="{% snurl 'swingtime-event' occurrence.event.id %}">{{ occurrence.title }}</a>
              &ndash;
              {% with occurrence.start_time as st  %}
-             <a href="{% url namespace|add:'swingtime-daily-view' st.year st.month st.day %}">
+             <a href="{% snurl 'swingtime-daily-view' st.year st.month st.day %}">
                 {{ st|date:"l, F jS P" }}</a>
             </h4>
             {% endwith %}
@@ -57,5 +58,4 @@
          Event is past <br>
      {% endif %}
 
-{% endwith %}
 {% endblock %}
