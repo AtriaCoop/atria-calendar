@@ -10,22 +10,22 @@ services:
     ports:
       - 8000:8000
     volumes:
-      - "..:/home/indy/indy_community_demo"
+      - "..:/home/indy/atria-calendar"
     depends_on:
       - wallet-db
     command: >
         /bin/bash -c "
         echo waiting for dependencies ...;
         sleep 5;
-        cd indy_community_demo/indy_community_demo;
+        cd atria-calendar/atriaapp;
         touch db.sqlite3;
-        DJANGO_SETTINGS_MODULE=indy_community_demo.stn_settings ./reload_db.sh;
+        DJANGO_SETTINGS_MODULE=atriaapp.stn_settings ./reload_db.sh;
         sleep 5;
-        DJANGO_SETTINGS_MODULE=indy_community_demo.stn_settings ./init_data.sh;
+        DJANGO_SETTINGS_MODULE=atriaapp.stn_settings ./init_data.sh;
         sleep 5;
-        DJANGO_SETTINGS_MODULE=indy_community_demo.stn_settings python manage.py runserver 0.0.0.0:8000 & disown;
+        DJANGO_SETTINGS_MODULE=atriaapp.stn_settings python manage.py runserver 0.0.0.0:8000 & disown;
         sleep 5;
-        DJANGO_SETTINGS_MODULE=indy_community_demo.stn_settings python manage.py process_tasks;"
+        DJANGO_SETTINGS_MODULE=atriaapp.stn_settings python manage.py process_tasks;"
 
   # 
   # wallet-db

@@ -32,7 +32,7 @@ Certified Volunteer:
   type: schema
   version: $generate
   issuing_roles:
-    - Admin
+    - Association
   attributes:
     - first_name
     - last_name
