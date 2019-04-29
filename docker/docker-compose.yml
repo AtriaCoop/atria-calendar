@@ -29,6 +29,37 @@ services:
         sleep 5;
         DJANGO_SETTINGS_MODULE=atriaapp.docker_settings python manage.py process_tasks;"
 
+  indy-shell:
+    image: anonsolutions/indy-community
+    networks:
+      - anon
+      - von
+    ports:
+      - 8001:8000
+    volumes:
+      - "..:/home/indy/atria-calendar"
+    depends_on:
+      - dummy-cloud-agent
+      - wallet-db
+      - indy-shell2
+    command: 
+      - /bin/bash
+
+  indy-shell2:
+    image: anonsolutions/indy-community
+    networks:
+      - anon
+      - von
+    ports:
+      - 8001:8000
+    volumes:
+      - "..:/home/indy/atria-calendar"
+    depends_on:
+      - dummy-cloud-agent
+      - wallet-db
+    command: 
+      - /bin/bash
+
   # 
   # dummy-cloud-agent
   #
@@ -41,9 +72,24 @@ services:
       - 8080:8080
       - 8081:8081
     volumes:
-      - "..:/home/indy/indy_community_demo"
+      - "..:/home/indy/atria-calendar"
     command: 
-      indy-dummy-agent indy_community_demo/dummy-cloud-agent/docker-config.json
+      indy-dummy-agent atria-calendar/dummy-cloud-agent/docker-config.json
+
+  # 
+  # stand-alone CLI
+  #
+  indy-cli:
+    image: anonsolutions/indy-community
+    networks:
+      - von
+    volumes:
+      - "..:/home/indy/atria-calendar"
+    depends_on:
+      - dummy-cloud-agent
+      - wallet-db
+    command: 
+      indy-cli
 
   # 
   # wallet-db

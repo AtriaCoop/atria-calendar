@@ -1,0 +1,66 @@
+
+Atria Technologies Coop:
+  first_name: Atria
+  last_name: Technologies
+  email: atria@mail.com
+  password: pass12345
+  role: Admin
+  org:
+    status: Active
+    description: Administrator of atria.world web properties
+    location: Vancouver
+  relation:
+    relation_type: 
+        class: atriacalendar.RelationType
+        relation_type: Employee
+    status: Active
+
+Kiwassa House:
+  first_name: Kiwassa
+  last_name: House
+  email: kiwassa@mail.com
+  password: pass12345
+  role: Association
+  org:
+    status: Active
+    description: Neighbourhood House
+    location: Vancouver
+  relation:
+    relation_type: 
+        class: atriacalendar.RelationType
+        relation_type: Employee
+    status: Active
+
+Kitsilano Neighbourhood House:
+  first_name: Kitsilano
+  last_name: House
+  email: kitsilano@mail.com
+  password: pass12345
+  role: Association
+  org:
+    status: Active
+    description: Neighbourhood House
+    location: Vancouver
+  relation:
+    relation_type: 
+        class: atriacalendar.RelationType
+        relation_type: Employee
+    status: Active
+
+Strathcona Community Centre:
+  first_name: Strathcona
+  last_name: Centre
+  email: strathcona@mail.com
+  password: pass12345
+  role: Association
+  org:
+    status: Active
+    description: Community Centre
+    location: Vancouver
+  relation:
+    relation_type: 
+        class: atriacalendar.RelationType
+        relation_type: Employee
+    status: Active
+
+
