@@ -14,8 +14,11 @@ from datetime import datetime
 from swingtime import forms as swingtime_forms
 from swingtime import views as swingtime_views
 
-from indy_community.wallet_utils import *
-from indy_community.registration_utils import *
+import indy_community.models as indy_models
+import indy_community.views as indy_views
+import indy_community.agent_utils as agent_utils
+import indy_community.wallet_utils as wallet_utils
+import indy_community.registration_utils as registration_utils
 
 from .forms import *
 from .models import *
@@ -221,7 +224,7 @@ class SignupView(CreateView):
         calendar.save()
 
         # create an Indy wallet - derive wallet name from email, and re-use raw password
-        user = user_provision(user, raw_password)
+        user = registration_utils.user_provision(user, raw_password)
 
         return HttpResponseRedirect(self.get_success_url())
 
@@ -243,7 +246,7 @@ class OrgSignupView(SignupView):
         # now create the org and associate with the user
         org_name = form.cleaned_data.get('org_name')
         org_role_name = form.cleaned_data.get('org_role_name')
-        org_role, created = IndyOrgRole.objects.get_or_create(name=org_role_name)
+        org_role, created = indy_models.IndyOrgRole.objects.get_or_create(name=org_role_name)
         description = form.cleaned_data.get('description')
         location = form.cleaned_data.get('location')
         status = 'Active'
@@ -257,7 +260,7 @@ class OrgSignupView(SignupView):
                 date_joined=date_joined
             )
         org.save()
-        org_provision(org, raw_password, org_role)
+        registration_utils.org_provision(org, raw_password, org_role)
 
         relation_types = RelationType.objects.filter(relation_type=ORG_ROLE).all()
         if 0 == len(relation_types):
@@ -276,6 +279,46 @@ class OrgSignupView(SignupView):
         calendar.save()
 
         return HttpResponseRedirect(self.get_success_url())
+
+
+def mobile_request_connection(request):
+    # user requests mobile connection to an org
+    if request.method == 'POST':
+        # generate ivitation and display a QR code
+        form = RequestMobileConnectionForm(request.POST)
+        if not form.is_valid():
+            return render(request, 'indy/form_response.html', {'msg': 'Form error', 'msg_txt': str(form.errors)})
+        else:
+            cd = form.cleaned_data
+            org = cd.get('org')
+            email = cd.get('email')
+            partner_name = email + ' (mobile)'
+
+            # get requested org and their wallet
+            org_wallet = org.wallet
+
+            # mobile user not registered locally
+            target_user = None
+            their_wallet = None
+
+            # set wallet password
+            # TODO vcx_config['something'] = raw_password
+
+            # build the connection and get the invitation data back
+            try:
+                org_connection = agent_utils.send_connection_invitation(org_wallet, partner_name)
+
+                return render(request, 'registration/mobile_connection_info.html', {'org_name': org.org_name, 'connection_token': org_connection.token})
+            except Exception as e:
+                # ignore errors for now
+                print(" >>> Failed to create request for", org_wallet.wallet_name)
+                print(e)
+                return render(request, 'indy/form_response.html', {'msg': 'Failed to create request for ' + org_wallet.wallet_name})
+
+    else:
+        # populate form and get info from user
+        form = RequestMobileConnectionForm(initial={})
+        return render(request, 'registration/request_mobile_connection.html', {'form': form})
 
 
 @login_required

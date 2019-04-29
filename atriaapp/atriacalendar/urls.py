@@ -18,6 +18,7 @@ ORG_NAMESPACE = getattr(settings, "ORG_NAMESPACE", 'organization')
 urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('signup/', SignupView.as_view(), name='signup'),
+    path('mobile_request/', mobile_request_connection, name='mobile_request'),
     path('org_signup/', OrgSignupView.as_view(), name='org_signup'),
     path('dashboard', dashboard_view, name='dashboard'),
     path('contact', contact_view, name='contact'),

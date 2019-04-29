@@ -1,5 +1,7 @@
 {% load i18n %}
+
 {% load atria_custom_tags %}
+{% load session_namespaced_url %}
 
 {# Set local template variable: #}
 {% get_settings_value LANGUAGES "LANGUAGES" %}
@@ -12,11 +14,9 @@
 		<div class='topnav-con topnav-title'>
 			<div class='topnav-item'>
             {% if request.user.is_authenticated %}
-                {% with request.session.URL_NAMESPACE as namespace %}
-	                <a href="{% url namespace|add:'calendar_home' %}">
-	                   <img src="{% static "/atriacalendar/logo-letters.svg" %}">
-	                </a>
-                {% endwith %}
+	            <a href="{% snurl 'calendar_home' %}">
+	                <img src="{% static "/atriacalendar/logo-letters.svg" %}">
+	            </a>
             {% else %}
                 <a href="{% url 'login' %}">
                    <img src="{% static "/atriacalendar/logo-letters.svg" %}">
@@ -45,75 +45,73 @@
 			</div>
 
 			{% if request.user.is_authenticated %}
-				{% with request.session.URL_NAMESPACE as namespace %}
-					<div class='topnav-rightcon'>
-						<div class='topnav-item'>
-							<div class='topnav-notifycons'>
-								<!--- #msgsNotifyCount value increases here as new messages come in -->
-								<i class='fas fa-comment'></i>
-								<span>0</span>
-							</div>
+				<div class='topnav-rightcon'>
+					<div class='topnav-item'>
+						<div class='topnav-notifycons'>
+							<!--- #msgsNotifyCount value increases here as new messages come in -->
+							<i class='fas fa-comment'></i>
+							<span>0</span>
 						</div>
+					</div>
 
-						<div class='topnav-item'>
-							<div class='topnav-notifycons' id='notifications'>
-								<!--- #topNavNotificat value increases here as new notifications come in -->
-								<i class='fas fa-bell'></i>
-								<span>3</span>
-							</div>
-							<!--- topnav-notificat-dropdown all notifications values put here in necessary spans -->
-							<div class='topnav-notificat-dropdown'>
-								<h4>Notifications</h4>
-								<ul>
-									<li>
-										<a href=''>
-											<div>
-												<img src="{% static "/atriacalendar/accounticon.png" %}"></div>
-											<div class='notifi-infocon'>
-												<span class='notifi-name'>Account Name </span>
-												<span class='notifi-description'>the notification description</span>
-												<br>
-												<span class='notifi-date'>date &amp; time</span>
-											</div>
-										</a>
-										<a href=''>
-											<div>
-												<img src="{% static "/atriacalendar/accounticon.png" %}"></div>
-											<div class='notifi-infocon'>
-												<span class='notifi-name'>Account Name </span>
-												<span class='notifi-description'>the notification description</span>
-												<br>
-												<span class='notifi-date'>date &amp; time</span>
-											</div>
-										</a>
-										<a href=''>
-											<div>
-												<img src="{% static "/atriacalendar/accounticon.png" %}"></div>
-											<div class='notifi-infocon'>
-												<span class='notifi-name'>Account Name </span>
-												<span class='notifi-description'>the notification description</span>
-												<br>
-												<span class='notifi-date'>date &amp; time</span>
-											</div>
-										</a>
-									</li>
-								</ul>
-							</div> <!-- notification dropdown ends -->
-						</div> <!-- notification container ends -->
-
-						<div class='topnav-item topnav-accountnamecon'>
-							<a href="{% url namespace|add:'profile' %}">
-								{{ request.user }} 
-                                {% if request.session.ACTIVE_ROLE %}
-                                   [ {{ request.session.ACTIVE_ROLE }} ]
-                                {% endif %}
-                                {% if request.session.ACTIVE_ORG %}
-                                  [ {{ request.session.ACTIVE_ORG }} ]
-                                {% endif %}
-							</a>
+					<div class='topnav-item'>
+						<div class='topnav-notifycons' id='notifications'>
+							<!--- #topNavNotificat value increases here as new notifications come in -->
+							<i class='fas fa-bell'></i>
+							<span>3</span>
 						</div>
-					</div> <!-- top nav right container ends -->
-				{% endwith %}
+						<!--- topnav-notificat-dropdown all notifications values put here in necessary spans -->
+						<div class='topnav-notificat-dropdown'>
+							<h4>Notifications</h4>
+							<ul>
+								<li>
+									<a href=''>
+										<div>
+											<img src="{% static "/atriacalendar/accounticon.png" %}"></div>
+										<div class='notifi-infocon'>
+											<span class='notifi-name'>Account Name </span>
+											<span class='notifi-description'>the notification description</span>
+											<br>
+											<span class='notifi-date'>date &amp; time</span>
+										</div>
+									</a>
+									<a href=''>
+										<div>
+											<img src="{% static "/atriacalendar/accounticon.png" %}"></div>
+										<div class='notifi-infocon'>
+											<span class='notifi-name'>Account Name </span>
+											<span class='notifi-description'>the notification description</span>
+											<br>
+											<span class='notifi-date'>date &amp; time</span>
+										</div>
+									</a>
+									<a href=''>
+										<div>
+											<img src="{% static "/atriacalendar/accounticon.png" %}"></div>
+										<div class='notifi-infocon'>
+											<span class='notifi-name'>Account Name </span>
+											<span class='notifi-description'>the notification description</span>
+											<br>
+											<span class='notifi-date'>date &amp; time</span>
+										</div>
+									</a>
+								</li>
+							</ul>
+						</div> <!-- notification dropdown ends -->
+					</div> <!-- notification container ends -->
+
+					<div class='topnav-item topnav-accountnamecon'>
+						<a href="{% snurl 'profile' %}">
+							{{ request.user }} 
+							{% if request.session.ACTIVE_ROLE %}
+							   [ {{ request.session.ACTIVE_ROLE }} ]
+							{% endif %}
+							{% if request.session.ACTIVE_ORG %}
+							  [ {{ request.session.ACTIVE_ORG }} ]
+							{% endif %}
+						</a>
+					</div>
+				</div> <!-- top nav right container ends -->
 			{% else %}
 				<!-- TODO anon user -->
 			{% endif %}
@@ -121,37 +119,35 @@
 	</div> <!-- top nav ends -->
 
 	{% if request.user.is_authenticated %}
-		{% with request.session.URL_NAMESPACE as namespace %}
-			<div class='sidenav'>
-				<i class='fas fa-bars'></i>
-				<div class='sidenav-con sidenav-top'>
-					<ul>
-						<li><a href="{% url namespace|add:'create_manage' %}">Create &amp; Manage</a></li>
-						<li><a href="{% url namespace|add:'event' %}">Create Event</a></li>
-						<li><a href="{% url namespace|add:'opportunity' %}">Create Opportunity</a></li>
-						<li>
-                          {% now 'Y' as cur_year %} {% now 'm' as cur_month %}
-                          <a href="{% url namespace|add:'swingtime-monthly-view' cur_year cur_month %}">
-                          	{% trans "View Calendar (old)" %}
-                          </a>
-                        </li>
-                        <li>
-			                <a href="{% url 'indy_profile' %}">
-			                   {% trans "Indy Wallet Profile" %}
-			                </a>
-			            </li>
-					</ul>
-				</div>
+		<div class='sidenav'>
+			<i class='fas fa-bars'></i>
+			<div class='sidenav-con sidenav-top'>
+				<ul>
+					<li><a href="{% snurl 'create_manage' %}">Create &amp; Manage</a></li>
+					<li><a href="{% snurl 'event' %}">Create Event</a></li>
+					<li><a href="{% snurl 'opportunity' %}">Create Opportunity</a></li>
+					<li>
+					  {% now 'Y' as cur_year %} {% now 'm' as cur_month %}
+					  <a href="{% snurl 'swingtime-monthly-view' cur_year cur_month %}">
+						{% trans "View Calendar (old)" %}
+					  </a>
+					</li>
+                    <li>
+		                <a href="{% url 'indy_profile' %}">
+		                   {% trans "Indy Wallet Profile" %}
+		                </a>
+		            </li>
+				</ul>
+			</div>
 
-				<div class='sidenav-con sidenav-bottom'>
-					<ul>
-						<li><a href="{% url 'contact' %}">Contact Us</a></li>
-						<li><a href="{% url namespace|add:'settings' %}"><i class="fas fa-cog"></i> Settings</a></li>
-						<li><a href="{% url 'logout' %}">{% trans "Log Out" %}</a></li>
-					</ul>
-				</div>
-			</div> <!-- side nav ends -->
-		{% endwith %}
+			<div class='sidenav-con sidenav-bottom'>
+				<ul>
+					<li><a href="{% url 'contact' %}">Contact Us</a></li>
+					<li><a href="{% snurl 'settings' %}"><i class="fas fa-cog"></i> Settings</a></li>
+					<li><a href="{% url 'logout' %}">{% trans "Log Out" %}</a></li>
+				</ul>
+			</div>
+		</div> <!-- side nav ends -->
 	{% else %}
 		<!-- TODO anon user -->
 	{% endif %}

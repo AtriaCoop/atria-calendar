@@ -3,4 +3,5 @@ Django>=>=2.1.6
 #django-swingtime>=0.9.0
 -e git+https://github.com/ianco/django-swingtime.git#egg=django-swingtime
 -e git+https://github.com/deschler/django-modeltranslation.git#egg=django-modeltranslation
+djangorestframework==3.9.2
 django-heroku
