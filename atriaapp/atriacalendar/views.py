@@ -220,9 +220,6 @@ class SignupView(CreateView):
         user = self.object
         raw_password = form.cleaned_data.get('password1')
 
-        calendar = AtriaCalendar(user_owner=user, calendar_name='Events')
-        calendar.save()
-
         # create an Indy wallet - derive wallet name from email, and re-use raw password
         user = registration_utils.user_provision(user, raw_password)
 
@@ -273,10 +270,6 @@ class OrgSignupView(SignupView):
                 effective_date=date_joined
             )
         relation.save()
-
-        # creae a default calendar for this org
-        calendar = AtriaCalendar(org_owner=org, calendar_name='Events')
-        calendar.save()
 
         return HttpResponseRedirect(self.get_success_url())
 
