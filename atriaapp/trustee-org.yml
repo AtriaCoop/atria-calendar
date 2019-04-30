@@ -5,6 +5,7 @@ Anon Solutions Inc:
   email: anon@mail.com
   password: pass12345
   role: Trustee
+  ico_url: https://anon-solutions.ca/favicon.ico
   org:
     status: Active
     description: Operator of atria.world web properties
