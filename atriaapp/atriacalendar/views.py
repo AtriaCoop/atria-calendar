@@ -283,6 +283,16 @@ def mobile_request_connection(request):
             return render(request, 'indy/form_response.html', {'msg': 'Form error', 'msg_txt': str(form.errors)})
         else:
             cd = form.cleaned_data
+            form.save()
+            username = cd.get('email')
+            raw_password = cd.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            user.managed_wallet = False
+
+            if Group.objects.filter(name=USER_ROLE).exists():
+                user.groups.add(Group.objects.get(name=USER_ROLE))
+            user.save()
+
             org = cd.get('org')
             email = cd.get('email')
             partner_name = email + ' (mobile)'

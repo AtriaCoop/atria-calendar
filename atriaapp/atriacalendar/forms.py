@@ -2,6 +2,7 @@ from django import forms
 from modeltranslation.forms import TranslationModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.db.models import Q
+from django.contrib.auth import get_user_model
 
 from swingtime import models as swingtime_models
 from swingtime import forms as swingtime_forms
@@ -93,8 +94,12 @@ class OrgSignUpForm(SignUpForm):
 ###############################################################
 # Forms to request a connection to a mobile wallet
 ###############################################################
-class RequestMobileConnectionForm(forms.Form):
+class RequestMobileConnectionForm(UserCreationForm):
     email = forms.CharField(label='Email', max_length=120)
-    org = forms.ModelChoiceField(label='Organization', queryset=AtriaOrganization.objects.filter(Q(role__name='Association')).all())
+    org = forms.ModelChoiceField(label='Organization', queryset=IndyOrganization.objects.filter(Q(role__name='Association')).all())
+
+    class Meta:
+        model = get_user_model()
+        fields = ('first_name', 'last_name', 'email', 'password1', 'password2', 'org')
 
 
