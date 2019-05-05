@@ -8,6 +8,16 @@ Verified Email:
     - last_name
     - email
     - verified_date
+Calendar Sharing Consent:
+  type: schema
+  version: $generate
+  issuing_roles:
+    - Admin
+  attributes:
+    - first_name
+    - last_name
+    - share_level
+    - end_date
 Verified Identity:
   type: schema
   version: $generate
@@ -47,30 +57,41 @@ Proof of Verified Email:
     - {'name':'last_name', 'restrictions':[{'issuer_did': '$ATRIA_DID'}]}
     - {'name':'email', 'restrictions':[{'issuer_did': '$ATRIA_DID'}]}
     - {'name':'verified_date', 'restrictions':[{'issuer_did': '$ATRIA_DID'}]}
+Consent to Share Calendar:
+  type: proof_request
+  description: Consent provided by participant to share calendar detail
+  revealed_attributes:
+    - {'name':'first_name', 'restrictions':[{'issuer_did': '$ATRIA_DID'}]}
+    - {'name':'last_name', 'restrictions':[{'issuer_did': '$ATRIA_DID'}]}
+    - {'name':'end_date', 'restrictions':[{'issuer_did': '$ATRIA_DID'}]}
+    - {'name':'comments'}
+  predicates:
+    - {'name': 'share_level','p_type': '>=','p_value': '$VALUE', 'restrictions':[{'issuer_did': '$ATRIA_DID'}]}
+    - share_level
 Proof of Verified Identity:
   type: proof_request
   description: Proof of Verified Identity
   revealed_attributes:
-    - {'name':'first_name', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
-    - {'name':'last_name', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
-    - {'name':'verified_date', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
+    - {'name':'first_name', 'restrictions':[{'schema_name': 'Verified Identity'}]}
+    - {'name':'last_name', 'restrictions':[{'schema_name': 'Verified Identity'}]}
+    - {'name':'verified_date', 'restrictions':[{'schema_name': 'Verified Identity'}]}
   predicates:
-    - {'name': 'identity_level','p_type': '>=','p_value': '$VALUE', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
+    - {'name': 'identity_level','p_type': '>=','p_value': '$VALUE', 'restrictions':[{'schema_name': 'Verified Identity'}]}
 Proof of Background Check:
   type: proof_request
   description: Proof of Background Check
   revealed_attributes:
-    - {'name':'first_name', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
-    - {'name':'last_name', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
-    - {'name':'verified_date', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
+    - {'name':'first_name', 'restrictions':[{'schema_name': 'Verified Background Check'}]}
+    - {'name':'last_name', 'restrictions':[{'schema_name': 'Verified Background Check'}]}
+    - {'name':'verified_date', 'restrictions':[{'schema_name': 'Verified Background Check'}]}
   predicates:
-    - {'name': 'verified_level','p_type': '>=','p_value': '$VALUE', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
+    - {'name': 'verified_level','p_type': '>=','p_value': '$VALUE', 'restrictions':[{'schema_name': 'Verified Background Check'}]}
 Proof of Volunteer Experience:
   type: proof_request
   description: Proof of Background Check
   revealed_attributes:
-    - {'name':'first_name', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
-    - {'name':'last_name', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
-    - {'name':'volunteer_role', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
-    - {'name':'volunteer_date', 'restrictions':[{'issuer_did': '$ISSUER_DID'}]}
+    - {'name':'first_name', 'restrictions':[{'schema_name': 'Certified Volunteer'}]}
+    - {'name':'last_name', 'restrictions':[{'schema_name': 'Certified Volunteer'}]}
+    - {'name':'volunteer_role', 'restrictions':[{'schema_name': 'Certified Volunteer'}]}
+    - {'name':'volunteer_date', 'restrictions':[{'schema_name': 'Certified Volunteer'}]}
 
