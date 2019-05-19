@@ -88,7 +88,7 @@ Proof of Background Check:
     - {'name': 'verified_level','p_type': '>=','p_value': '$VALUE', 'restrictions':[{'schema_name': 'Verified Background Check'}]}
 Proof of Volunteer Experience:
   type: proof_request
-  description: Proof of Background Check
+  description: Proof of Volunteer Experience
   revealed_attributes:
     - {'name':'first_name', 'restrictions':[{'schema_name': 'Certified Volunteer'}]}
     - {'name':'last_name', 'restrictions':[{'schema_name': 'Certified Volunteer'}]}
