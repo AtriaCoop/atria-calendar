@@ -2,6 +2,7 @@
 
 {% load i18n %}
 {% load atria_custom_tags %}
+{% load session_namespaced_url %}
 
 {# Set local template variable: #}
 {% get_settings_value LANGUAGES "LANGUAGES" %}
@@ -32,18 +33,11 @@
 						</div>
 					</div>
 					<div>
+						{% for org in orgs %}
 						<div id='organizationsearch1'>
 							{% include "atriacalendar/pageIncludes/organizationsearch.html" %}
 						</div>
-						<div id='organizationsearch2'>
-							{% include "atriacalendar/pageIncludes/organizationsearch.html" %}
-						</div>
-						<div id='organizationsearch3'>
-							{% include "atriacalendar/pageIncludes/organizationsearch.html" %}
-						</div>
-						<div id='organizationsearch4'>
-							{% include "atriacalendar/pageIncludes/organizationsearch.html" %}
-						</div>
+						{% endfor %}
 					</div>
 				</div>
 			</div>

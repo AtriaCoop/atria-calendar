@@ -34,10 +34,13 @@ def init_user_session(sender, user, request, **kwargs):
     target = request.POST.get('next', '/neighbour/')
     if 'organization' in target:
         if user.has_role(ORG_ROLE):
-            request.session['ACTIVE_ROLE'] = ORG_ROLE
-            orgs = AtriaRelationship.objects.filter(user=user).all()
+            orgs = AtriaRelationship.objects.filter(user=user, status="Active", relation_type__is_org_relation=True).all()
             if 0 < len(orgs):
                 request.session['ACTIVE_ORG'] = str(orgs[0].org.id)
+                request.session['ACTIVE_ROLE'] = ORG_ROLE
+            else:
+                # TODO for now just set a dummy default - logged in user has no org-enabled role
+                request.session['ACTIVE_ROLE'] = USER_ROLE
         else:
             # TODO for now just set a dummy default - logged in user with no role assigned
             request.session['ACTIVE_ROLE'] = USER_ROLE
@@ -261,6 +264,8 @@ class AtriaOrgAnnouncement(models.Model):
 class RelationType(models.Model):
     relation_type = models.CharField(max_length=20)
     relation_description = models.CharField(max_length=80)
+    # used to give user access to login as Org role for this org
+    is_org_relation = models.BooleanField(default=False)
 
     def __str__(self):
         return self.relation_type
