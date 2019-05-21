@@ -74,10 +74,20 @@
     {
         "fields": {
             "relation_description": "Employee",
-            "relation_type": "Employee"
+            "relation_type": "Employee",
+            "is_org_relation": "True"
         },
         "model": "atriacalendar.relationtype",
         "pk": 1
+    },
+    {
+        "fields": {
+            "relation_description": "Member",
+            "relation_type": "Member",
+            "is_org_relation": "False"
+        },
+        "model": "atriacalendar.relationtype",
+        "pk": 2
     },
     {
         "fields": {

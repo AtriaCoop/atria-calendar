@@ -260,7 +260,7 @@ class OrgSignupView(SignupView):
         registration_utils.org_provision(org, raw_password, org_role)
 
         relation_types = RelationType.objects.filter(relation_type=ORG_ROLE).all()
-        if 0 == len(relation_types):
+        if 0 == relation_types.count():
             relation_types = RelationType.objects.all()
         relation = AtriaRelationship(
                 user=self.object,
@@ -457,16 +457,58 @@ def settings_view(request):
     return render(request, 'atriacalendar/pagesSite/settingsPage.html')
 
 def neighbour_profile_view(request):
-    return render(request, 'atriacalendar/pagesSite/neighbourPage.html')
+    if request.user.is_authenticated:
+        my_email = request.user.email
+        neighbour = User.objects.filter(email=my_email).get()
+        #connections = neighbour.indyrelationship_set.filter(relation_type__relation_type='Member').all()
+        connections = AtriaRelationship.objects.filter(user=neighbour, relation_type__relation_type='Member').all()
+        return render(request, 'atriacalendar/pagesSite/neighbourPage.html',
+            context={'neighbour': neighbour, 'connections': connections, 'connection_exists': True, 'is_personal_profile': True})
+    else:
+        return redirect('search_neighbour')
 
 def organization_profile_view(request):
-    return render(request, 'atriacalendar/pagesSite/organizationPage.html')
+    if 'ACTIVE_ORG' in request.session:
+        org_id = request.session['ACTIVE_ORG']
+        org = AtriaOrganization.objects.filter(id=org_id).get()
+        #connections = org.indyrelationship_set.filter(relation_type__relation_type='Member').all()
+        connections = AtriaRelationship.objects.filter(org=org, relation_type__relation_type='Member').all()
+        return render(request, 'atriacalendar/pagesSite/organizationPage.html',
+            context={'org': org, 'connections': connections, 'connection_exists': True, 'is_organization_profile': True})
+    else:
+        return redirect('search_organization')
 
 def view_neighbour_view(request):
-    return render(request, 'atriacalendar/pagesSite/neighbourPage.html')
+    if request.user.is_authenticated:
+        my_email = request.user.email
+        return redirect('view_neighbour_id', email=my_email)
+    else:
+        return redirect('search_neighbour')
+
+def view_neighbour_id_view(request, email):
+    neighbour = User.objects.filter(email=email).get()
+    #connections = neighbour.indyrelationship_set.filter(relation_type__relation_type='Member').all()
+    connections = AtriaRelationship.objects.filter(user=neighbour, relation_type__relation_type='Member').all()
+    connection_exists = request.user.is_authenticated and ('ACTIVE_ORG' in request.session) and AtriaRelationship.objects.filter(org__id=request.session['ACTIVE_ORG'], user=neighbour, relation_type__relation_type='Member').exists()
+    is_personal_profile = request.user.is_authenticated and request.user == neighbour
+    return render(request, 'atriacalendar/pagesSite/neighbourPage.html',
+        context={'neighbour': neighbour, 'connections': connections, 'connection_exists': connection_exists, 'is_personal_profile': is_personal_profile})
 
 def view_organization_view(request):
-    return render(request, 'atriacalendar/pagesSite/organizationPage.html')
+    if 'ACTIVE_ORG' in request.session:
+        org_id = request.session['ACTIVE_ORG']
+        return redirect('view_organization_id', id=my_id)
+    else:
+        return redirect('search_organization')
+
+def view_organization_id_view(request, id):
+    org = AtriaOrganization.objects.filter(id=id).get()
+    #connections = org.indyrelationship_set.filter(relation_type__relation_type='Member').all()
+    connections = AtriaRelationship.objects.filter(org=org, relation_type__relation_type='Member').all()
+    connection_exists = request.user.is_authenticated and (not 'ACTIVE_ORG' in request.session) and AtriaRelationship.objects.filter(org=org, user=request.user, relation_type__relation_type='Member').exists()
+    is_organization_profile = ('ACTIVE_ORG' in request.session) and org.id == request.session['ACTIVE_ORG']
+    return render(request, 'atriacalendar/pagesSite/organizationPage.html',
+        context={'org': org, 'connections': connections, 'connection_exists': connection_exists, 'is_organization_profile': is_organization_profile})
 
 def create_manage_view(request):
     return render(request, 'atriacalendar/pagesSite/createManagePage.html')
@@ -490,7 +532,66 @@ def search_opportunity_view(request):
     return render(request, 'atriacalendar/pagesSearch/opportunitiesSearch.html')
 
 def search_neighbour_view(request):
-    return render(request, 'atriacalendar/pagesSearch/neighboursSearch.html')
+    neighbours = User.objects.filter(groups__name=settings.DEFAULT_USER_ROLE).all()
+    return render(request, 'atriacalendar/pagesSearch/neighboursSearch.html',
+        context={'neighbours': neighbours})
 
 def search_organization_view(request):
-    return render(request, 'atriacalendar/pagesSearch/organizationsSearch.html')
+    orgs = AtriaOrganization.objects.all()
+    return render(request, 'atriacalendar/pagesSearch/organizationsSearch.html',
+        context={'orgs': orgs})
+
+def make_connection(request):
+    if request.method == 'POST':
+        # validate and make the requested connection
+        form = ConnectionForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            org_id = cd.get('org_id')
+            user_email = cd.get('user_email')
+            if 'ACTIVE_ORG' in request.session:
+                org = AtriaOrganization.objects.filter(id=request.session['ACTIVE_ORG']).get()
+                neighbour = User.objects.filter(email=user_email).get()
+            else:
+                org = AtriaOrganization.objects.filter(id=org_id).get()
+                neighbour = request.user
+
+            existing_relation = AtriaRelationship.objects.filter(org=org, user=neighbour, relation_type__relation_type='Member').all()
+            if 0 == existing_relation.count():
+                rel_type = RelationType.objects.filter(relation_type='Member').get()
+                relation = AtriaRelationship(
+                    org=org, 
+                    user=neighbour, 
+                    relation_type=rel_type,
+                    status='Active')
+                relation.save()
+                return render(request, 'atriacalendar/pagesForms/form_response.html',
+                    context={'msg': 'Connection Added', 'msg_txt': 'Connection added between '+org.org_name+' and '+neighbour.email})
+            else:
+                return render(request, 'atriacalendar/pagesForms/form_response.html',
+                    context={'msg': 'Connection Exists', 'msg_txt': 'Connection already exists between '+org.org_name+' and '+neighbour.email})
+        else:
+            return render(request, 'atriacalendar/pagesForms/form_response.html',
+                    context={'msg': 'Error', 'msg_txt': 'Error in form data'})
+
+    else:
+        # render form based on requested id's
+        if 'ACTIVE_ORG' in request.session:
+            org = AtriaOrganization.objects.filter(id=request.session['ACTIVE_ORG']).get()
+            neighbour = User.objects.filter(email=request.GET.get('email')).get()
+        else:
+            org = AtriaOrganization.objects.filter(id=request.GET.get('org_id')).get()
+            neighbour = request.user
+        form = ConnectionForm(initial={
+                    'user_email': neighbour.email,
+                    'org_name': org.org_name,
+                    'org_id': org.id})
+        return render(request, 'atriacalendar/pagesForms/makeConnection.html', 
+            context={'form': form})
+
+
+def form_response(request):
+    msg = request.GET.get('msg', None)
+    msg_txt = request.GET.get('msg_txt', None)
+    return render(request, 'atriacalendar/pagesForms/form_response.html', {'msg': msg, 'msg_txt': msg_txt})
+

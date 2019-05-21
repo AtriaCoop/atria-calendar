@@ -91,6 +91,17 @@ class OrgSignUpForm(SignUpForm):
         return user
 
 
+class ConnectionForm(forms.Form):
+    user_email = forms.CharField()
+    org_name = forms.CharField()
+    org_id = forms.CharField(label='', widget = forms.HiddenInput())
+
+    def __init__(self, *args, **kwargs):
+        super(ConnectionForm, self).__init__(*args, **kwargs)
+        self.fields['user_email'].widget.attrs['readonly'] = True
+        self.fields['org_name'].widget.attrs['readonly'] = True
+
+
 ###############################################################
 # Forms to request a connection to a mobile wallet
 ###############################################################
@@ -101,5 +112,4 @@ class RequestMobileConnectionForm(UserCreationForm):
     class Meta:
         model = get_user_model()
         fields = ('first_name', 'last_name', 'email', 'password1', 'password2', 'org')
-
 

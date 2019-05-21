@@ -6,8 +6,8 @@
 
 {% load static %}
 
+{% for connection in connections %}
 <div class='newsfeed-posted-cont'>
-
 	<div class='newsfeed-posted-top-cont'>
 		<div class='newsfeed-posted-img-info'>
 			<div class='newsfeed-posted-img'>
@@ -15,79 +15,32 @@
 			</div>
 
 			<div class='newsfeed-posted-info'>
+				{% if neighbour %}
 				<div>
-					<a href=''>
-						<h2>Account Name</h2>
+					<a href="{% url 'view_organization_id' connection.org.id %}">
+						<h2>{{ connection.org.org_name }} ({{ connection.org.location }}) ({{ connection.relation_type }})</h2>
 					</a>
 				</div>
 				<div>
-					<h5>Account tagline lorem ipsum dolor sit amet</h5>
+					<h5>Organization tagline lorem ipsum dolor sit amet</h5>
 				</div>
+				{% else %}
+				<div>
+					<a href="{% url 'view_neighbour_id' connection.user.email %}">
+						<h2>{{ connection.user.first_name }} {{ connection.user.last_name }} ({{ connection.user.email }}) ({{ connection.relation_type }})</h2>
+					</a>
+				</div>
+				<div>
+					<h5>Organization tagline lorem ipsum dolor sit amet</h5>
+				</div>
+				{% endif %}
 			</div>
 		</div>
 	</div>
-
 	<div>
 		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
 	</div>
 </div>
 
 <div class='newsfeed-post-seperator'></div>
-
-
-<div class='newsfeed-posted-cont'>
-
-	<div class='newsfeed-posted-top-cont'>
-		<div class='newsfeed-posted-img-info'>
-			<div class='newsfeed-posted-img'>
-				<img src="{% static "/atriacalendar/accounticon.png" %}">
-			</div>
-
-			<div class='newsfeed-posted-info'>
-				<div>
-					<a href=''>
-						<h2>Account Name</h2>
-					</a>
-				</div>
-				<div>
-					<h5>Account tagline lorem ipsum dolor sit amet</h5>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div>
-		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-	</div>
-</div>
-
-<div class='newsfeed-post-seperator'></div>
-
-
-<div class='newsfeed-posted-cont'>
-
-	<div class='newsfeed-posted-top-cont'>
-		<div class='newsfeed-posted-img-info'>
-			<div class='newsfeed-posted-img'>
-				<img src="{% static "/atriacalendar/accounticon.png" %}">
-			</div>
-
-			<div class='newsfeed-posted-info'>
-				<div>
-					<a href=''>
-						<h2>Account Name</h2>
-					</a>
-				</div>
-				<div>
-					<h5>Account tagline lorem ipsum dolor sit amet</h5>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div>
-		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-	</div>
-</div>
-
-<div class='newsfeed-post-seperator'></div>
+{% endfor %}
