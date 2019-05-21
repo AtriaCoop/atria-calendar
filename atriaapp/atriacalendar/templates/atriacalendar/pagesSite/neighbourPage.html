@@ -35,6 +35,7 @@
 				<div class='profile-top-bar-right'>
 					{% if request.user.is_authenticated and request.session.ACTIVE_ORG %}
 						{% if connection_exists %}
+							<div class='btn btn-connect'><i class="fas fa-user-plus"></i>Connected!!!</div>
 						{% else %}
 						<a href="{% snurl 'make_connection'  %}?email={{neighbour.email}}">
 							<div class='btn btn-connect'><i class="fas fa-user-plus"></i>Connect</div>
@@ -63,12 +64,14 @@
 					<div class='profile-nav-btn profile-nav-btn-info active-profile-nav'>
 						<h5>Info</h5><i class="fas fa-plus"></i>
 					</div>
+				{% if is_personal_profile %}
 					<div class='profile-nav-btn profile-nav-btn-newsfeed'>
 						<h5>Newsfeed</h5><i class="fas fa-plus"></i>
 					</div>
 					<div class='profile-nav-btn profile-nav-btn-connections'>
 						<h5>Connections</h5><i class="fas fa-plus"></i>
 					</div>
+				{% endif %}
 				</div>
 			</div>
 
@@ -106,25 +109,17 @@
 						<p class='tab-info profile-tab-exp-work-info'>Work Experience</p>
 					</div>
 				</div>
-				
- 				<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->				
-				
+								
 				<div class='profile-tabs profile-tabs-newsfeed'>
 					<div id='profilenewsfeed'>
 						{% include "atriacalendar/pageIncludes/profilenewsfeed.html" %}
 					</div>
 				</div>
-				
-				<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->				
-				
 				<div class='profile-tabs profile-tabs-connections'>
 					<div id='profileconnections'>
 						{% include "atriacalendar/pageIncludes/profileconnections.html" %}
 					</div>
 				</div>
-				
-				<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-				
 			</div>
 		</div>
 	</div>

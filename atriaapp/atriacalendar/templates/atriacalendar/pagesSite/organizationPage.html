@@ -27,6 +27,7 @@
 				<div class='profile-top-bar-right'>
 					{% if request.user.is_authenticated and not request.session.ACTIVE_ORG %}
 						{% if connection_exists %}
+							<div class='btn btn-connect'><i class="fas fa-user-plus"></i>Connected!!!</div>
 						{% else %}
 						<a href="{% snurl 'make_connection' %}?org_id={{org.id}}">
 							<div class='btn btn-connect'><i class="fas fa-user-plus"></i>Connect</div>
@@ -61,12 +62,15 @@ lorem ipsum dolor sit amet</h5>
 					<div class='profile-nav-btn profile-nav-btn-opportunities'>
 						<h5>Opportunities</h5><i class="fas fa-plus"></i>
 					</div>
+
+					{% if is_organization_profile %}
 					<div class='profile-nav-btn profile-nav-btn-newsfeed'>
 						<h5>Newsfeed</h5><i class="fas fa-plus"></i>
 					</div>
 					<div class='profile-nav-btn profile-nav-btn-connections'>
 						<h5>Connections</h5><i class="fas fa-plus"></i>
 					</div>
+					{% endif %}
 				</div>
 			</div>
 
