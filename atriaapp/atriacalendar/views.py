@@ -565,6 +565,10 @@ def make_connection(request):
                     relation_type=rel_type,
                     status='Active')
                 relation.save()
+
+                # TODO send a connection request
+                org_connection = agent_utils.send_connection_invitation(org.wallet, neighbour.email)
+
                 return render(request, 'atriacalendar/pagesForms/form_response.html',
                     context={'msg': 'Connection Added', 'msg_txt': 'Connection added between '+org.org_name+' and '+neighbour.email})
             else:
