@@ -74,7 +74,7 @@ def event_month_view(request, year, month):
 
 def event_week_view(request, year, month, day):
     start = datetime(year, month, day)
-    end = start + timedelta(weeks=1) - timedelta(seconds=1)
+    end = start + timedelta(weeks=1, seconds=-1)
 
     occurrence_data = period_occurrences(start, end)
 

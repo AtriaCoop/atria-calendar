@@ -69,7 +69,7 @@
 			  </div>
 		    </div>
 		</div>
-      <div class='cal-week-cont' style="display: flex;" v-if='how_to_display === "week"'>
+	<div class='cal-week-cont' style="display: flex;" v-if='how_to_display === "week"'>
 		<div>
 			<ul>
 				<li>
@@ -97,26 +97,19 @@
 		</div>
 		<div class='week'>
 			<ul>
-				<li>
-					<span>10</span>
-				</li>
-				<li>
-					<span>11</span>
-				</li>
-				<li class='today'>
-					<span>12</span>
-				</li>
-				<li>
-					<span>13</span>
-				</li>
-				<li>
-					<span>14</span>
-				</li>
-				<li>
-					<span>15</span>
-				</li>
-				<li>
-					<span>16</span>
+				<li
+					class='week-events'
+					:class='{ "today": day.isToday, "selected": day.isSelected && !day.dragActive, "dragged": day.isDragged }'
+					v-for='day in selectedWeekDays'
+					@click='$emit("selectDay", day)'
+					@mouseenter='$emit("enterDay", day)'
+					@mouseleave='$emit("leaveDay", day)'>
+					<div class='day-number'><span>{{ day.day }}</span></div>
+					<div class='day-wrapper'>
+						<div v-for='occurrence in occurrences' v-if='day.day == occurrence.start_time.substring(8, 10)'>
+							<p class='day-event-list'> {{ occurrence.start_time.substring(11) }} {{ occurrence.event.title }}</p>
+						</div>
+					</div>
 				</li>
 			</ul>
 		</div>
@@ -143,7 +136,7 @@
 					Aug 4
 				</li>
 				<li>
-					Aept 25
+					Sept 25
 				</li>
 			</ul>
 		</div>

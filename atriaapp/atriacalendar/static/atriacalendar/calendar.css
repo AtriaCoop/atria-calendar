@@ -117,8 +117,31 @@
 	margin: 1rem 0 0 0;
 }
 
-.cal-week-cont div {
-	display: inline-block;
+.cal-week-cont .week-events {
+	display: flex;
+	height: 4rem;
+}
+
+.cal-week-cont .week-events:hover {
+	background: rgba(250, 208, 103, .2);
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.cal-week-cont .day-wrapper {
+	align-items: start;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	overflow-x: scroll;
+	margin-left: 1rem;
+	scrollbar-width: none;
+	width: 100%;
+}
+
+.cal-week-cont .day-event-list {
+	font-size: 0.9em;
+	margin: 0 1em 1em 0;
 }
 
 .cal-week-cont .week {
@@ -141,13 +164,22 @@
 	background: #f1f1f1;
 }
 
-.cal-week-cont li span {
+.cal-week-cont .day-number {
+	padding: 6px 8px;
+	width: 2em;
+}
+
+.cal-week-cont .day-number span {
 	padding: 6px 8px;
 	border-radius: 100%;
 }
 
 .cal-week-events {
 	font-size: 8px;
+}
+
+.week-events.today p {
+	color: #666;
 }
 
 .cal-year-cont {
