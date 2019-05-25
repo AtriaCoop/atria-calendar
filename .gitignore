@@ -108,3 +108,6 @@ venv.bak/
 
 # JavaScript stuff
 .eslint.json
+
+# Local config stuff
+.vimrc
