@@ -16,9 +16,15 @@ const _todayComps = {
 const calendar = Vue.component('calendar', {
   template: '#calendar',
   data() {
+    const firstDayOfWeek = new Date();
+    firstDayOfWeek.setDate(
+      firstDayOfWeek.getDate() - firstDayOfWeek.getDay());
+
     return {
       month: _todayComps.month,
       year: _todayComps.year,
+      day: _todayComps.day,
+      firstDayOfWeek: firstDayOfWeek.getDate(),
       occurrences: null,
       loading: true,
       errored: false,
@@ -81,6 +87,22 @@ const calendar = Vue.component('calendar', {
         label_3: wl.substring(0, 3),
         number: i + 1,
       }));
+    },
+    // State for the selected week's days
+    selectedWeekDays() {
+      const days = [];
+
+      for (let i = this.firstDayOfWeek; i < this.firstDayOfWeek + 7; i++) {
+				days.push({
+					day: i,
+					date: new Date(this.year, this.month - 1, i),
+					isToday: (i === _todayComps.day &&
+						this.month === _todayComps.month &&
+						this.year === _todayComps.year),
+				});
+      }
+
+      return days;
     },
     // State for calendar header
     header() {
@@ -181,6 +203,7 @@ const calendar = Vue.component('calendar', {
     },
     calWeekSelectDisplay() {
       this.how_to_display = 'week';
+      this.loadWeeklyOccurrences();
     },
     calYearSelectDisplay() {
       this.how_to_display = 'year';
@@ -226,6 +249,25 @@ const calendar = Vue.component('calendar', {
         })
         .finally(() => this.loading = false)
     },
+    loadWeeklyOccurrences() {
+      const day = new Date();
+      day.setDate(day.getDate() - day.getDay());
+      const url = encodeURI('/api/atria/calendar/' +
+        `${this.year}/${this.month}/${day.getDate()}/?week=true`);
+
+      axios
+        .get(url)
+        .then(response => {
+          this.occurrences = response.data.occurrences;
+        })
+        .catch(error => {
+          console.log(error);
+          this.errored = true;
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    }
   },
   mounted () {
     this.loadMonthlyOccurrences();
@@ -434,7 +476,7 @@ const _selectModeOptions = [
   { id: 'range', value: 'range', label: 'Date Range' },
 ];
 
-new Vue({
+const vm = new Vue({
   el: '#cal-app',
   data: {
     displayKeyOptions: _displayKeyOptions,
