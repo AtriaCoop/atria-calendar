@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load atria_custom_tags %}
+{% load session_namespaced_url %}
 
 {# Set local template variable: #}
 {% get_settings_value LANGUAGES "LANGUAGES" %}
@@ -18,7 +19,15 @@
 				{% if neighbour %}
 				<div>
 					<a href="{% url 'view_organization_id' connection.org.id %}">
-						<h2>{{ connection.org.org_name }} ({{ connection.org.location }}) ({{ connection.relation_type }} {{ connection.status }})</h2>
+						<h2>
+							{{ connection.org.org_name }} ({{ connection.org.location }}) 
+							({{ connection.relation_type }} {{ connection.status }})
+							{% if connection.status == 'Pending' %}
+							<a href="{% snurl 'accept_connection' connection.id %}">
+								Accept Connection
+							</a>
+							{% endif %}
+						</h2>
 					</a>
 				</div>
 				<div>
@@ -27,7 +36,10 @@
 				{% else %}
 				<div>
 					<a href="{% url 'view_neighbour_id' connection.user.email %}">
-						<h2>{{ connection.user.first_name }} {{ connection.user.last_name }} ({{ connection.user.email }}) ({{ connection.relation_type }} {{ connection.status }})</h2>
+						<h2>
+							{{ connection.user.first_name }} {{ connection.user.last_name }} 
+							({{ connection.user.email }}) ({{ connection.relation_type }} {{ connection.status }})
+						</h2>
 					</a>
 				</div>
 				<div>

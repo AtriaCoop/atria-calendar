@@ -62,6 +62,7 @@ calendarpatterns = [
 # URL patterns specific to all logged-in users
 loggedinuserpatterns = [
     path('connect/', make_connection, name='make_connection'),
+    path('accept_connection/<int:id>/', accept_connection, name='accept_connection'),
 ]
 
 # URL patterns specific to neighbours

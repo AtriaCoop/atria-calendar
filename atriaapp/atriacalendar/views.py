@@ -609,6 +609,38 @@ def make_connection(request):
             context={'form': form})
 
 
+def accept_connection(request, id):
+    relation = AtriaRelationship.objects.filter(id=id).get()
+    if 'ACTIVE_ORG' in request.session:
+        # confirm relation is for our org
+        if request.session['ACTIVE_ORG'] != relation.org.id:
+            return render(request, 'atriacalendar/pagesForms/form_response.html',
+                    context={'msg': 'Error', 'msg_txt': 'Error invalid connection request'})
+        indy_connection = indy_models.AgentConnection.objects.filter(wallet=relation.org.wallet, partner_name=relation.user.email).all()
+        if 0 == len(indy_connection):
+            return render(request, 'atriacalendar/pagesForms/form_response.html',
+                    context={'msg': 'Error', 'msg_txt': 'Error no wallet connection found'})
+        my_connection = indy_connection[0]
+    else:
+        # confirm relation is for our user
+        if request.user != relation.user:
+            return render(request, 'atriacalendar/pagesForms/form_response.html',
+                    context={'msg': 'Error', 'msg_txt': 'Error invalid connection request'})
+        indy_connection = indy_models.AgentConnection.objects.filter(wallet=relation.user.wallet, partner_name=relation.org.org_name).all()
+        if 0 == len(indy_connection):
+            return render(request, 'atriacalendar/pagesForms/form_response.html',
+                    context={'msg': 'Error', 'msg_txt': 'Error no wallet connection found'})
+        my_connection = indy_connection[0]
+
+    if my_connection.status != 'Pending':
+        return render(request, 'atriacalendar/pagesForms/form_response.html',
+                context={'msg': 'Error', 'msg_txt': 'Error connection has already been accepted'})
+    my_connection = agent_utils.send_connection_confirmation(my_connection.wallet, my_connection.id, my_connection.partner_name, my_connection.invitation)
+
+    return render(request, 'atriacalendar/pagesForms/form_response.html',
+            context={'msg': 'Accepted', 'msg_txt': 'Connection has been accepted'})
+
+
 def form_response(request):
     msg = request.GET.get('msg', None)
     msg_txt = request.GET.get('msg_txt', None)
