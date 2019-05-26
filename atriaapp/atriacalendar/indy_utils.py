@@ -1,33 +1,48 @@
 import indy_community.agent_utils as agent_utils
 
+from indy_community import models as indy_models
 
-def auto_accept_connection(connection):
-    connection_id = connection.connection_id
-    wallet = connections.wallet
-    partner_name = connections.partner_name
-    invitation_details = connections.invitation
-    my_connection = agent_utils.send_connection_confirmation(wallet, connection_id, partner_name, invitation_details)
+from atriacalendar.models import *
 
 
+# once connection is confirmed at both ends, activate the Atria relationship
+def activate_atria_connection(connection):
+    # find atria relationship
+    if connection.wallet.wallet_org.get():
+        org = connection.wallet.wallet_org.get()
+        neighbour = User.objects.filter(email=connection.partner_name).get()
+    else:
+        neighbour = connection.wallet.wallet_user.get()
+        org = AtriaOrganization.objects.filter(org_name=connection.partner_name).get()
+    existing_relations = AtriaRelationship.objects.filter(org=org, user=neighbour, relation_type__relation_type='Member').all()
+    if 0 < len(existing_relations):
+        existing_relations[0].status='Active'
+        existing_relations[0].save()
+
+
+def dummy_fn():
+    pass
+
+# TODO create any necessary functions for this dispatch table
 DISPATCH_TABLE = {
     'Org': {
         # Out "HA" is now playing the dual role of "repository" as well
         'role1': {
             # Imms Repository will auto-receive credentials
-            'CredentialOffer': repository_auto_accept_credential_offers,
+            'CredentialOffer': dummy_fn,
             # no special handling when credentials are received
-            'CredentialRequest': repository_auto_receive_credentials,
+            'CredentialRequest': dummy_fn,
             # Receive proof request from School, or receive Proof from Parent
             'ProofRequest': {
-                'Pending': repository_auto_answer_proof_requests,
-                'Accepted': repository_auto_receive_proofs
+                'Pending': dummy_fn,
+                'Accepted': dummy_fn
             }
         },
         'role2': {
             # School has no special processing around receipt of credentials
             # Received proof (upon request) from Individual or from Imms Repo
             'ProofRequest': {
-                'Accepted': school_auto_receive_proofs
+                'Accepted': dummy_fn
             }
         },
         # "repository" is sitting this one out for now ...
@@ -46,10 +61,10 @@ DISPATCH_TABLE = {
     },
     'User': {
         # Check for consent offer credentials
-        'CredentialOffer': user_auto_receive_credential_offers,
+        'CredentialOffer': dummy_fn,
         # Check for consent-related proof requests from School and Imms Repo
         'ProofRequest': {
-            'Pending': user_auto_receive_proof_requests,
+            'Pending': dummy_fn,
         }
     }
 }
@@ -110,7 +125,8 @@ def connection_callback(connection, prev_status):
     if prev_status and (status == prev_status):
         return
 
-    if connection.connection_type == 'Inbound' and connection.status == 'Pending':
-        # auto-accept requests
-        auto_accept_connection(connection)
+    if connection.connection_type == 'Outbound' and connection.status == 'Active':
+        # make Atria connection active as well
+        activate_atria_connection(connection)
+
 

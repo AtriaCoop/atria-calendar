@@ -552,9 +552,11 @@ def make_connection(request):
             if 'ACTIVE_ORG' in request.session:
                 org = AtriaOrganization.objects.filter(id=request.session['ACTIVE_ORG']).get()
                 neighbour = User.objects.filter(email=user_email).get()
+                auto_accept = False
             else:
                 org = AtriaOrganization.objects.filter(id=org_id).get()
                 neighbour = request.user
+                auto_accept = True
 
             existing_relation = AtriaRelationship.objects.filter(org=org, user=neighbour, relation_type__relation_type='Member').all()
             if 0 == existing_relation.count():
@@ -563,11 +565,24 @@ def make_connection(request):
                     org=org, 
                     user=neighbour, 
                     relation_type=rel_type,
-                    status='Active')
+                    status='Pending')
                 relation.save()
 
                 # TODO send a connection request
                 org_connection = agent_utils.send_connection_invitation(org.wallet, neighbour.email)
+                if neighbour.managed_wallet:
+                    their_connection = indy_models.AgentConnection(
+                        wallet = neighbour.wallet,
+                        partner_name = org.org_name,
+                        invitation = org_connection.invitation,
+                        token = org_connection.token,
+                        connection_type = 'Inbound',
+                        status = 'Pending')
+                    their_connection.save()
+
+                    if auto_accept:
+                        their_connection = agent_utils.send_connection_confirmation(their_connection.wallet, their_connection.id, their_connection.partner_name, their_connection.invitation)
+                        pass
 
                 return render(request, 'atriacalendar/pagesForms/form_response.html',
                     context={'msg': 'Connection Added', 'msg_txt': 'Connection added between '+org.org_name+' and '+neighbour.email})
