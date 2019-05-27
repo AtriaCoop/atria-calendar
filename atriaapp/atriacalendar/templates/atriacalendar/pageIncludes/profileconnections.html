@@ -49,7 +49,35 @@
 			</div>
 		</div>
 	</div>
+	{% if neighbour %}
+		<div>
+			<h5>TODO list certifications</h5>
+		</div>
+		<div>
+			<h5>TODO list offered certifications and accept</h5>
+		</div>
+	{% else %}
+		{% for certification in connection.membercertification_set.all %}
+		<div>
+			<span>
+				<i class="fas fa-check"></i> 
+				{{ certification.certification_type }} ({{ certification.reference.conversation_type }})
+			</span>
+		</div>
+		{% endfor %}
+		<div>
+			<h5>
+				<a href="{% snurl 'org_issue_credential' connection.user.email %}">Issue Certification</a>
+			</h5>
+		</div>
+		<div>
+			<h5>
+				<a href="{% snurl 'org_request_proof' connection.user.email %}">Request Proof of Certification</a>
+			</h5>
+		</div>
+	{% endif %}
 	<div>
+		<p></p>
 		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
 	</div>
 </div>

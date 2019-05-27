@@ -7,6 +7,9 @@ from django.contrib.auth import get_user_model
 from swingtime import models as swingtime_models
 from swingtime import forms as swingtime_forms
 
+from indy_community import forms as indy_forms
+from indy_community import models as indy_models
+
 from .models import *
 
 

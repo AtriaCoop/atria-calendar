@@ -9,7 +9,7 @@ from datetime import datetime, date, timedelta
 
 from swingtime import models as swingtime_models
 
-from indy_community.models import IndyUserManager, IndyUser, IndyOrganization, IndyOrgRelationship
+from indy_community.models import IndyUserManager, IndyUser, IndyOrganization, IndyOrgRelationship, IndySchema, AgentConversation
 
 
 USER_ROLE = getattr(settings, "DEFAULT_USER_ROLE", 'Attendee')
@@ -226,6 +226,29 @@ class AtriaRelationship(IndyOrgRelationship):
 
     def __str__(self):
         return self.user.email + ':' + self.org.org_name + ' = ' + str(self.relation_type)
+
+
+# certifications (or proof of) issued by an org
+class MemberCertification(models.Model):
+    member = models.ForeignKey(AtriaRelationship, on_delete=models.CASCADE)
+    certification_type = models.ForeignKey(IndySchema, on_delete=models.CASCADE)
+    # reference is the issued credential or received proof
+    reference = models.ForeignKey(AgentConversation, on_delete=models.CASCADE)
+    # attributes, if we are the issuer
+    certification_data = models.TextField(max_length=4000, blank=True, null=True)
+    # verified flag, if we have received a proof
+    verified = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.member.user.email + ':' + self.certification_type.schema_name + ' (' + str(self.reference.conversation_type) + ')'
+
+
+# certifications owned by a Neighbour (can be displayed publicly)
+class NeighbourCertification(models.Model):
+    certification_type = models.ForeignKey(IndySchema, on_delete=models.CASCADE)
+    # reference is the issued credential or received proof
+    reference = models.ForeignKey(AgentConversation, on_delete=models.CASCADE)
+    publish = models.BooleanField(default=True)
 
 
 # type of user/event relationship:

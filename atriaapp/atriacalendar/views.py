@@ -541,6 +541,9 @@ def search_organization_view(request):
     return render(request, 'atriacalendar/pagesSearch/organizationsSearch.html',
         context={'orgs': orgs})
 
+###############################################################
+# Connection views
+###############################################################
 def make_connection(request):
     if request.method == 'POST':
         # validate and make the requested connection
@@ -568,7 +571,7 @@ def make_connection(request):
                     status='Pending')
                 relation.save()
 
-                # TODO send a connection request
+                # send a connection request
                 org_connection = agent_utils.send_connection_invitation(org.wallet, neighbour.email)
                 if neighbour.managed_wallet:
                     their_connection = indy_models.AgentConnection(
@@ -645,4 +648,33 @@ def form_response(request):
     msg = request.GET.get('msg', None)
     msg_txt = request.GET.get('msg_txt', None)
     return render(request, 'atriacalendar/pagesForms/form_response.html', {'msg': msg, 'msg_txt': msg_txt})
+
+
+###############################################################
+# Credential and proof views
+###############################################################
+def org_issue_credential(request, email):
+    org_id = request.session['ACTIVE_ORG']
+    org = AtriaOrganization.objects.filter(id=org_id).get()
+    neighbour = User.objects.filter(email=email).get()
+    connection = indy_models.AgentConnection.objects.filter(wallet=org.wallet, partner_name=neighbour.email, connection_type='Outbound', status = 'Active').get()
+
+    if not request.GET._mutable:
+       request.GET._mutable = True
+    request.GET['connection_id'] = connection.id
+
+    return indy_views.handle_select_credential_offer(request)
+
+
+def org_request_proof(request, email):
+    org_id = request.session['ACTIVE_ORG']
+    org = AtriaOrganization.objects.filter(id=org_id).get()
+    neighbour = User.objects.filter(email=email).get()
+    connection = indy_models.AgentConnection.objects.filter(wallet=org.wallet, partner_name=neighbour.email, connection_type='Outbound', status = 'Active').get()
+
+    if not request.GET._mutable:
+       request.GET._mutable = True
+    request.GET['connection_id'] = connection.id
+
+    return indy_views.handle_select_proof_request(request)
 

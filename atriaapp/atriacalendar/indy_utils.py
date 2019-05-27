@@ -1,3 +1,5 @@
+import json
+
 import indy_community.agent_utils as agent_utils
 
 from indy_community import models as indy_models
@@ -20,33 +22,72 @@ def activate_atria_connection(connection):
         existing_relations[0].save()
 
 
-def dummy_fn():
+def dummy_fn(conversation, prev_type, prev_status, owner):
+    #print("dummy_fn()", conversation.conversation_type, prev_type, prev_status, owner)
     pass
+
+
+def association_issue_credential(conversation, prev_type, prev_status, owner):
+    print("association_issue_credential()", conversation.conversation_type, prev_type, prev_status, owner)
+
+    # if prev_state = CredentialOffer then we are issuing the credential
+    if prev_type == "CredentialOffer":
+        conversation_data = json.loads(conversation.conversation_data)
+        attrs = conversation_data['data']['credential_attributes']
+        member = AtriaRelationship.objects.filter(relation_type__relation_type='Member', status='Active', user__email=conversation.connection.partner_name, org__wallet=conversation.connection.wallet).get()
+        indy_offer = json.loads(conversation_data['data']['credential_offer']['libindy_offer'])
+        schema_id = indy_offer['schema_id']
+        schema = IndySchema.objects.filter(ledger_schema_id=schema_id).get()
+        certification = MemberCertification(
+                member = member,
+                certification_type = schema,
+                reference = conversation,
+                certification_data = attrs
+            )
+        certification.save()
+
+    # if prev_state = IssueCredential then credential has been accepted
+    if prev_type == "IssueCredential":
+        pass
+
+
+def association_receive_proof(conversation, prev_type, prev_status, owner):
+    print("association_receive_proof()", conversation.conversation_type, prev_type, prev_status, owner)
+
+    # proof received from neighbour
+    conversation_data = json.loads(conversation.conversation_data)
+    member = AtriaRelationship.objects.filter(relation_type__relation_type='Member', status='Active', user__email=conversation.connection.partner_name, org__wallet=conversation.connection.wallet).get()
+    indy_proof = json.loads(conversation_data['data']['proof']['libindy_proof'])
+    proof = indy_proof['requested_proof']
+    # TODO we can have more than one identifier
+    schema_id = indy_proof['identifiers'][0]['schema_id']
+    schema = IndySchema.objects.filter(ledger_schema_id=schema_id).get()
+    certification = MemberCertification(
+            member = member,
+            certification_type = schema,
+            reference = conversation,
+            certification_data = proof
+        )
+    certification.save()
+
 
 # TODO create any necessary functions for this dispatch table
 DISPATCH_TABLE = {
     'Org': {
-        # Out "HA" is now playing the dual role of "repository" as well
-        'role1': {
-            # Imms Repository will auto-receive credentials
-            'CredentialOffer': dummy_fn,
-            # no special handling when credentials are received
-            'CredentialRequest': dummy_fn,
-            # Receive proof request from School, or receive Proof from Parent
+        # "Association" is one of the neighbourhood houses or community centers
+        'Association': {
+            # Won't receive Credential Offers
+            #'CredentialOffer': dummy_fn,
+            # When we receive a Cred Request (and issue the Credential) save ourselves a copy
+            'IssueCredential': association_issue_credential,
+            # Receive proof response from neighbour, save this as a "proven" credential
             'ProofRequest': {
-                'Pending': dummy_fn,
-                'Accepted': dummy_fn
+                #'Pending': dummy_fn,
+                'Accepted': association_receive_proof
             }
         },
-        'role2': {
-            # School has no special processing around receipt of credentials
-            # Received proof (upon request) from Individual or from Imms Repo
-            'ProofRequest': {
-                'Accepted': dummy_fn
-            }
-        },
-        # "repository" is sitting this one out for now ...
-        'role3': {
+        # "Admin" is sitting this one out for now ... TBD
+        'Admin': {
             # Imms Repository will auto-receive credentials
             #'CredentialOffer': repository_auto_accept_credential_offers,
             # no special handling when credentials are received
@@ -71,6 +112,8 @@ DISPATCH_TABLE = {
 
 # dispatcher
 def conversation_callback(conversation, prev_type, prev_status):
+    print(conversation.conversation_type, prev_type, prev_status)
+
     # skip dispatching if nothing has changed
     conversation_type = conversation.conversation_type
     status = conversation.status
