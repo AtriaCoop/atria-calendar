@@ -29,6 +29,8 @@ textarea {
 	box-sizing: border-box;
 	border-radius: 3px;
 	max-width: 100%;
+	font-family: inherit;
+	font-size: 1rem;
 }
 
 textarea {
@@ -615,6 +617,11 @@ EVENT FORM
 	width: 90%;
 }
 
+.form-cont input[type="date"],
+.form-cont input[type="time"] {
+	width: 11rem;
+}
+
 .form-date-time-cont {
 	display: flex;
 	flex-direction: row;
@@ -625,7 +632,7 @@ EVENT FORM
 }
 
 .form-cont > div > div {
-	margin: 0 0 1rem 0;
+	margin: 0 1rem 1rem 0;
 }
 
 .add-opp-cont {
