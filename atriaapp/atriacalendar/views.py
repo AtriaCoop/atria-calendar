@@ -295,7 +295,7 @@ def mobile_request_connection(request):
 
             org = cd.get('org')
             email = cd.get('email')
-            partner_name = email + ' (mobile)'
+            partner_name = email
 
             # get requested org and their wallet
             org_wallet = org.wallet
@@ -309,6 +309,15 @@ def mobile_request_connection(request):
 
             # build the connection and get the invitation data back
             try:
+                rel_type = RelationType.objects.filter(relation_type='Member').get()
+                relation = AtriaRelationship(
+                    org=org, 
+                    user=user, 
+                    relation_type=rel_type,
+                    status='Pending')
+                relation.save()
+
+                # poke the organization to send the connection invitation
                 org_connection = agent_utils.send_connection_invitation(org_wallet, partner_name)
 
                 return render(request, 'registration/mobile_connection_info.html', {'org_name': org.org_name, 'connection_token': org_connection.token})
@@ -572,7 +581,7 @@ def make_connection(request):
                     status='Pending')
                 relation.save()
 
-                # send a connection request
+                # poke the organization to send the connection invitation
                 org_connection = agent_utils.send_connection_invitation(org.wallet, neighbour.email)
                 if neighbour.managed_wallet:
                     their_connection = indy_models.AgentConnection(
