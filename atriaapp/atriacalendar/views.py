@@ -507,6 +507,7 @@ def view_organization_id_view(request, id):
     connections = AtriaRelationship.objects.filter(org=org, relation_type__relation_type='Member').all()
     connection_exists = request.user.is_authenticated and (not 'ACTIVE_ORG' in request.session) and AtriaRelationship.objects.filter(org=org, user=request.user, relation_type__relation_type='Member').exists()
     is_organization_profile = ('ACTIVE_ORG' in request.session) and org.id == request.session['ACTIVE_ORG']
+    print("is_organization_profile", is_organization_profile)
     return render(request, 'atriacalendar/pagesSite/organizationPage.html',
         context={'org': org, 'connections': connections, 'connection_exists': connection_exists, 'is_organization_profile': is_organization_profile})
 

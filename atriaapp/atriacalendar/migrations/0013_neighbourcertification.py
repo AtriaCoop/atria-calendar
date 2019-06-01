@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('indy_community', '0011_merge_20190501_0116'),
+        ('indy_community', '0009_auto_20190430_0331'),
         ('atriacalendar', '0012_membercertification'),
     ]
 
