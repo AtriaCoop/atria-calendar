@@ -1,13 +1,14 @@
 {% load i18n %}
 {% load atria_custom_tags %}
+{% load session_namespaced_url %}
 
 {# Set local template variable: #}
 {% get_settings_value LANGUAGES "LANGUAGES" %}
 
 {% load static %}
 
+{% for connection in connections %}
 <div class='newsfeed-posted-cont'>
-
 	<div class='newsfeed-posted-top-cont'>
 		<div class='newsfeed-posted-img-info'>
 			<div class='newsfeed-posted-img'>
@@ -15,79 +16,71 @@
 			</div>
 
 			<div class='newsfeed-posted-info'>
+				{% if neighbour %}
 				<div>
-					<a href=''>
-						<h2>Account Name</h2>
+					<a href="{% url 'view_organization_id' connection.org.id %}">
+						<h2>
+							{{ connection.org.org_name }} ({{ connection.org.location }}) 
+							({{ connection.relation_type }} {{ connection.status }})
+							{% if connection.status == 'Pending' %}
+							<a href="{% snurl 'accept_connection' connection.id %}">
+								Accept Connection
+							</a>
+							{% endif %}
+						</h2>
 					</a>
 				</div>
 				<div>
-					<h5>Account tagline lorem ipsum dolor sit amet</h5>
+					<h5>Organization tagline lorem ipsum dolor sit amet</h5>
 				</div>
+				{% else %}
+				<div>
+					<a href="{% url 'view_neighbour_id' connection.user.email %}">
+						<h2>
+							{{ connection.user.first_name }} {{ connection.user.last_name }} 
+							({{ connection.user.email }}) ({{ connection.relation_type }} {{ connection.status }})
+						</h2>
+					</a>
+				</div>
+				<div>
+					<h5>Organization tagline lorem ipsum dolor sit amet</h5>
+				</div>
+				{% endif %}
 			</div>
 		</div>
 	</div>
-
+	{% if neighbour %}
+		<div>
+			<h5>TODO list certifications</h5>
+		</div>
+		<div>
+			<h5>TODO list offered certifications and accept</h5>
+		</div>
+	{% else %}
+		{% for certification in connection.membercertification_set.all %}
+		<div>
+			<span>
+				<i class="fas fa-check"></i> 
+				{{ certification.certification_type }} ({{ certification.reference.conversation_type }})
+			</span>
+		</div>
+		{% endfor %}
+		<div>
+			<h5>
+				<a href="{% snurl 'org_issue_credential' connection.user.email %}">Issue Certification</a>
+			</h5>
+		</div>
+		<div>
+			<h5>
+				<a href="{% snurl 'org_request_proof' connection.user.email %}">Request Proof of Certification</a>
+			</h5>
+		</div>
+	{% endif %}
 	<div>
+		<p></p>
 		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
 	</div>
 </div>
 
 <div class='newsfeed-post-seperator'></div>
-
-
-<div class='newsfeed-posted-cont'>
-
-	<div class='newsfeed-posted-top-cont'>
-		<div class='newsfeed-posted-img-info'>
-			<div class='newsfeed-posted-img'>
-				<img src="{% static "/atriacalendar/accounticon.png" %}">
-			</div>
-
-			<div class='newsfeed-posted-info'>
-				<div>
-					<a href=''>
-						<h2>Account Name</h2>
-					</a>
-				</div>
-				<div>
-					<h5>Account tagline lorem ipsum dolor sit amet</h5>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div>
-		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-	</div>
-</div>
-
-<div class='newsfeed-post-seperator'></div>
-
-
-<div class='newsfeed-posted-cont'>
-
-	<div class='newsfeed-posted-top-cont'>
-		<div class='newsfeed-posted-img-info'>
-			<div class='newsfeed-posted-img'>
-				<img src="{% static "/atriacalendar/accounticon.png" %}">
-			</div>
-
-			<div class='newsfeed-posted-info'>
-				<div>
-					<a href=''>
-						<h2>Account Name</h2>
-					</a>
-				</div>
-				<div>
-					<h5>Account tagline lorem ipsum dolor sit amet</h5>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div>
-		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-	</div>
-</div>
-
-<div class='newsfeed-post-seperator'></div>
+{% endfor %}

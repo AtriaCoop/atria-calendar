@@ -9,7 +9,7 @@ from datetime import datetime, date, timedelta
 
 from swingtime import models as swingtime_models
 
-from indy_community.models import IndyUserManager, IndyUser, IndyOrganization, IndyOrgRelationship
+from indy_community.models import IndyUserManager, IndyUser, IndyOrganization, IndyOrgRelationship, IndySchema, AgentConversation
 
 
 USER_ROLE = getattr(settings, "DEFAULT_USER_ROLE", 'Attendee')
@@ -36,10 +36,13 @@ def init_user_session(sender, user, request, **kwargs):
     target = request.POST.get('next', '/neighbour/')
     if 'organization' in target:
         if user.has_role(ORG_ROLE):
-            request.session['ACTIVE_ROLE'] = ORG_ROLE
-            orgs = AtriaRelationship.objects.filter(user=user).all()
+            orgs = AtriaRelationship.objects.filter(user=user, status="Active", relation_type__is_org_relation=True).all()
             if 0 < len(orgs):
                 request.session['ACTIVE_ORG'] = str(orgs[0].org.id)
+                request.session['ACTIVE_ROLE'] = ORG_ROLE
+            else:
+                # TODO for now just set a dummy default - logged in user has no org-enabled role
+                request.session['ACTIVE_ROLE'] = USER_ROLE
         else:
             # TODO for now just set a dummy default - logged in user with no role assigned
             request.session['ACTIVE_ROLE'] = USER_ROLE
@@ -205,6 +208,8 @@ class AtriaOrgAnnouncement(models.Model):
 class RelationType(models.Model):
     relation_type = models.CharField(max_length=20)
     relation_description = models.CharField(max_length=80)
+    # used to give user access to login as Org role for this org
+    is_org_relation = models.BooleanField(default=False)
 
     def __str__(self):
         return self.relation_type
@@ -221,6 +226,29 @@ class AtriaRelationship(IndyOrgRelationship):
 
     def __str__(self):
         return self.user.email + ':' + self.org.org_name + ' = ' + str(self.relation_type)
+
+
+# certifications (or proof of) issued by an org
+class MemberCertification(models.Model):
+    member = models.ForeignKey(AtriaRelationship, on_delete=models.CASCADE)
+    certification_type = models.ForeignKey(IndySchema, on_delete=models.CASCADE)
+    # reference is the issued credential or received proof
+    reference = models.ForeignKey(AgentConversation, on_delete=models.CASCADE)
+    # attributes, if we are the issuer
+    certification_data = models.TextField(max_length=4000, blank=True, null=True)
+    # verified flag, if we have received a proof
+    verified = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.member.user.email + ':' + self.certification_type.schema_name + ' (' + str(self.reference.conversation_type) + ')'
+
+
+# certifications owned by a Neighbour (can be displayed publicly)
+class NeighbourCertification(models.Model):
+    certification_type = models.ForeignKey(IndySchema, on_delete=models.CASCADE)
+    # reference is the issued credential or received proof
+    reference = models.ForeignKey(AgentConversation, on_delete=models.CASCADE)
+    publish = models.BooleanField(default=True)
 
 
 # type of user/event relationship:

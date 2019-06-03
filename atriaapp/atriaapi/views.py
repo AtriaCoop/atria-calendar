@@ -72,7 +72,25 @@ def event_month_view(request, year, month):
     return JsonResponse({"year": year, "month": month, "start_dt": start, "end_dt": end,  "occurrences": occurrence_data})
 
 
+def event_week_view(request, year, month, day):
+    start = datetime(year, month, day)
+    end = start + timedelta(weeks=1, seconds=-1)
+
+    occurrence_data = period_occurrences(start, end)
+
+    return JsonResponse({
+        "year": year,
+        "month": month,
+        "start_dt": start,
+        "end_dt": end,
+        "occurrences": occurrence_data
+    })
+
+
 def event_day_view(request, year, month, day):
+    if request.GET.get('week'):
+        return event_week_view(request, year, month, day)
+
     start_dt = datetime(year, month, day)
     end_dt = start_dt
     start = datetime(start_dt.year, start_dt.month, start_dt.day)

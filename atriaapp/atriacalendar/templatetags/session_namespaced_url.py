@@ -23,7 +23,10 @@ class SNURLNode(URLNode):
                     self.view_name.var = url_namespace + self.view_name.var
 
 
-        return super().render(context)
+        try:
+            return super().render(context)
+        except:
+            return ""
 
 
 # Mostly copied from django.template.defaulttags.url

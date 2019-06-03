@@ -5,6 +5,7 @@ Atria Coop:
   email: atria@mail.com
   password: pass12345
   role: Admin
+  ico_url: https://anon-solutions.ca/atria-favico.png
   org:
     status: Active
     description: Administrator of atria.world web properties
@@ -21,6 +22,7 @@ Kiwassa Neighbourhood House:
   email: kiwassa@mail.com
   password: pass12345
   role: Association
+  ico_url: https://anon-solutions.ca/kiwassa-favicon.png
   org:
     status: Active
     description: Neighbourhood House
@@ -37,6 +39,7 @@ Kitsilano Neighbourhood House:
   email: kitsilano@mail.com
   password: pass12345
   role: Association
+  ico_url: https://anon-solutions.ca/kiwassa-favicon.png
   org:
     status: Active
     description: Neighbourhood House

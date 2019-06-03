@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load atria_custom_tags %}
+{% load session_namespaced_url %}
 
 {# Set local template variable: #}
 {% get_settings_value LANGUAGES "LANGUAGES" %}
@@ -15,8 +16,8 @@
 			</div>
 
 			<div class='newsfeed-posted-info'>
-				<div><a href="{% url 'view_neighbour' %}">
-						<h2>Neighbour Name</h2>
+				<div><a href="{% url 'view_neighbour_id' neighbour.email %}">
+						<h2>{{ neighbour.first_name }} {{ neighbour.last_name }} ({{ neighbour.email }})</h2>
 					</a>
 				</div>
 			</div>

@@ -31,6 +31,23 @@ textarea {
 	max-width: 100%;
 }
 
+input[type="radio"] {
+	padding: 0rem 0rem;
+	height: 1.4rem;
+	max-width: 6%;
+	margin-right: 0;
+	vertical-align: middle;
+	float: left;
+	display: block;
+}
+
+label { 
+	margin: .5rem 0 1.5rem 0;
+	max-width: 94%;
+	font-size: 11px;
+	vertical-align: middle;
+}
+
 textarea {
 	height: auto;
 }

@@ -2,9 +2,13 @@ from django import forms
 from modeltranslation.forms import TranslationModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.db.models import Q
+from django.contrib.auth import get_user_model
 
 from swingtime import models as swingtime_models
 from swingtime import forms as swingtime_forms
+
+from indy_community import forms as indy_forms
+from indy_community import models as indy_models
 
 from .models import *
 
@@ -90,11 +94,25 @@ class OrgSignUpForm(SignUpForm):
         return user
 
 
+class ConnectionForm(forms.Form):
+    user_email = forms.CharField()
+    org_name = forms.CharField()
+    org_id = forms.CharField(label='', widget = forms.HiddenInput())
+
+    def __init__(self, *args, **kwargs):
+        super(ConnectionForm, self).__init__(*args, **kwargs)
+        self.fields['user_email'].widget.attrs['readonly'] = True
+        self.fields['org_name'].widget.attrs['readonly'] = True
+
+
 ###############################################################
 # Forms to request a connection to a mobile wallet
 ###############################################################
-class RequestMobileConnectionForm(forms.Form):
+class RequestMobileConnectionForm(UserCreationForm):
     email = forms.CharField(label='Email', max_length=120)
-    org = forms.ModelChoiceField(label='Organization', queryset=AtriaOrganization.objects.filter(Q(role__name='Association')).all())
+    org = forms.ModelChoiceField(label='Organization', queryset=IndyOrganization.objects.filter(Q(role__name='Association')).all())
 
+    class Meta:
+        model = get_user_model()
+        fields = ('first_name', 'last_name', 'email', 'password1', 'password2', 'org')
 
