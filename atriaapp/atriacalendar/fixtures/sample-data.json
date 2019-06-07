@@ -566,10 +566,20 @@
     {
         "fields": {
             "relation_description": "Employee",
-            "relation_type": "Employee"
+            "relation_type": "Employee",
+            "is_org_relation": "True"
         },
         "model": "atriacalendar.relationtype",
         "pk": 1
+    },
+    {
+        "fields": {
+            "relation_description": "Member",
+            "relation_type": "Member",
+            "is_org_relation": "False"
+        },
+        "model": "atriacalendar.relationtype",
+        "pk": 2
     },
     {
         "fields": {
@@ -716,5 +726,17 @@
         },
         "model": "atriacalendar.atriarelationship",
         "pk": 3
+    },
+    {
+        "fields": {
+            "effective_date": "2019-02-15T17:59:28",
+            "end_date": null,
+            "org": 2,
+            "relation_type": 2,
+            "status": "Active",
+            "user": 4
+        },
+        "model": "atriacalendar.atriarelationship",
+        "pk": 4
     }
 ]
