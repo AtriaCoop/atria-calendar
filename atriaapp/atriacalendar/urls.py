@@ -52,7 +52,7 @@ calendarpatterns = [
     ])),
     path('create_manage/', create_manage_view, name='create_manage'),
     path('opportunity/', manage_opportunity_view, name='opportunity'),
-    path('event/', manage_event_view, name='event'),
+    path('event/', EventCreateView.as_view(), name='event'),
     path('settings/', settings_view, name='settings'),
 ]
 
@@ -65,8 +65,8 @@ loggedinuserpatterns = [
 neighbourpatterns = [
     path('', include([
         path('profile/', neighbour_profile_view, name='profile'),
-        path('', include((calendarpatterns))),
-        path('', include((loggedinuserpatterns))),
+        path('', include(calendarpatterns)),
+        path('', include(loggedinuserpatterns)),
         ])),
 ]
 
@@ -77,8 +77,8 @@ organizationpatterns = [
         path('create-event/', add_atria_event, name='swingtime-add-event'),
         path('create-event/participants/', add_participants,
              name='add_participants'),
-        path('', include((calendarpatterns))),
-        path('', include((loggedinuserpatterns))),
+        path('', include(calendarpatterns)),
+        path('', include(loggedinuserpatterns)),
         ])),
 ]
 

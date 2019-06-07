@@ -456,6 +456,13 @@ def view_opportunity_view(request):
 def manage_event_view(request):
     return render(request, 'atriacalendar/pagesForms/eventForm.html')
 
+
+class EventCreateView(CreateView):
+    fields = '__all__'
+    model = AtriaEvent
+    template_name = 'atriacalendar/pagesForms/eventForm.html'
+
+
 def manage_opportunity_view(request):
     return render(request, 'atriacalendar/pagesForms/opportunityForm.html')
 
