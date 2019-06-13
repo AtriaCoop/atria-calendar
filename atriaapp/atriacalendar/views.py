@@ -13,6 +13,7 @@ from datetime import datetime
 
 from swingtime import forms as swingtime_forms
 from swingtime import views as swingtime_views
+from swingtime.models import Occurrence
 
 from .forms import *
 from .models import *
@@ -343,13 +344,13 @@ class EventListView(ListView, LoginRequiredMixin):
             return AtriaEvent.objects.all()
 
 
-class EventUpdateView(TranslatedFormMixin, UpdateView, LoginRequiredMixin):
+class EventUpdateView(TranslatedFormMixin, LoginRequiredMixin, UpdateView):
     """
     View for viewing and updating a single Event.
     """
     form_class = AtriaEventForm
     model = AtriaEvent
-    recurrence_form_class = swingtime_forms.MultipleOccurrenceForm
+    recurrence_form_class = AtriaOccurrenceForm
     template_name = 'swingtime/event_detail.html'
     query_parameter = 'event_lang'
 
@@ -375,8 +376,12 @@ class EventUpdateView(TranslatedFormMixin, UpdateView, LoginRequiredMixin):
         if '_update' in self.request.POST:
             return super().post(*args, **kwargs)
         elif '_add' in self.request.POST:
-            self.form_class = self.recurrence_form_class
-            return super().post(*args, **kwargs)
+            import pdb; pdb.set_trace()
+            form = self.wrap(self.recurrence_form_class, self.request.POST)
+
+            if form.is_valid():
+                form.save(self.get_object())
+                return HttpResponseRedirect(self.request.path)
         else:
             return HttpResponseBadRequest('Bad Request')
 
@@ -446,6 +451,15 @@ def view_organization_id_view(request, id):
 
 def create_manage_view(request):
     return render(request, 'atriacalendar/pagesSite/createManagePage.html')
+
+
+class CreateManageView(LoginRequiredMixin, ListView):
+    model = Occurrence
+    template_name = 'atriacalendar/pagesSite/createManagePage.html'
+
+    def get_queryset(self):
+        return Occurrence.objects.all()
+
 
 def view_event_view(request):
     return render(request, 'atriacalendar/pagesSite/eventView.html')

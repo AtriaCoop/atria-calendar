@@ -51,6 +51,10 @@ class AtriaEventForm(swingtime_forms.EventForm, TranslationModelForm):
                 self.fields['calendar'].queryset = AtriaCalendar.objects.filter(user_owner=request.user)
 
 
+class AtriaOccurrenceForm(swingtime_forms.MultipleOccurrenceForm):
+    model = AtriaOccurrence
+
+
 class SignUpForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=False,
                                  help_text='Optional.')

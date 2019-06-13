@@ -50,7 +50,7 @@ calendarpatterns = [
         path('<int:event_pk>/<int:pk>/', atria_occurrence_view,
              name='swingtime-occurrence'),
     ])),
-    path('create_manage/', create_manage_view, name='create_manage'),
+    path('create_manage/', CreateManageView.as_view(), name='create_manage'),
     path('opportunity/', manage_opportunity_view, name='opportunity'),
     path('event/', EventCreateView.as_view(), name='event'),
     path('settings/', settings_view, name='settings'),

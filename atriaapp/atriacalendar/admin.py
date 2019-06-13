@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
+from swingtime.models import Occurrence
+
 from .models import *
 
 
@@ -39,6 +41,7 @@ class AtriaOrganizationAdmin(admin.ModelAdmin):
 
 admin.site.register(AtriaEventProgram)
 admin.site.register(AtriaEvent)
+admin.site.register(Occurrence)
 admin.site.register(AtriaCalendar)
 admin.site.register(AtriaOrganization, AtriaOrganizationAdmin)
 admin.site.register(AtriaOrgAnnouncement)

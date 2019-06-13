@@ -187,7 +187,7 @@ class AtriaCalendar(models.Model):
         else:
             owner = str(self.user_owner)
         return owner + ':' + self.calendar_name
-    
+
 
 # Extend swingtime Event to add some custom fields
 class AtriaEvent(swingtime_models.Event):
@@ -202,6 +202,22 @@ class AtriaEvent(swingtime_models.Event):
 
     def __str__(self):
         return self.title + ", " + self.location
+
+    @property
+    def volunteer_total(self):
+        total = self.atriaeventattendance_set\
+                .filter(attendance_type__attendance_type='Volunteer')\
+                .aggregate(sum=models.Sum('user_count'))['sum']
+
+        return total if total else 0
+
+    @property
+    def attendee_total(self):
+        total = self.atriaeventattendance_set\
+                .filter(attendance_type__attendance_type='Attend')\
+                .aggregate(sum=models.Sum('user_count'))['sum']
+
+        return total if total else 0
 
 
 class AtriaOccurrenceManager(swingtime_models.OccurrenceManager):

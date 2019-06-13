@@ -759,7 +759,29 @@ EVENT CREATE AND MANAGE
 	margin: 0 .5rem .5rem 0 !important;
 }
 
-/* 
+.accounts-events .accounts-events-table {
+	border-collapse: collapse;
+}
+
+.accounts-events .accounts-events-table thead {
+	background-color: #fad067;
+	color: #fff;
+}
+
+.accounts-events .accounts-events-table th,
+.accounts-events .accounts-events-table td {
+	padding: 0.75rem 1.5rem;
+}
+
+.accounts-events-table tbody tr:nth-child(odd) {
+	background-color: #eee;
+}
+
+.accounts-events-table input[type="checkbox"] {
+	width: 5rem;
+}
+
+/*
 ======================================
 INSIDE EVENTS AND OPPORTUNITIES
 ======================================
@@ -769,7 +791,7 @@ INSIDE EVENTS AND OPPORTUNITIES
 	width: 11rem;
 }
 
-/* 
+/*
 ======================================
 PROFILE PAGES
 ======================================
