@@ -258,6 +258,10 @@ class AtriaOccurrence(swingtime_models.Occurrence):
 
     objects = AtriaOccurrenceManager()
 
+    @property
+    def atriaevent(self):
+        return self.event.atriaevent
+
 
 # general announcements from an Org (will show up on a user's feed if they have an org relationship)
 class AtriaOrgAnnouncement(models.Model):
