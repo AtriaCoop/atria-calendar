@@ -29,6 +29,8 @@ textarea {
 	box-sizing: border-box;
 	border-radius: 3px;
 	max-width: 100%;
+	font-family: inherit;
+	font-size: 1rem;
 }
 
 textarea {
@@ -615,6 +617,11 @@ EVENT FORM
 	width: 90%;
 }
 
+.form-cont input[type="date"],
+.form-cont input[type="time"] {
+	width: 11rem;
+}
+
 .form-date-time-cont {
 	display: flex;
 	flex-direction: row;
@@ -625,7 +632,7 @@ EVENT FORM
 }
 
 .form-cont > div > div {
-	margin: 0 0 1rem 0;
+	margin: 0 1rem 1rem 0;
 }
 
 .add-opp-cont {
@@ -752,7 +759,29 @@ EVENT CREATE AND MANAGE
 	margin: 0 .5rem .5rem 0 !important;
 }
 
-/* 
+.accounts-events .accounts-events-table {
+	border-collapse: collapse;
+}
+
+.accounts-events .accounts-events-table thead {
+	background-color: #fad067;
+	color: #fff;
+}
+
+.accounts-events .accounts-events-table th,
+.accounts-events .accounts-events-table td {
+	padding: 0.75rem 1.5rem;
+}
+
+.accounts-events-table tbody tr:nth-child(odd) {
+	background-color: #eee;
+}
+
+.accounts-events-table input[type="checkbox"] {
+	width: 5rem;
+}
+
+/*
 ======================================
 INSIDE EVENTS AND OPPORTUNITIES
 ======================================
@@ -762,7 +791,7 @@ INSIDE EVENTS AND OPPORTUNITIES
 	width: 11rem;
 }
 
-/* 
+/*
 ======================================
 PROFILE PAGES
 ======================================

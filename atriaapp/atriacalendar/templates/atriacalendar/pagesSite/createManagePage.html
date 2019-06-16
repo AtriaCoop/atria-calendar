@@ -11,7 +11,6 @@
 
 {% block main_content %}
 	<div class='inside-body'>
-
 		<div class='center-body'>
 			<div class='innercont-body'>
 				<div class='innercont-nav'>
@@ -28,7 +27,32 @@
 							<div class='btn btn-add-new-opp'>Post New Opportunity</div>
 						</a>
 					</div>
-					<h4>~ List of Accounts Posted Events ~</h4>
+					<table class="accounts-events-table">
+						<thead>
+							<th></th>
+							<th>Created</th>
+							<th>Event Title</th>
+							<th>Event Date</th>
+							<th>Publisher</th>
+							<th>Attendees</th>
+							<th>Volunteer</th>
+							<th>Status</th>
+						</thead>
+						<tbody>
+							{% for occ in occurrence_list %}
+								<tr>
+									<td><input type="checkbox"/></td>
+									<td></td>
+									<td>{{ occ.event.title }}</td>
+									<td>{{ occ.start_time|date:"Y-m-d" }}</td>
+									<td>{{ occ.publisher }}</td>
+									<td>{{ occ.event.atriaevent.attendee_total }}</td>
+									<td>{{ occ.event.atriaevent.volunteer_total }}</td>
+									<td>{{ occ.status }}</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</div>
