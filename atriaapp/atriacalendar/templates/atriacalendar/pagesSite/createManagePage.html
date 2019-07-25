@@ -20,12 +20,15 @@
 				</div>
 				<div class='accounts-events'>
 					<div class='btns-cont'>
-						<a href="{% snurl 'event' %}">
-							<div class='btn btn-add-new-event'>Post New Event</div>
-						</a>
-						<a href="{% snurl 'opportunity' %}">
-							<div class='btn btn-add-new-opp'>Post New Opportunity</div>
-						</a>
+						<div class='btns-add'>
+							<a href="{% snurl 'event' %}">
+								<div class='btn btn-add-new-event'>Post New Event</div>
+							</a>
+							<a href="{% snurl 'opportunity' %}">
+								<div class='btn btn-add-new-opp'>Post New Opportunity</div>
+							</a>
+						</div>
+						<button class="btn btn-delete-occ">Delete Occurrence</button>
 					</div>
 					<table class="accounts-events-table">
 						<thead>

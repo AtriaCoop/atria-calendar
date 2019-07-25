@@ -1,13 +1,13 @@
 from django.contrib.auth import get_user_model
 from django.test import RequestFactory, TestCase
 from django.urls import reverse
-from django.utils import translation
+from django.utils import timezone, translation
 from django.views.generic.edit import UpdateView
 
 from swingtime.models import EventType
 
 from ..forms import AtriaEventForm
-from ..models import AtriaEvent, AtriaEventProgram, USER_ROLES
+from ..models import AtriaEvent, AtriaEventProgram, AtriaOccurrence, USER_ROLES
 from ..views import EventUpdateView, TranslatedFormMixin
 
 User = get_user_model()
@@ -238,3 +238,51 @@ class EventTests(TestCase):
 
         self.assertEqual(self.event.title_fr, post_data['title'])
         self.assertEqual(self.event.description_fr, post_data['description'])
+
+
+class AtriaOccurrenceTests(TestCase):
+
+    def setUp(self):
+        self.event = AtriaEvent.objects.create(
+            event_type=EventType.objects.create(),
+            event_program=AtriaEventProgram.objects.create(),
+        )
+        start_time = timezone.now() + timezone.timedelta(days=1)
+        self.occurrence = AtriaOccurrence.objects.create(
+            start_time=start_time,
+            end_time=start_time + timezone.timedelta(hours=1),
+            event=self.event,
+        )
+
+    def test_occurrence_status_draft(self):
+        self.assertEquals('draft', self.occurrence.status)
+
+    def test_occurrence_status_past(self):
+        self.occurrence.start_time -= timezone.timedelta(days=2)
+        self.occurrence.end_time -= timezone.timedelta(days=2)
+        self.occurrence.published = True
+        self.occurrence.save()
+
+        self.assertEquals('past', self.occurrence.status)
+
+    def test_occurrence_status_1days(self):
+        self.occurrence.published = True
+        self.occurrence.save()
+
+        self.assertEquals('1+ day', self.occurrence.status)
+
+    def test_occurrence_status_3days(self):
+        self.occurrence.start_time += timezone.timedelta(days=2)
+        self.occurrence.end_time += timezone.timedelta(days=2)
+        self.occurrence.published = True
+        self.occurrence.save()
+
+        self.assertEquals('3+ days', self.occurrence.status)
+
+    def test_occurrence_status_today(self):
+        self.occurrence.start_time += timezone.timedelta(days=-1, hours=1)
+        self.occurrence.end_time += timezone.timedelta(days=-1, hours=1)
+        self.occurrence.published = True
+        self.occurrence.save()
+
+        self.assertEquals('today', self.occurrence.status)

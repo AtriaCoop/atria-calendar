@@ -255,8 +255,32 @@ class AtriaOccurrenceManager(swingtime_models.OccurrenceManager):
 
 
 class AtriaOccurrence(swingtime_models.Occurrence):
+    published = models.BooleanField(default=False)
 
     objects = AtriaOccurrenceManager()
+
+    @property
+    def atriaevent(self):
+        return self.event.atriaevent
+
+    @property
+    def status(self):
+        if not self.published:
+            return 'draft'
+
+        days_until = self.days_until()
+
+        if days_until < 0:
+            return 'past'
+        if days_until > 1:
+            return '%s+ days' % days_until
+        if days_until == 1:
+            return '1+ day'
+
+        return 'today'
+
+    def days_until(self):
+        return (self.start_time.date() - timezone.now().date()).days
 
 
 # general announcements from an Org (will show up on a user's feed if they have an org relationship)

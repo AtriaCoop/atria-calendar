@@ -458,7 +458,10 @@ class CreateManageView(LoginRequiredMixin, ListView):
     template_name = 'atriacalendar/pagesSite/createManagePage.html'
 
     def get_queryset(self):
-        return Occurrence.objects.all()
+        # TODO: fix this by ensuring AtriaOccurrences are created and creating
+        #       a manager method to deal with it, because this is ridiculous.
+        return Occurrence.objects.filter(
+            event__atriaevent__calendar__org_owner__atriarelationship__user=self.request.user)
 
 
 def view_event_view(request):
