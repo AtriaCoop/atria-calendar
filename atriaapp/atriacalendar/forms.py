@@ -1,6 +1,7 @@
 from django import forms
 from modeltranslation.forms import TranslationModelForm
 from django.contrib.auth.forms import UserCreationForm
+from django.utils import timezone
 
 from swingtime import models as swingtime_models
 from swingtime import forms as swingtime_forms
@@ -53,6 +54,33 @@ class AtriaEventForm(swingtime_forms.EventForm, TranslationModelForm):
 
 class AtriaOccurrenceForm(swingtime_forms.MultipleOccurrenceForm):
     model = AtriaOccurrence
+
+
+class AtriaEventOccurrenceForm(AtriaEventForm):
+    """
+    A form that creates an AtriaOccurrence alongside the AtriaEvent.
+    """
+    day = forms.DateField()
+    start_time_delta = forms.TimeField()
+
+    DEFAULT_OCCURRENCE_DURATION = 1  # Hours.
+
+    def save(self):
+        event = super().save()
+        start_time = timezone.datetime.combine(
+            self.cleaned_data['day'],
+            self.cleaned_data['start_time_delta'],
+        )
+        end_time = start_time +\
+            timezone.timedelta(hours=self.DEFAULT_OCCURRENCE_DURATION)
+
+        AtriaOccurrence.objects.create(
+            start_time=start_time,
+            end_time=end_time,
+            event=event,
+        )
+
+        return event
 
 
 class SignUpForm(UserCreationForm):
