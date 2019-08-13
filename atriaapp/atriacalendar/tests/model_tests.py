@@ -169,7 +169,6 @@ class EventTests(TestCase):
         translation.activate('en')
 
     def login_as_user(self, user):
-        # import pdb; pdb.set_trace()
         self.client.login(email=user.email, password=self.PASSWORD)
 
     def test_create_event(self):
@@ -179,6 +178,7 @@ class EventTests(TestCase):
 
     def test_retrieve_event(self):
         # Tests retrieving the view/edit view for a single Event.
+        self.login_as_user(User.objects.all()[0])
         response = self.client.get(
             reverse(ORG_NAMESPACE + 'swingtime-event', args=(self.event.pk,)))
 
