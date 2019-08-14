@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.list import ListView
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.conf import settings
 
 from datetime import datetime
@@ -454,14 +454,11 @@ def create_manage_view(request):
 
 
 class CreateManageView(LoginRequiredMixin, ListView):
-    model = Occurrence
+    model = AtriaOccurrence
     template_name = 'atriacalendar/pagesSite/createManagePage.html'
 
     def get_queryset(self):
-        # TODO: fix this by ensuring AtriaOccurrences are created and creating
-        #       a manager method to deal with it, because this is ridiculous.
-        return Occurrence.objects.filter(
-            event__atriaevent__calendar__org_owner__atriarelationship__user=self.request.user)
+        return AtriaOccurrence.objects.get_for_user(self.request.user)
 
 
 def view_event_view(request):
@@ -475,9 +472,22 @@ def manage_event_view(request):
 
 
 class EventCreateView(CreateView):
-    fields = '__all__'
+    form_class = AtriaEventOccurrenceForm
     model = AtriaEvent
+    success_url = reverse_lazy('create_manage')
     template_name = 'atriacalendar/pagesForms/eventForm.html'
+
+    def get_success_url(self):
+        success_url = super().get_success_url()
+        language = translation.get_language()
+        namespace = self.request.session.get('URL_NAMESPACE')
+
+        if namespace:
+            namespace = namespace.replace(':', '')
+            success_url = success_url.replace(
+                language, '%s/%s' % (language, namespace))
+
+        return success_url
 
 
 def manage_opportunity_view(request):
