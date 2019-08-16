@@ -1,742 +1,392 @@
 [
-    {
-        "fields": {
-            "abbr": "TYP1",
-            "label": "Arts and Crafts",
-            "label_en": "Arts and Crafts",
-            "label_es": "El Typo 1",
-            "label_fr": "Le Type 1",
-            "label_zh_hans": "第一的"
-        },
-        "model": "swingtime.eventtype",
-        "pk": 1
-    },
-    {
-        "fields": {
-            "abbr": "TYP2",
-            "label": "Language Skills",
-            "label_en": "Language Skills",
-            "label_es": "El Typo 1",
-            "label_fr": "Le Type 2",
-            "label_zh_hans": "第二的"
-        },
-        "model": "swingtime.eventtype",
-        "pk": 2
-    },
-    {
-        "fields": {
-            "abbr": "TYP3",
-            "label": "Neighbour Meet and Greet",
-            "label_en": "Neighbour Meet and Greet",
-            "label_es": "El Typo 3",
-            "label_fr": "Le Type 3",
-            "label_zh_hans": "第三的"
-        },
-        "model": "swingtime.eventtype",
-        "pk": 3
-    },
-    {
-        "fields": {
-            "description": "Weekly Meet & Greet",
-            "description_en": "Weekly Meet & Greet",
-            "description_es": null,
-            "description_fr": null,
-            "description_zh_hans": null,
-            "event_type": 3,
-            "title": "Weekly Meet & Greet",
-            "title_en": "Weekly Meet & Greet",
-            "title_es": null,
-            "title_fr": null,
-            "title_zh_hans": null
-        },
-        "model": "swingtime.event",
-        "pk": 1
-    },
-    {
-        "fields": {
-            "description": "Sample Event in the Past",
-            "description_en": "Sample Event in the Past",
-            "description_es": null,
-            "description_fr": null,
-            "description_zh_hans": null,
-            "event_type": 1,
-            "title": "Sample Event in the Past",
-            "title_en": "Sample Event in the Past",
-            "title_es": null,
-            "title_fr": null,
-            "title_zh_hans": null
-        },
-        "model": "swingtime.event",
-        "pk": 2
-    },
-    {
-        "fields": {
-            "description": "English for ESL",
-            "description_en": "English for ESL",
-            "description_es": null,
-            "description_fr": null,
-            "description_zh_hans": null,
-            "event_type": 2,
-            "title": "English for ESL",
-            "title_en": "English for ESL",
-            "title_es": null,
-            "title_fr": null,
-            "title_zh_hans": null
-        },
-        "model": "swingtime.event",
-        "pk": 3
-    },
-    {
-        "fields": {
-            "end_time": "2019-02-16T17:00:00",
-            "event": 1,
-            "start_time": "2019-02-16T14:00:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 1
-    },
-    {
-        "fields": {
-            "end_time": "2019-02-23T17:00:00",
-            "event": 1,
-            "start_time": "2019-02-23T14:00:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 2
-    },
-    {
-        "fields": {
-            "end_time": "2019-03-02T17:00:00",
-            "event": 1,
-            "start_time": "2019-03-02T14:00:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 3
-    },
-    {
-        "fields": {
-            "end_time": "2019-03-09T17:00:00",
-            "event": 1,
-            "start_time": "2019-03-09T14:00:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 4
-    },
-    {
-        "fields": {
-            "end_time": "2019-03-16T17:00:00",
-            "event": 1,
-            "start_time": "2019-03-16T14:00:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 5
-    },
-    {
-        "fields": {
-            "end_time": "2019-03-23T17:00:00",
-            "event": 1,
-            "start_time": "2019-03-23T14:00:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 6
-    },
-    {
-        "fields": {
-            "end_time": "2019-03-30T17:00:00",
-            "event": 1,
-            "start_time": "2019-03-30T14:00:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 7
-    },
-    {
-        "fields": {
-            "end_time": "2019-04-06T17:00:00",
-            "event": 1,
-            "start_time": "2019-04-06T14:00:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 8
-    },
-    {
-        "fields": {
-            "end_time": "2019-04-13T17:00:00",
-            "event": 1,
-            "start_time": "2019-04-13T14:00:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 9
-    },
-    {
-        "fields": {
-            "end_time": "2019-04-20T17:00:00",
-            "event": 1,
-            "start_time": "2019-04-20T14:00:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 10
-    },
-    {
-        "fields": {
-            "end_time": "2019-04-27T17:00:00",
-            "event": 1,
-            "start_time": "2019-04-27T14:00:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 11
-    },
-    {
-        "fields": {
-            "end_time": "2019-05-04T17:00:00",
-            "event": 1,
-            "start_time": "2019-05-04T14:00:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 12
-    },
-    {
-        "fields": {
-            "end_time": "2019-05-11T17:00:00",
-            "event": 1,
-            "start_time": "2019-05-11T14:00:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 13
-    },
-    {
-        "fields": {
-            "end_time": "2019-05-18T17:00:00",
-            "event": 1,
-            "start_time": "2019-05-18T14:00:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 14
-    },
-    {
-        "fields": {
-            "end_time": "2019-05-25T17:00:00",
-            "event": 1,
-            "start_time": "2019-05-25T14:00:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 15
-    },
-    {
-        "fields": {
-            "end_time": "2019-06-01T17:00:00",
-            "event": 1,
-            "start_time": "2019-06-01T14:00:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 16
-    },
-    {
-        "fields": {
-            "end_time": "2019-06-08T17:00:00",
-            "event": 1,
-            "start_time": "2019-06-08T14:00:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 17
-    },
-    {
-        "fields": {
-            "end_time": "2019-06-15T17:00:00",
-            "event": 1,
-            "start_time": "2019-06-15T14:00:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 18
-    },
-    {
-        "fields": {
-            "end_time": "2019-06-22T17:00:00",
-            "event": 1,
-            "start_time": "2019-06-22T14:00:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 19
-    },
-    {
-        "fields": {
-            "end_time": "2019-06-29T17:00:00",
-            "event": 1,
-            "start_time": "2019-06-29T14:00:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 20
-    },
-    {
-        "fields": {
-            "end_time": "2019-07-06T17:00:00",
-            "event": 1,
-            "start_time": "2019-07-06T14:00:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 21
-    },
-    {
-        "fields": {
-            "end_time": "2019-07-13T17:00:00",
-            "event": 1,
-            "start_time": "2019-07-13T14:00:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 22
-    },
-    {
-        "fields": {
-            "end_time": "2019-07-20T17:00:00",
-            "event": 1,
-            "start_time": "2019-07-20T14:00:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 23
-    },
-    {
-        "fields": {
-            "end_time": "2019-07-27T17:00:00",
-            "event": 1,
-            "start_time": "2019-07-27T14:00:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 24
-    },
-    {
-        "fields": {
-            "end_time": "2019-02-10T19:00:00",
-            "event": 2,
-            "start_time": "2019-02-10T17:00:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 25
-    },
-    {
-        "fields": {
-            "end_time": "2019-02-13T20:30:00",
-            "event": 3,
-            "start_time": "2019-02-13T18:30:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 26
-    },
-    {
-        "fields": {
-            "end_time": "2019-02-20T20:30:00",
-            "event": 3,
-            "start_time": "2019-02-20T18:30:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 27
-    },
-    {
-        "fields": {
-            "end_time": "2019-02-27T20:30:00",
-            "event": 3,
-            "start_time": "2019-02-27T18:30:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 28
-    },
-    {
-        "fields": {
-            "end_time": "2019-03-06T20:30:00",
-            "event": 3,
-            "start_time": "2019-03-06T18:30:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 29
-    },
-    {
-        "fields": {
-            "end_time": "2019-03-13T20:30:00",
-            "event": 3,
-            "start_time": "2019-03-13T18:30:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 30
-    },
-    {
-        "fields": {
-            "end_time": "2019-03-20T20:30:00",
-            "event": 3,
-            "start_time": "2019-03-20T18:30:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 31
-    },
-    {
-        "fields": {
-            "end_time": "2019-03-27T20:30:00",
-            "event": 3,
-            "start_time": "2019-03-27T18:30:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 32
-    },
-    {
-        "fields": {
-            "end_time": "2019-04-03T20:30:00",
-            "event": 3,
-            "start_time": "2019-04-03T18:30:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 33
-    },
-    {
-        "fields": {
-            "end_time": "2019-04-10T20:30:00",
-            "event": 3,
-            "start_time": "2019-04-10T18:30:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 34
-    },
-    {
-        "fields": {
-            "end_time": "2019-04-17T20:30:00",
-            "event": 3,
-            "start_time": "2019-04-17T18:30:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 35
-    },
-    {
-        "fields": {
-            "end_time": "2019-04-24T20:30:00",
-            "event": 3,
-            "start_time": "2019-04-24T18:30:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 36
-    },
-    {
-        "fields": {
-            "end_time": "2019-05-01T20:30:00",
-            "event": 3,
-            "start_time": "2019-05-01T18:30:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 37
-    },
-    {
-        "fields": {
-            "end_time": "2019-05-08T20:30:00",
-            "event": 3,
-            "start_time": "2019-05-08T18:30:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 38
-    },
-    {
-        "fields": {
-            "end_time": "2019-05-15T20:30:00",
-            "event": 3,
-            "start_time": "2019-05-15T18:30:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 39
-    },
-    {
-        "fields": {
-            "end_time": "2019-05-22T20:30:00",
-            "event": 3,
-            "start_time": "2019-05-22T18:30:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 40
-    },
-    {
-        "fields": {
-            "end_time": "2019-05-29T20:30:00",
-            "event": 3,
-            "start_time": "2019-05-29T18:30:00"
-        },
-        "model": "swingtime.occurrence",
-        "pk": 41
-    },
-    {
-        "fields": {
-            "abbr": "SR1",
-            "label": "Senior",
-            "label_en": "Senior",
-            "label_es": "El Oldo",
-            "label_fr": "Le Olde",
-            "label_zh_hans": "老大"
-        },
-        "model": "atriacalendar.atriaeventprogram",
-        "pk": 1
-    },
-    {
-        "fields": {
-            "abbr": "YTH1",
-            "label": "Youth",
-            "label_en": "Youth",
-            "label_es": "El Youngo",
-            "label_fr": "Le petite",
-            "label_zh_hans": "小孩子"
-        },
-        "model": "atriacalendar.atriaeventprogram",
-        "pk": 2
-    },
-    {
-        "fields": {
-            "abbr": "ALL1",
-            "label": "All Ages",
-            "label_en": "All Ages",
-            "label_es": null,
-            "label_fr": null,
-            "label_zh_hans": null
-        },
-        "model": "atriacalendar.atriaeventprogram",
-        "pk": 3
-    },
-    {
-        "fields": {
-            "date_joined": "2019-02-15T17:53:02",
-            "description": "Platform owner",
-            "location": "Vancouver",
-            "org_name": "Atria Coop Inc",
-            "org_name_en": "Atria Coop Inc",
-            "org_name_es": null,
-            "org_name_fr": null,
-            "org_name_zh_hans": null,
-            "status": "Active"
-        },
-        "model": "atriacalendar.atriaorganization",
-        "pk": 1
-    },
-    {
-        "fields": {
-            "date_joined": "2019-02-15T17:53:19",
-            "description": "Neighbourhood House",
-            "location": "Vancouver",
-            "org_name": "Kiwassa House",
-            "org_name_en": "Kiwassa House",
-            "org_name_es": null,
-            "org_name_fr": null,
-            "org_name_zh_hans": null,
-            "status": "Active"
-        },
-        "model": "atriacalendar.atriaorganization",
-        "pk": 2
-    },
-    {
-        "fields": {
-            "calendar": null,
-            "event_program": 1,
-            "location": "Vancouver",
-            "program": "Language",
-            "program_en": "Language",
-            "program_es": null,
-            "program_fr": null,
-            "program_zh_hans": null
-        },
-        "model": "atriacalendar.atriaevent",
-        "pk": 3
-    },
-    {
-        "fields": {
-            "calendar": null,
-            "event_program": 2,
-            "location": "Vancouver",
-            "program": "Test Event",
-            "program_en": "Test Event",
-            "program_es": null,
-            "program_fr": null,
-            "program_zh_hans": null
-        },
-        "model": "atriacalendar.atriaevent",
-        "pk": 2
-    },
-    {
-        "fields": {
-            "calendar": null,
-            "event_program": 3,
-            "location": "Vancouver",
-            "program": "Regular",
-            "program_en": "Regular",
-            "program_es": null,
-            "program_fr": null,
-            "program_zh_hans": null
-        },
-        "model": "atriacalendar.atriaevent",
-        "pk": 1
-    },
-    {
-        "fields": {
-            "relation_description": "Employee",
-            "relation_type": "Employee",
-            "is_org_relation": "True"
-        },
-        "model": "atriacalendar.relationtype",
-        "pk": 1
-    },
-    {
-        "fields": {
-            "relation_description": "Member",
-            "relation_type": "Member",
-            "is_org_relation": "False"
-        },
-        "model": "atriacalendar.relationtype",
-        "pk": 2
-    },
-    {
-        "fields": {
-            "attendance_description": "Attendee",
-            "attendance_type": "Attendee"
-        },
-        "model": "atriacalendar.eventattendancetype",
-        "pk": 1
-    },
-    {
-        "fields": {
-            "attendance_description": "Volunteer",
-            "attendance_type": "Volunteer"
-        },
-        "model": "atriacalendar.eventattendancetype",
-        "pk": 2
-    },
-    {
-        "fields": {
-            "attendance_description": "Organizer",
-            "attendance_type": "Organizer"
-        },
-        "model": "atriacalendar.eventattendancetype",
-        "pk": 3
-    },
-    {
-        "fields": {
-            "attendance_description": "Staff",
-            "attendance_type": "Staff"
-        },
-        "model": "atriacalendar.eventattendancetype",
-        "pk": 4
-    },
-    {
-        "fields": {
-            "date_joined": "2018-12-06T03:09:20",
-            "email": "admin@mail.com",
-            "first_name": "",
-            "groups": [
-                1
-            ],
-            "is_active": true,
-            "is_staff": true,
-            "is_superuser": true,
-            "last_login": "2019-02-15T17:52:44",
-            "last_name": "",
-            "password": "pbkdf2_sha256$100000$pNbzBElix4UP$8hjZr2KYgeOPMN7eQdxizXc7aso7tNzoOI5hH3bJ/4k=",
-            "user_permissions": []
-        },
-        "model": "atriacalendar.user",
-        "pk": 1
-    },
-    {
-        "fields": {
-            "date_joined": "2019-02-15T17:56:51",
-            "email": "atria@mail.com",
-            "first_name": "Atria",
-            "groups": [
-                1,
-                3
-            ],
-            "is_active": true,
-            "is_staff": false,
-            "is_superuser": false,
-            "last_login": "2019-02-15T17:57:01",
-            "last_name": "Employee",
-            "password": "pbkdf2_sha256$100000$tOjLluVkXJcn$m7YQgJhag5gn4M6E0u/h3BcAM4Kz/XIU7bFnzUPtYxA=",
-            "user_permissions": []
-        },
-        "model": "atriacalendar.user",
-        "pk": 2
-    },
-    {
-        "fields": {
-            "date_joined": "2019-02-15T17:57:37",
-            "email": "kiwassa@mail.com",
-            "first_name": "Kiwassa",
-            "groups": [
-                1,
-                3
-            ],
-            "is_active": true,
-            "is_staff": false,
-            "is_superuser": false,
-            "last_login": "2019-02-15T18:00:09.706",
-            "last_name": "Employee",
-            "password": "pbkdf2_sha256$100000$ho1ZAwjukdlY$/u08c2YLvmgO+zEsVhwhkWNbAmdFtF94P3XPv/rsyP0=",
-            "user_permissions": []
-        },
-        "model": "atriacalendar.user",
-        "pk": 3
-    },
-    {
-        "fields": {
-            "date_joined": "2019-02-15T17:57:52.843",
-            "email": "joe@mail.com",
-            "first_name": "Joe",
-            "groups": [
-                3
-            ],
-            "is_active": true,
-            "is_staff": false,
-            "is_superuser": false,
-            "last_login": "2019-02-15T18:05:46.863",
-            "last_name": "Neighbour",
-            "password": "pbkdf2_sha256$100000$DE9kij5gxDW5$ybVPq3Gz2NpBrssniZMsXjvtk5Eb4zGH+jnmqVFaAYI=",
-            "user_permissions": []
-        },
-        "model": "atriacalendar.user",
-        "pk": 4
-    },
-    {
-        "fields": {
-            "effective_date": "2019-02-15T17:59:09",
-            "end_date": null,
-            "org": 1,
-            "relation_type": 1,
-            "status": "Active",
-            "user": 1
-        },
-        "model": "atriacalendar.atriarelationship",
-        "pk": 1
-    },
-    {
-        "fields": {
-            "effective_date": "2019-02-15T17:59:18",
-            "end_date": null,
-            "org": 1,
-            "relation_type": 1,
-            "status": "Active",
-            "user": 2
-        },
-        "model": "atriacalendar.atriarelationship",
-        "pk": 2
-    },
-    {
-        "fields": {
-            "effective_date": "2019-02-15T17:59:28",
-            "end_date": null,
-            "org": 2,
-            "relation_type": 1,
-            "status": "Active",
-            "user": 3
-        },
-        "model": "atriacalendar.atriarelationship",
-        "pk": 3
-    },
-    {
-        "fields": {
-            "effective_date": "2019-02-15T17:59:28",
-            "end_date": null,
-            "org": 2,
-            "relation_type": 2,
-            "status": "Active",
-            "user": 4
-        },
-        "model": "atriacalendar.atriarelationship",
-        "pk": 4
-    }
+{
+  "model": "swingtime.eventtype",
+  "pk": 1,
+  "fields": {
+    "abbr": "TYP1",
+    "label": "Arts and Crafts",
+    "label_en": "Arts and Crafts",
+    "label_es": "El Typo 1",
+    "label_zh_hans": "\u7b2c\u4e00\u7684",
+    "label_fr": "Le Type 1"
+  }
+},
+{
+  "model": "swingtime.eventtype",
+  "pk": 2,
+  "fields": {
+    "abbr": "TYP2",
+    "label": "Language Skills",
+    "label_en": "Language Skills",
+    "label_es": "El Typo 1",
+    "label_zh_hans": "\u7b2c\u4e8c\u7684",
+    "label_fr": "Le Type 2"
+  }
+},
+{
+  "model": "swingtime.eventtype",
+  "pk": 3,
+  "fields": {
+    "abbr": "TYP4",
+    "label": "Other",
+    "label_en": "Other",
+    "label_es": "El Other",
+    "label_zh_hans": "\u53e6\u5916\u4e00\u4e2a",
+    "label_fr": "Le Other"
+  }
+},
+{
+  "model": "swingtime.event",
+  "pk": 1,
+  "fields": {
+    "title": "A New Event by Ian",
+    "title_en": "A New Event by Ian",
+    "title_es": null,
+    "title_zh_hans": null,
+    "title_fr": null,
+    "description": "Test event by Ian",
+    "description_en": "Test event by Ian",
+    "description_es": null,
+    "description_zh_hans": null,
+    "description_fr": null,
+    "event_type": 1
+  }
+},
+{
+  "model": "swingtime.occurrence",
+  "pk": 1,
+  "fields": {
+    "start_time": "2019-08-21T19:00:00",
+    "end_time": "2019-08-21T20:00:00",
+    "event": 1
+  }
+},
+{
+  "model": "atriacalendar.atriaeventprogram",
+  "pk": 1,
+  "fields": {
+    "abbr": "SR1",
+    "label": "Senior",
+    "label_en": "Senior",
+    "label_es": "El Oldo",
+    "label_zh_hans": "\u8001\u5927",
+    "label_fr": "Le Olde"
+  }
+},
+{
+  "model": "atriacalendar.atriaeventprogram",
+  "pk": 2,
+  "fields": {
+    "abbr": "YTH1",
+    "label": "Youth",
+    "label_en": "Youth",
+    "label_es": "El Youngo",
+    "label_zh_hans": "\u5c0f\u5b69\u5b50",
+    "label_fr": "Le petite"
+  }
+},
+{
+  "model": "atriacalendar.atriaeventprogram",
+  "pk": 3,
+  "fields": {
+    "abbr": "ALL1",
+    "label": "All Ages",
+    "label_en": "All Ages",
+    "label_es": null,
+    "label_zh_hans": null,
+    "label_fr": null
+  }
+},
+{
+  "model": "atriacalendar.atriaorganization",
+  "pk": 1,
+  "fields": {
+    "org_name": "Atria Coop Inc",
+    "org_name_en": "Atria Coop Inc",
+    "org_name_es": null,
+    "org_name_zh_hans": null,
+    "org_name_fr": null,
+    "date_joined": "2019-02-15T17:53:02",
+    "status": "Active",
+    "description": "Platform owner",
+    "location": "Vancouver"
+  }
+},
+{
+  "model": "atriacalendar.atriaorganization",
+  "pk": 2,
+  "fields": {
+    "org_name": "Kiwassa House",
+    "org_name_en": "Kiwassa House",
+    "org_name_es": null,
+    "org_name_zh_hans": null,
+    "org_name_fr": null,
+    "date_joined": "2019-02-15T17:53:19",
+    "status": "Active",
+    "description": "Neighbourhood House",
+    "location": "Vancouver"
+  }
+},
+{
+  "model": "atriacalendar.atriaorganization",
+  "pk": 3,
+  "fields": {
+    "org_name": "Atria Neighbourhood House",
+    "org_name_en": "Atria Neighbourhood House",
+    "org_name_es": null,
+    "org_name_zh_hans": null,
+    "org_name_fr": null,
+    "date_joined": "2019-08-16T13:40:34.417",
+    "status": "Active",
+    "description": "Atria Neighbourhood House test organization",
+    "location": "Vancouver"
+  }
+},
+{
+  "model": "atriacalendar.atriaevent",
+  "pk": 1,
+  "fields": {
+    "calendar": null,
+    "program": "Seniors",
+    "program_en": "Seniors",
+    "program_es": null,
+    "program_zh_hans": null,
+    "program_fr": null,
+    "event_program": 1,
+    "location": "Phone call"
+  }
+},
+{
+  "model": "atriacalendar.atriaoccurrence",
+  "pk": 1,
+  "fields": {
+    "published": false
+  }
+},
+{
+  "model": "atriacalendar.relationtype",
+  "pk": 1,
+  "fields": {
+    "relation_type": "Employee",
+    "relation_description": "Employee",
+    "is_org_relation": true
+  }
+},
+{
+  "model": "atriacalendar.relationtype",
+  "pk": 2,
+  "fields": {
+    "relation_type": "Member",
+    "relation_description": "Member",
+    "is_org_relation": false
+  }
+},
+{
+  "model": "atriacalendar.eventattendancetype",
+  "pk": 1,
+  "fields": {
+    "attendance_type": "Attendee",
+    "attendance_description": "Attendee"
+  }
+},
+{
+  "model": "atriacalendar.eventattendancetype",
+  "pk": 2,
+  "fields": {
+    "attendance_type": "Volunteer",
+    "attendance_description": "Volunteer"
+  }
+},
+{
+  "model": "atriacalendar.eventattendancetype",
+  "pk": 3,
+  "fields": {
+    "attendance_type": "Organizer",
+    "attendance_description": "Organizer"
+  }
+},
+{
+  "model": "atriacalendar.eventattendancetype",
+  "pk": 4,
+  "fields": {
+    "attendance_type": "Staff",
+    "attendance_description": "Staff"
+  }
+},
+{
+  "model": "atriacalendar.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$100000$pNbzBElix4UP$8hjZr2KYgeOPMN7eQdxizXc7aso7tNzoOI5hH3bJ/4k=",
+    "is_superuser": true,
+    "email": "admin@mail.com",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2018-12-06T03:09:20",
+    "last_login": "2019-02-15T17:52:44",
+    "groups": [
+      1
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "atriacalendar.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$100000$tOjLluVkXJcn$m7YQgJhag5gn4M6E0u/h3BcAM4Kz/XIU7bFnzUPtYxA=",
+    "is_superuser": false,
+    "email": "atria@mail.com",
+    "first_name": "Atria",
+    "last_name": "Employee",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-02-15T17:56:51",
+    "last_login": "2019-02-15T17:57:01",
+    "groups": [
+      1,
+      3
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "atriacalendar.user",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$100000$ho1ZAwjukdlY$/u08c2YLvmgO+zEsVhwhkWNbAmdFtF94P3XPv/rsyP0=",
+    "is_superuser": false,
+    "email": "kiwassa@mail.com",
+    "first_name": "Kiwassa",
+    "last_name": "Employee",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-02-15T17:57:37",
+    "last_login": "2019-02-15T18:00:09.706",
+    "groups": [
+      1,
+      3
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "atriacalendar.user",
+  "pk": 4,
+  "fields": {
+    "password": "pbkdf2_sha256$100000$DE9kij5gxDW5$ybVPq3Gz2NpBrssniZMsXjvtk5Eb4zGH+jnmqVFaAYI=",
+    "is_superuser": false,
+    "email": "joe@mail.com",
+    "first_name": "Joe",
+    "last_name": "Neighbour",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-02-15T17:57:52.843",
+    "last_login": "2019-02-15T18:05:46.863",
+    "groups": [
+      3
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "atriacalendar.user",
+  "pk": 5,
+  "fields": {
+    "password": "pbkdf2_sha256$120000$ZTUdSHt9pWHs$VEX119Ur07tu8xi5HLHTUoxqWPCtPt2ReCm9A2F2ehY=",
+    "is_superuser": false,
+    "email": "atriahouse@mail.com",
+    "first_name": "Atria",
+    "last_name": "House",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-08-16T13:40:34.290",
+    "last_login": "2019-08-16T13:40:42.638",
+    "groups": [
+      1,
+      3
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "atriacalendar.atriacalendar",
+  "pk": 1,
+  "fields": {
+    "org_owner": null,
+    "user_owner": 5,
+    "calendar_name": "Events"
+  }
+},
+{
+  "model": "atriacalendar.atriacalendar",
+  "pk": 2,
+  "fields": {
+    "org_owner": 3,
+    "user_owner": null,
+    "calendar_name": "Events"
+  }
+},
+{
+  "model": "atriacalendar.atriarelationship",
+  "pk": 1,
+  "fields": {
+    "user": 1,
+    "org": 1,
+    "relation_type": 1,
+    "status": "Active",
+    "effective_date": "2019-02-15T17:59:09",
+    "end_date": null
+  }
+},
+{
+  "model": "atriacalendar.atriarelationship",
+  "pk": 2,
+  "fields": {
+    "user": 2,
+    "org": 1,
+    "relation_type": 1,
+    "status": "Active",
+    "effective_date": "2019-02-15T17:59:18",
+    "end_date": null
+  }
+},
+{
+  "model": "atriacalendar.atriarelationship",
+  "pk": 3,
+  "fields": {
+    "user": 3,
+    "org": 2,
+    "relation_type": 1,
+    "status": "Active",
+    "effective_date": "2019-02-15T17:59:28",
+    "end_date": null
+  }
+},
+{
+  "model": "atriacalendar.atriarelationship",
+  "pk": 4,
+  "fields": {
+    "user": 4,
+    "org": 2,
+    "relation_type": 2,
+    "status": "Active",
+    "effective_date": "2019-02-15T17:59:28",
+    "end_date": null
+  }
+},
+{
+  "model": "atriacalendar.atriarelationship",
+  "pk": 5,
+  "fields": {
+    "user": 5,
+    "org": 3,
+    "relation_type": 1,
+    "status": "Active",
+    "effective_date": "2019-08-16T13:40:34.417",
+    "end_date": null
+  }
+}
 ]
