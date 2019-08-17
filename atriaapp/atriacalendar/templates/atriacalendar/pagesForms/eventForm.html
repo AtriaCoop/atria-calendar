@@ -13,33 +13,18 @@
 		<div class='center-body'>
 			<div class='innercont-center-body'>
 				<form method='post' action=''>{% csrf_token %}
-					{% verbatim %}
 						<div id='event-form' class='innercont-center-inner'>
 							<div class='form-cont'>
 								<h2>Event Form</h2>
 								<div class='newsfeed-post-seperator'></div>
 								<div>
 									<h5>Title</h5>
-									<input
-										v-model='title'
-										id='event-form-title'
-										name='title'
-										maxlength='32'
-										required
-									>
+									{{ form.title }}
 								</div>
 
 								<div>
 									<h5>Description</h5>
-									<textarea
-										v-model='description'
-										rows="3"
-										cols="37"
-										id='event-form-desc'
-										name='description'
-										maxlength='100'
-										required
-									></textarea>
+									{{ form.description }}
 								</div>
 
 								<div class='form-date-time-cont'>
@@ -67,30 +52,17 @@
 
 								<div>
 									<h5>Location</h5>
-									<textarea
-										v-model='location'
-										rows="3"
-										cols="37"
-										id='event-form-desc'
-										name='location'
-										maxlength='100'
-									></textarea>
+									{{ form.location }}
 								</div>
 
 								<div>
 									<h5>Event Type</h5>
-										<select name="event_type" required="required" id="id_event_type">
-											<option value="" selected="selected">---------</option>
-											<option value="1">Fun Event</option>
-										</select>
+									{{ form.event_type }}
 								</div>
 
 								<div>
 									<h5>Calendar</h5>
-									<select name="calendar" id="id_calendar">
-										<option value="" selected="selected">---------</option>
-										<option value="1">TestOrg, Vancouver, BC:Events</option>
-									</select>
+									{{ form.calendar }}
 								</div>
 
 								<div>
@@ -100,10 +72,7 @@
 
 								<div>
 									<h5>Event Program</h5>
-									<select name="event_program" required="required" id="id_event_program">
-										<option value="" selected="selected">---------</option>
-										<option value="1">Fun Event</option>
-									</select>
+									{{ form.event_program }}
 								</div>
 
 								<div class='add-opp-cont'>
@@ -114,7 +83,6 @@
 									<div class='btn btn-add-opp' id='btn-add-opp'>+ add</div>
 								</div>
 
-							{% endverbatim %}
 							{{ form.errors }}
 							{% verbatim %}
 							</div>

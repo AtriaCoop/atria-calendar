@@ -358,8 +358,8 @@ DASHBOARD
 
 .left-body,
 .right-body {
-	width: 49%;
-	max-width: 48rem;
+	width: 89%;
+	max-width: 88rem;
 	padding: 1rem .5rem 0 .5rem;
 	box-sizing: border-box;
 }
