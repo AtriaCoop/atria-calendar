@@ -37,6 +37,7 @@ class AtriaEventForm(swingtime_forms.EventForm, TranslationModelForm):
         super(AtriaEventForm, self).__init__(*args, **kwargs)
         self.fields['program'].required = False
         # self.fields['location'].required = False
+        self.fields['description'].widget = forms.Textarea()
 
         cur_org = None
         if request:
@@ -46,9 +47,11 @@ class AtriaEventForm(swingtime_forms.EventForm, TranslationModelForm):
                     cur_org = cur_orgs[0]
             if cur_org:
                 # determine current org calendar
+                print("Set calendar query to org_owner", cur_org)
                 self.fields['calendar'].queryset = AtriaCalendar.objects.filter(org_owner=cur_org)
             elif request.user.is_authenticated:
                 # default to user calendar
+                print("Set calendar query to user_owner", request.user)
                 self.fields['calendar'].queryset = AtriaCalendar.objects.filter(user_owner=request.user)
 
 
@@ -64,6 +67,9 @@ class AtriaEventOccurrenceForm(AtriaEventForm):
     start_time_delta = forms.TimeField()
 
     DEFAULT_OCCURRENCE_DURATION = 1  # Hours.
+
+    def __init__(self, *args, **kwargs):
+        super(AtriaEventOccurrenceForm, self).__init__(*args, **kwargs)
 
     def save(self):
         event = super().save()

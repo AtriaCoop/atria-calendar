@@ -477,6 +477,11 @@ class EventCreateView(CreateView):
     success_url = reverse_lazy('create_manage')
     template_name = 'atriacalendar/pagesForms/eventForm.html'
 
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['event_form'] = AtriaEventForm(instance=self.object, request=self.request)
+        return context_data
+
     def get_success_url(self):
         success_url = super().get_success_url()
         language = translation.get_language()
