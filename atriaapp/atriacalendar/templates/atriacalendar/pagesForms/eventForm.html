@@ -1,66 +1,44 @@
-{% extends 'base_nav.html' %}
+{% extends 'base_nav.html' %} {% load i18n %} {% load atria_custom_tags %} {# Set local template variable: #} {% get_settings_value LANGUAGES "LANGUAGES" %} {% load static %} {% block main_content %}
+<div class='inside-body'>
+    <div class='center-body'>
+        <div class='innercont-center-body'>
+            <form method='post' action=''>{% csrf_token %}
+                <div id='event-form' class='innercont-center-inner'>
+                    <div class='form-cont'>
+                        <h2>Event Form</h2>
+                        <div class='newsfeed-post-seperator'></div>
+                        <div>
+                            <h5>Title</h5>
+                            {{ form.title }}
+                        </div>
 
-{% load i18n %}
-{% load atria_custom_tags %}
+                        <div>
+                            <h5>Description</h5>
+                            {{ form.description }}
+                        </div>
 
-{# Set local template variable: #}
-{% get_settings_value LANGUAGES "LANGUAGES" %}
+                        <div class='form-date-time-cont'>
+                            <div>
+                                <h5>Date</h5>
+                                <input type="date" id='event-form-date' name='day' required :value='localeDateString' @input='localeDateString = $event.target.valueAsDate'>
+                            </div>
+                            <div>
+                                <h5>Time</h5>
+                                <input type="time" id='event-form-time' name='start_time_delta' v-model='localeTimeString'>
+                            </div>
+                        </div>
 
-{% load static %}
+                        <div>
+                            <h5>Location</h5>
+                            {{ form.location }}
+                        </div>
 
-{% block main_content %}
-	<div class='inside-body'>
-		<div class='center-body'>
-			<div class='innercont-center-body'>
-				<form method='post' action=''>{% csrf_token %}
-						<div id='event-form' class='innercont-center-inner'>
-							<div class='form-cont'>
-								<h2>Event Form</h2>
-								<div class='newsfeed-post-seperator'></div>
-								<div>
-									<h5>Title</h5>
-									{{ form.title }}
-								</div>
+                        <div>
+                            <h5>Event Type</h5>
+                            {{ form.event_type }}
+                        </div>
 
-								<div>
-									<h5>Description</h5>
-									{{ form.description }}
-								</div>
-
-								<div class='form-date-time-cont'>
-									<div>
-										<h5>Date</h5>
-										<input
-											type="date"
-											id='event-form-date'
-											name='day'
-											required
-											:value='localeDateString'
-											@input='localeDateString = $event.target.valueAsDate'
-										>
-									</div>
-									<div>
-										<h5>Time</h5>
-										<input
-											type="time"
-											id='event-form-time'
-											name='start_time_delta'
-											v-model='localeTimeString'
-										>
-									</div>
-								</div>
-
-								<div>
-									<h5>Location</h5>
-									{{ form.location }}
-								</div>
-
-								<div>
-									<h5>Event Type</h5>
-									{{ form.event_type }}
-								</div>
-
-								<div>
+                        <!-- <div>
 									<h5>Calendar</h5>
 									{{ form.calendar }}
 								</div>
@@ -68,25 +46,24 @@
 								<div>
 									<h5>Program</h5>
 									<input type="text" name="program" maxlength="32" id="id_program">
-								</div>
+								</div> -->
 
-								<div>
-									<h5>Event Program</h5>
-									{{ form.event_program }}
-								</div>
+                        <div>
+                            <h5>Event Program</h5>
+                            {{ form.event_program }}
+                        </div>
 
-								<div class='add-opp-cont'>
+                        <!-- <div class='add-opp-cont'>
 									<div>
 										<h5>Add Opportunities</h5>
 										<input type="text" id='event-form-opp'>
 									</div>
 									<div class='btn btn-add-opp' id='btn-add-opp'>+ add</div>
-								</div>
-
-							{{ form.errors }}
-							{% verbatim %}
-							</div>
-							<div class='form-view-cont'>
+								</div> -->
+                        {{ form.errors }} {% verbatim %}
+                        <button type='submit' class='btn btn-create-post'>Post</button>
+                    </div>
+                    <!-- <div class='form-view-cont'>
 								<h2>Preview Event Post</h2>
 								<div class='newsfeed-post-seperator'></div>
 								<div class='form-view-top-cont'>
@@ -135,17 +112,17 @@
 								</div>
 								<br>
 								<button type='submit' class='btn btn-create-post'>Post</button>
-							</div>
-						</div>
-					{% endverbatim %}
-			</div>
-		</div>
-	</div>
+							</div> -->
+                </div>
+                {% endverbatim %}
+        </div>
+    </div>
+</div>
 
-	<!-- development version, includes helpful console warnings -->
-	<!-- script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script -->
-	<!-- production version, optimized for size and speed -->
-	<script src="https://unpkg.com/vue"></script>
-	<script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
-	<script src="{% static "/atriacalendar/vue_create_event.js" %}"></script>
+<!-- development version, includes helpful console warnings -->
+<!-- script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script -->
+<!-- production version, optimized for size and speed -->
+<script src="https://unpkg.com/vue"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+<script src="{% static " /atriacalendar/vue_create_event.js " %}"></script>
 {% endblock %}
