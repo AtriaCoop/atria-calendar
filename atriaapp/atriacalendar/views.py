@@ -486,6 +486,20 @@ class EventCreateView(CreateView):
         context_data['event_form'] = AtriaEventForm(instance=self.object, request=self.request)
         return context_data
 
+    def form_valid(self, form):
+        return_value = super().form_valid(form)
+        if not self.object.calendar:
+            try:
+                org = AtriaOrganization.objects.get(
+                    id=self.request.session.get('ACTIVE_ORG'))
+                self.object.calendar = org.get_default_calendar()
+                self.object.save()
+            except (AtriaOrganization.DoesNotExist,
+                    AtriaCalendar.DoesNotExist):
+                pass
+
+        return return_value
+
     def get_success_url(self):
         success_url = super().get_success_url()
         language = translation.get_language()

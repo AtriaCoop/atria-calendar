@@ -174,6 +174,9 @@ class AtriaOrganization(models.Model):
     def __str__(self):
         return self.org_name + ", " + self.location
 
+    def get_default_calendar(self):
+        return self.atriacalendar_set.order_by('id')[0]
+
 
 # collect events into a "calendar" that has a name and owner (can be an org or individual user)
 class AtriaCalendar(models.Model):
