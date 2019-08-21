@@ -458,7 +458,11 @@ class CreateManageView(LoginRequiredMixin, ListView):
     template_name = 'atriacalendar/pagesSite/createManagePage.html'
 
     def get_queryset(self):
-        return AtriaOccurrence.objects.get_for_user(self.request.user)
+        if 'ACTIVE_ORG' in self.request.session:
+            org_id = self.request.session['ACTIVE_ORG']
+            return AtriaOccurrence.objects.get_for_org_id(org_id)
+        else:
+            return AtriaOccurrence.objects.get_for_user(self.request.user)
 
 
 def view_event_view(request):
@@ -495,7 +499,7 @@ class EventCreateView(CreateView):
         return success_url
 
 
-def manage_opportunity_view(request):
+def manage_opportunity_view(request, occ_id):
     return render(request, 'atriacalendar/pagesForms/opportunityForm.html')
 
 def search_event_view(request):

@@ -229,6 +229,13 @@ class AtriaOccurrenceManager(swingtime_models.OccurrenceManager):
         return self.filter(
             event__atriaevent__calendar__org_owner__atriarelationship__user=user)
 
+    def get_for_org_id(self, org_id):
+        '''
+        Returns a queryset of instances that belong to the given user's org id.
+        '''
+        return self.filter(
+            event__atriaevent__calendar__org_owner__id=org_id)
+
     def period_occurrences(self, start_dt=None, end_dt=None, event=None):
         '''
         Returns a queryset of for instances that have any overlap with a
