@@ -508,7 +508,7 @@ class EventCreateView(CreateView):
         if namespace:
             namespace = namespace.replace(':', '')
             success_url = success_url.replace(
-                language, '%s/%s' % (language, namespace))
+                '/'+language+'/', '/%s/%s/' % (language, namespace))
 
         return success_url
 
@@ -516,8 +516,9 @@ class EventCreateView(CreateView):
 def manage_opportunity_view(request, occ_id):
     # put the selected event occurrence into scope for the form
     atriaoccurrence = AtriaOccurrence.objects.get(id=occ_id)
+    opportunities = list(atriaoccurrence.atriaevent.atriavolunteeropportunity_set.all())
     return render(request, 'atriacalendar/pagesSite/createManageOpportunityPage.html',
-        context={'atriaoccurrence': atriaoccurrence})
+        context={'atriaoccurrence': atriaoccurrence, 'opportunities': opportunities})
 
 
 class OpportunityCreateView(CreateView):
@@ -542,18 +543,17 @@ class OpportunityCreateView(CreateView):
         print("Check if form valid")
         return_value = super().form_valid(form)
 
-        return True
+        return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
         success_url = reverse_lazy('opportunities', kwargs={'occ_id': self.kwargs['occ_id']})
-        print('success_url', success_url)
         language = translation.get_language()
         namespace = self.request.session.get('URL_NAMESPACE')
 
         if namespace:
             namespace = namespace.replace(':', '')
             success_url = success_url.replace(
-                language+'/', '%s/%s/' % (language, namespace))
+                '/'+language+'/', '/%s/%s/' % (language, namespace))
 
         print('success_url', success_url)
         return success_url
