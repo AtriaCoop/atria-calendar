@@ -51,3 +51,5 @@ admin.site.register(EventAttendanceType)
 admin.site.register(AtriaBookmark)
 admin.site.register(AtriaEventAttendance)
 admin.site.register(AtriaOccurrence)
+admin.site.register(AtriaVolunteerOpportunity)
+

@@ -51,8 +51,9 @@ calendarpatterns = [
              name='swingtime-occurrence'),
     ])),
     path('create_manage/', CreateManageView.as_view(), name='create_manage'),
-    path('<int:occ_id>/opportunity/', manage_opportunity_view, name='opportunity'),
     path('event/', EventCreateView.as_view(), name='event'),
+    path('event/<int:occ_id>/opportunities/', manage_opportunity_view, name='opportunities'),
+    path('event/<int:occ_id>/opportunity/', OpportunityCreateView.as_view(), name='opportunity'),
     path('settings/', settings_view, name='settings'),
 ]
 

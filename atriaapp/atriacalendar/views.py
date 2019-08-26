@@ -514,7 +514,50 @@ class EventCreateView(CreateView):
 
 
 def manage_opportunity_view(request, occ_id):
-    return render(request, 'atriacalendar/pagesForms/opportunityForm.html')
+    # put the selected event occurrence into scope for the form
+    atriaoccurrence = AtriaOccurrence.objects.get(id=occ_id)
+    return render(request, 'atriacalendar/pagesSite/createManageOpportunityPage.html',
+        context={'atriaoccurrence': atriaoccurrence})
+
+
+class OpportunityCreateView(CreateView):
+    form_class = AtriaEventOpportunityForm
+    model = AtriaVolunteerOpportunity
+    #success_url = reverse_lazy('opportunities', kwargs={'occ_id': None})
+    template_name = 'atriacalendar/pagesForms/opportunityForm.html'
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['atriaoccurrence'] = AtriaOccurrence.objects.get(id=self.kwargs['occ_id'])
+        context_data['event_form'] = AtriaEventOpportunityForm(instance=self.object, request=self.request, initial={
+                    'occ_id': self.kwargs['occ_id']})
+        return context_data
+
+    def get_initial(self):
+        return {
+            'occ_id': self.kwargs['occ_id']
+        }
+
+    def form_valid(self, form):
+        print("Check if form valid")
+        return_value = super().form_valid(form)
+
+        return True
+
+    def get_success_url(self):
+        success_url = reverse_lazy('opportunities', kwargs={'occ_id': self.kwargs['occ_id']})
+        print('success_url', success_url)
+        language = translation.get_language()
+        namespace = self.request.session.get('URL_NAMESPACE')
+
+        if namespace:
+            namespace = namespace.replace(':', '')
+            success_url = success_url.replace(
+                language+'/', '%s/%s/' % (language, namespace))
+
+        print('success_url', success_url)
+        return success_url
+
 
 def search_event_view(request):
     return render(request, 'atriacalendar/pagesSearch/eventsSearch.html')

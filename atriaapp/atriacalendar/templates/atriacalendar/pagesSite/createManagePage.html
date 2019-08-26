@@ -47,12 +47,12 @@
 									<td>{{ occ.event.title }}</td>
 									<td>{{ occ.start_time|date:"Y-m-d" }}</td>
 									<td>{{ occ.publisher }}</td>
-									<td>{{ occ.event.atriaevent.attendee_total }}</td>
-									<td>{{ occ.event.atriaevent.volunteer_total }}</td>
+									<td>{{ occ.atriaoccurrence.attendee_total }}</td>
+									<td>{{ occ.atriaoccurrence.volunteer_total }}</td>
 									<td>{{ occ.status }}</td>
 									<td>
-										<a href="{% snurl 'opportunity' occ.id %}">
-											<div class='btn btn-add-new-opp'>New Opportunity</div>
+										<a href="{% snurl 'opportunities' occ.id %}">
+											<div class='btn btn-add-new-opp'>Opportunities</div>
 										</a>
 									</td>
 								</tr>
