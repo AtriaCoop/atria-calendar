@@ -121,7 +121,6 @@ class AtriaEventOpportunityForm(forms.ModelForm):
                 pass
 
     def save(self):
-        print("In form save")
 
         occurrence = AtriaOccurrence.objects.get(id=self.cleaned_data['occ_id'])
         start_date = timezone.datetime.combine(
@@ -130,8 +129,6 @@ class AtriaEventOpportunityForm(forms.ModelForm):
         )
         date_added = timezone.now()
 
-        print('occurrence', occurrence)
-        print('atriaevent', occurrence.atriaevent)
         opportunity = AtriaVolunteerOpportunity.objects.create(
             event=occurrence.atriaevent,
             title=self.cleaned_data['title'],

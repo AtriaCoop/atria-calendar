@@ -540,7 +540,6 @@ class OpportunityCreateView(CreateView):
         }
 
     def form_valid(self, form):
-        print("Check if form valid")
         return_value = super().form_valid(form)
 
         return HttpResponseRedirect(self.get_success_url())
@@ -555,12 +554,17 @@ class OpportunityCreateView(CreateView):
             success_url = success_url.replace(
                 '/'+language+'/', '/%s/%s/' % (language, namespace))
 
-        print('success_url', success_url)
         return success_url
 
 
 def search_event_view(request):
-    return render(request, 'atriacalendar/pagesSearch/eventsSearch.html')
+    occurrences = AtriaOccurrence.objects.filter(
+        models.Q(
+                start_time__gte=timezone.now()
+            )
+        ).all()
+    return render(request, 'atriacalendar/pagesSearch/eventsSearch.html',
+        context={'occurrences': occurrences})
 
 def search_opportunity_view(request):
     return render(request, 'atriacalendar/pagesSearch/opportunitiesSearch.html')
