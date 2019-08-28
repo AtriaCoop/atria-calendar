@@ -14,24 +14,65 @@
 		<div class='center-body'>
 			<div class='innercont-center-body'>
 				<div class='innercont-center-inner'>
+                <div class='accounts-events'>
 					<div class='form-cont'>
-						<h2>Opportunity Form</h2>
+						<h2>Event Occurrence</h2>
 						<div class='newsfeed-post-seperator'></div>
+	                    <div class='btns-cont'>
+	                        <table class="accounts-events-table">
+	                            <tr>
+	                                <td>Title:</td><td>{{ atriaoccurrence.event.title }}</td>
+	                            </tr>
+	                            <tr>
+	                                <td>Start Date/Time:</td><td>{{ atriaoccurrence.start_time|date:"Y-m-d" }}</td>
+	                            </tr>
+	                            <tr>
+	                                <td>Publisher:</td><td>{{ atriaoccurrence.publisher }}</td>
+	                            </tr>
+	                            <tr>
+	                                <td>Attendee Total:</td><td>{{ atriaoccurrence.attendee_total }}</td>
+	                            </tr>
+	                            <tr>
+	                                <td>Volunteer Total:</td><td>{{ atriaoccurrence.volunteer_total }}</td>
+	                            </tr>
+	                            <tr>
+	                                <td>Status:</td><td>{{ atriaoccurrence.status }}</td>
+	                            </tr>
+	                        </table>
+	                    </div>
+                    </div>
+		            <form method='post' action=''>{% csrf_token %}
+					<div class='form-cont'>
+						<h2>Volunteer Opportunity</h2>
+						<div class='newsfeed-post-seperator'></div>
+						{{ form.occ_id }}
 						<div>
 							<h5>Title</h5>
-							<input type="text" id='event-form-title'>
+                            {{ form.title }}
 						</div>
 
 						<div>
 							<h5>Description</h5>
-							<textarea rows="6" cols="37" id='event-form-desc'></textarea>
+                            {{ form.description }}
 						</div>
 
-						<div>
-							<h5>Start Date</h5>
-							<input type="date" id='event-form-date'>
-						</div>
+                        <div class='form-date-time-cont'>
+                            <div>
+                                <h5>Date</h5>
+                                <input type="date" id='event-form-date' name='day' required :value='localeDateString' @input='localeDateString = $event.target.valueAsDate'>
+                            </div>
+                            <div>
+                                <h5>Time</h5>
+                                <input type="time" id='event-form-time' name='start_time_delta' v-model='localeTimeString'>
+                            </div>
+                        </div>
+
+                        {{ form.errors }}
+
+                        <button type='submit' class='btn btn-create-post'>Post</button>
 					</div>
+					</form>
+					<!--
 					<div class='form-view-cont'>
 						<h2>Preview Opportunity Post</h2>
 						<div class='newsfeed-post-seperator'></div>
@@ -67,6 +108,7 @@
 						<br>
 						<div class='btn btn-create-post'>Post</div>
 					</div>
+					-->
 				</div>
 			</div>
 		</div>

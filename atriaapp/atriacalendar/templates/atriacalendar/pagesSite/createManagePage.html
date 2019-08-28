@@ -24,9 +24,6 @@
 							<a href="{% snurl 'event' %}">
 								<div class='btn btn-add-new-event'>Post New Event</div>
 							</a>
-							<a href="{% snurl 'opportunity' %}">
-								<div class='btn btn-add-new-opp'>Post New Opportunity</div>
-							</a>
 						</div>
 						<button class="btn btn-delete-occ">Delete Occurrence</button>
 					</div>
@@ -40,6 +37,7 @@
 							<th>Attendees</th>
 							<th>Volunteer</th>
 							<th>Status</th>
+							<th>Admin</th>
 						</thead>
 						<tbody>
 							{% for occ in atriaoccurrence_list %}
@@ -49,9 +47,14 @@
 									<td>{{ occ.event.title }}</td>
 									<td>{{ occ.start_time|date:"Y-m-d" }}</td>
 									<td>{{ occ.publisher }}</td>
-									<td>{{ occ.event.atriaevent.attendee_total }}</td>
-									<td>{{ occ.event.atriaevent.volunteer_total }}</td>
+									<td>{{ occ.atriaoccurrence.attendee_total }}</td>
+									<td>{{ occ.atriaoccurrence.volunteer_total }}</td>
 									<td>{{ occ.status }}</td>
+									<td>
+										<a href="{% snurl 'opportunities' occ.id %}">
+											<div class='btn btn-add-new-opp'>Opportunities</div>
+										</a>
+									</td>
 								</tr>
 							{% endfor %}
 						</tbody>

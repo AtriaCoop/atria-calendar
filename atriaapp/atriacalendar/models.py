@@ -206,22 +206,6 @@ class AtriaEvent(swingtime_models.Event):
     def __str__(self):
         return self.title + ", " + self.location
 
-    @property
-    def volunteer_total(self):
-        total = self.atriaeventattendance_set\
-                .filter(attendance_type__attendance_type='Volunteer')\
-                .aggregate(sum=models.Sum('user_count'))['sum']
-
-        return total if total else 0
-
-    @property
-    def attendee_total(self):
-        total = self.atriaeventattendance_set\
-                .filter(attendance_type__attendance_type='Attend')\
-                .aggregate(sum=models.Sum('user_count'))['sum']
-
-        return total if total else 0
-
 
 class AtriaOccurrenceManager(swingtime_models.OccurrenceManager):
 
@@ -231,6 +215,13 @@ class AtriaOccurrenceManager(swingtime_models.OccurrenceManager):
         '''
         return self.filter(
             event__atriaevent__calendar__org_owner__atriarelationship__user=user)
+
+    def get_for_org_id(self, org_id):
+        '''
+        Returns a queryset of instances that belong to the given user's org id.
+        '''
+        return self.filter(
+            event__atriaevent__calendar__org_owner__id=org_id)
 
     def period_occurrences(self, start_dt=None, end_dt=None, event=None):
         '''
@@ -291,6 +282,22 @@ class AtriaOccurrence(swingtime_models.Occurrence):
 
     def days_until(self):
         return (self.start_time.date() - timezone.now().date()).days
+
+    @property
+    def volunteer_total(self):
+        total = self.atriaeventattendance_set\
+                .filter(attendance_type__attendance_type='Volunteer')\
+                .aggregate(sum=models.Sum('user_count'))['sum']
+
+        return total if total else 0
+
+    @property
+    def attendee_total(self):
+        total = self.atriaeventattendance_set\
+                .filter(attendance_type__attendance_type='Attend')\
+                .aggregate(sum=models.Sum('user_count'))['sum']
+
+        return total if total else 0
 
 
 # general announcements from an Org (will show up on a user's feed if they have an org relationship)
@@ -359,15 +366,26 @@ class AtriaBookmark(models.Model):
         return self.user.email + ':' + str(self.event)
 
 
+# volunteer opportunity that is available for an event
+class AtriaVolunteerOpportunity(models.Model):
+    event = models.ForeignKey(AtriaEvent, on_delete=models.CASCADE)
+    title = models.TextField(max_length=80, blank=True)
+    description = models.TextField(max_length=4000, blank=True)
+    start_date = models.DateTimeField(default=timezone.now)
+    date_added = models.DateTimeField(default=timezone.now)
+
+
 # event history tracking (for an organization)
 # can be related to a specific user, or just a general count of attendees, volunteers etc.
 class AtriaEventAttendance(models.Model):
-    event = models.ForeignKey(AtriaEvent, on_delete=models.CASCADE)
+    #event = models.ForeignKey(AtriaEvent, on_delete=models.CASCADE)
+    occurrence = models.ForeignKey(AtriaOccurrence, on_delete=models.CASCADE, blank=True, null=True)
     attendance_type = models.ForeignKey(EventAttendanceType, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True)
+    volunteer_opportunity = models.ForeignKey(AtriaVolunteerOpportunity, on_delete=models.CASCADE, blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     user_count = models.IntegerField(default=0)
     date_added = models.DateTimeField(default=timezone.now)
-    notes = models.TextField(max_length=4000, blank=True)
+    notes = models.TextField(max_length=4000, blank=True, null=True)
 
     def __str__(self):
         return str(self.event) + ':' + self.user.email + ' - ' + self.attendance_type

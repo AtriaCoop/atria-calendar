@@ -34,18 +34,11 @@
 						</div>
 					</div>
 					<div>
-						<div id='eventsearch1'>
+						{% for occurrence in occurrences %}
+						<div id='eventsearch'>
 							{% include "atriacalendar/pageIncludes/eventnewsfeed.html" %}
 						</div>
-						<div id='eventsearch2'>
-							{% include "atriacalendar/pageIncludes/eventnewsfeed.html" %}
-						</div>
-						<div id='eventsearch3'>
-							{% include "atriacalendar/pageIncludes/eventnewsfeed.html" %}
-						</div>
-						<div id='eventsearch4'>
-							{% include "atriacalendar/pageIncludes/eventnewsfeed.html" %}
-						</div>
+						{% endfor %}
 					</div>
 				</div>
 			</div>

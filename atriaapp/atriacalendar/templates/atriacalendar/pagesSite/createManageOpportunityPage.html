@@ -1,0 +1,78 @@
+{% extends 'base_nav.html' %}
+
+{% load i18n %}
+{% load atria_custom_tags %}
+{% load session_namespaced_url %}
+
+{# Set local template variable: #}
+{% get_settings_value LANGUAGES "LANGUAGES" %}
+
+{% load static %}
+
+{% block main_content %}
+    <div class='inside-body'>
+        <div class='center-body'>
+            <div class='innercont-body'>
+                <div class='innercont-nav'>
+                    <div class='innercont-title'>
+                        <h2>Manage Event Opportunities</h2>
+                    </div>
+                </div>
+                <div class='accounts-events'>
+                    <div class='btns-cont'>
+                        <table class="accounts-events-table">
+                            <tr>
+                                <td>Title:</td><td>{{ atriaoccurrence.event.title }}</td>
+                            </tr>
+                            <tr>
+                                <td>Start Date/Time:</td><td>{{ atriaoccurrence.start_time|date:"Y-m-d" }}</td>
+                            </tr>
+                            <tr>
+                                <td>Publisher:</td><td>{{ atriaoccurrence.publisher }}</td>
+                            </tr>
+                            <tr>
+                                <td>Attendee Total:</td><td>{{ atriaoccurrence.attendee_total }}</td>
+                            </tr>
+                            <tr>
+                                <td>Volunteer Total:</td><td>{{ atriaoccurrence.volunteer_total }}</td>
+                            </tr>
+                            <tr>
+                                <td>Status:</td><td>{{ atriaoccurrence.status }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class='btns-cont'>
+                        <div class='btns-add'>
+                            <a href="{% snurl 'opportunity' atriaoccurrence.id %}">
+                                <div class='btn btn-add-new-event'>Post New Opportunity</div>
+                            </a>
+                        </div>
+                        <button class="btn btn-delete-occ">Delete Opportunity</button>
+                    </div>
+                    <table class="accounts-events-table">
+                        <thead>
+                            <th></th>
+                            <th>Opportunity Title</th>
+                            <th>Description</th>
+                            <th>Opportunity Date</th>
+                            <th>Publisher</th>
+                            <th>Admin</th>
+                        </thead>
+                        <tbody>
+                            {% for opp in opportunities %}
+                                <tr>
+                                    <td><input type="checkbox"/></td>
+                                    <td>{{ opp.title }}</td>
+                                    <td>{{ opp.description }}</td>
+                                    <td>{{ opp.start_date|date:"Y-m-d" }}</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

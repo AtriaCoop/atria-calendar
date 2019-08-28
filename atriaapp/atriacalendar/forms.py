@@ -89,6 +89,57 @@ class AtriaEventOccurrenceForm(AtriaEventForm):
         return event
 
 
+class AtriaEventOpportunityForm(forms.ModelForm):
+    """
+    A simple form for adding volunteer opportunities to events
+    """
+    day = forms.DateField()
+    start_time_delta = forms.TimeField()
+    occ_id = forms.CharField(label='', widget = forms.HiddenInput())
+
+    class Meta:
+        model = AtriaVolunteerOpportunity
+        fields = ('title', 'description', 'start_date')
+
+    def __init__(self, *args, **kwargs):
+        request = kwargs.pop('request') if 'request' in kwargs else None
+
+        super(AtriaEventOpportunityForm, self).__init__(*args, **kwargs)
+
+        self.fields['description'].widget = forms.Textarea()
+        self.fields['start_date'].required = False
+
+        cur_org = None
+        if request:
+            if 'URL_NAMESPACE' in request.session and 'organization' in request.session['URL_NAMESPACE']:
+                cur_orgs = AtriaOrganization.objects.filter(id=request.session['ACTIVE_ORG'])
+                if 0 < len(cur_orgs):
+                    cur_org = cur_orgs[0]
+            if cur_org:
+                pass
+            elif request.user.is_authenticated:
+                pass
+
+    def save(self):
+
+        occurrence = AtriaOccurrence.objects.get(id=self.cleaned_data['occ_id'])
+        start_date = timezone.datetime.combine(
+            self.cleaned_data['day'],
+            self.cleaned_data['start_time_delta'],
+        )
+        date_added = timezone.now()
+
+        opportunity = AtriaVolunteerOpportunity.objects.create(
+            event=occurrence.atriaevent,
+            title=self.cleaned_data['title'],
+            description=self.cleaned_data['description'],
+            start_date=start_date,
+            date_added=date_added,
+        )
+
+        return opportunity
+
+
 class SignUpForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=False,
                                  help_text='Optional.')
