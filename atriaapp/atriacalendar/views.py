@@ -465,11 +465,15 @@ class CreateManageView(LoginRequiredMixin, ListView):
             return AtriaOccurrence.objects.get_for_user(self.request.user)
 
 
-def view_event_view(request):
-    return render(request, 'atriacalendar/pagesSite/eventView.html')
+def view_event_view(request, occ_id):
+    atriaoccurrence = AtriaOccurrence.objects.get(id=occ_id)
+    return render(request, 'atriacalendar/pagesSite/eventView.html',
+        context={'atriaoccurrence': atriaoccurrence})
 
-def view_opportunity_view(request):
-    return render(request, 'atriacalendar/pagesSite/opportunityView.html')
+def view_opportunity_view(request, opp_id):
+    opportunity = AtriaVolunteerOpportunity.objects.get(id=opp_id)
+    return render(request, 'atriacalendar/pagesSite/opportunityView.html',
+        context={'opportunity': opportunity})
 
 def manage_event_view(request):
     return render(request, 'atriacalendar/pagesForms/eventForm.html')

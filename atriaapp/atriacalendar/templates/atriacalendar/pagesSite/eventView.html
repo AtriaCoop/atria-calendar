@@ -45,7 +45,7 @@
 
 						<div>
 							<div>
-								<h4>Event Name</h4>
+								<h4>{{ atriaoccurrence.atriaevent.title }}</h4>
 							</div>
 							<div>
 								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
@@ -65,16 +65,16 @@
 							</div>
 							<div class='newsfeed-posted-event-opps-list'>
 								<ul>
-									<li>Print Designer</li>
-									<li>Cashier</li>
-									<li>Accountant</li>
-									<li>Cleaning Crew</li>
-									<li>Project Manager</li>
+									{% for opportunity in atriaoccurrence.atriaevent.atriavolunteeropportunity_set.all %}
+										<li>
+											<a href="{% url 'view_opportunity' opp_id=opportunity.id %}">{{ opportunity.title }}</a>
+										</li>
+									{% endfor %}
 								</ul>
 							</div>
 						</div>
 						<br>
-						<div class='btn btn-apply'>Apply to Event</div>
+						<div class='btn btn-apply'>Attend Event</div>
 					</div>
 
 					<div class='newsfeed-post-seperator'></div>
