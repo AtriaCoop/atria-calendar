@@ -404,8 +404,9 @@ def neighbour_profile_view(request):
         my_email = request.user.email
         neighbour = User.objects.filter(email=my_email).get()
         connections = neighbour.atriarelationship_set.filter(relation_type__relation_type='Member').all()
+        attendances = neighbour.atriaeventattendance_set.all()
         return render(request, 'atriacalendar/pagesSite/neighbourPage.html',
-            context={'neighbour': neighbour, 'connections': connections, 'connection_exists': True, 'is_personal_profile': True})
+            context={'neighbour': neighbour, 'attendances': attendances, 'connections': connections, 'connection_exists': True, 'is_personal_profile': True})
     else:
         return redirect('search_neighbour')
 
@@ -523,6 +524,7 @@ def view_opportunity_view(request, occ_id, opp_id):
                 attendance_type = EventAttendanceType.objects.filter(attendance_type='Volunteer').get()
                 attendance = AtriaEventAttendance(
                     occurrence=atriaoccurrence, 
+                    volunteer_opportunity=opportunity,
                     user=request.user, 
                     attendance_type=attendance_type,
                     notes=notes,
