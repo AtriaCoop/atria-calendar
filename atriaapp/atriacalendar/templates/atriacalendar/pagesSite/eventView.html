@@ -91,6 +91,26 @@
 					</div>
 
 					<div class='newsfeed-post-seperator'></div>
+
+					{% if request.user.is_authenticated and request.session.ACTIVE_ORG %}
+						<div>
+							<h4>Event Attendees:</h4>
+						</div>
+						<div>
+							<ul>
+								{% for attendee in atriaoccurrence.atriaeventattendance_set.all %}
+								<li>
+									{{ attendee.user.email }} (
+									{{ attendee.attendance_type.attendance_type }}
+									{% if attendee.attendance_type.attendance_type == 'Volunteer' %}
+									: {{ attendee.volunteer_opportunity.title }}
+									{% endif %})
+								</li>
+								{% endfor %}
+							</ul>
+						</div>
+						<div class='newsfeed-post-seperator'></div>
+					{% endif %}
 				</div>
 			</div>
 		</div>

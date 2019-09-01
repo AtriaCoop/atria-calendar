@@ -44,7 +44,7 @@
 								<tr>
 									<td><input type="checkbox"/></td>
 									<td></td>
-									<td>{{ occ.event.title }}</td>
+									<td><a href="{% url 'view_event' occ_id=occ.id %}">{{ occ.event.title }}</a></td>
 									<td>{{ occ.start_time|date:"Y-m-d" }}</td>
 									<td>{{ occ.publisher }}</td>
 									<td>{{ occ.atriaoccurrence.attendee_total }}</td>
