@@ -58,7 +58,29 @@
 							<p id='form-view-local'>123 Main St, Vancouver BC, V1Z 3A4</p>
 						</div>
 						<br>
-						<div class='btn btn-apply'>Apply to Opportunity</div>
+						{% if request.user.is_authenticated %}
+						<div>
+				            <form method='post' action=''>{% csrf_token %}
+				            	{{ form.attendee_count }}
+				            	<div>
+				            		<h4>{{ form.notes.label }}</h4>
+				            	</div>
+				            	{% if attendance %}
+				            		<div><h4>You are volunteering for this event!</h4></div>
+					            	{{ form.errors }}
+									I Changed My Mind :-( <button type='submit' class='btn btn-apply'>Un-Volunteer</button>
+				            	{% else %}
+					            	<div>
+					            		<p>{{ form.notes }}</p>
+					            	</div>
+					            	<div>
+						            	{{ form.errors }}
+										<button type='submit' class='btn btn-apply'>Apply to Volunteer</button>
+									</div>
+								{% endif %}
+							</form>
+						</div>
+						{% endif %}
 					</div>
 
 					<div class='newsfeed-post-seperator'></div>

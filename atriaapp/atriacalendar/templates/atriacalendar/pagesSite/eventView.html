@@ -67,14 +67,27 @@
 								<ul>
 									{% for opportunity in atriaoccurrence.atriaevent.atriavolunteeropportunity_set.all %}
 										<li>
-											<a href="{% url 'view_opportunity' opp_id=opportunity.id %}">{{ opportunity.title }}</a>
+											<a href="{% url 'view_opportunity' occ_id=atriaoccurrence.id opp_id=opportunity.id %}">{{ opportunity.title }}</a>
 										</li>
 									{% endfor %}
 								</ul>
 							</div>
 						</div>
 						<br>
-						<div class='btn btn-apply'>Attend Event</div>
+						{% if request.user.is_authenticated %}
+						<div>
+				            <form method='post' action=''>{% csrf_token %}
+				            	{{ form.attendee_count }}
+				            	{{ form.errors }}
+				            	{% if attendance %}
+				            		<div><h4>You are attending this event!</h4></div>
+									I Changed My Mind :-( <button type='submit' class='btn btn-apply'>Un-Attend Event</button>
+				            	{% else %}
+									<button type='submit' class='btn btn-apply'>Attend Event</button>
+								{% endif %}
+							</form>
+						</div>
+						{% endif %}
 					</div>
 
 					<div class='newsfeed-post-seperator'></div>
