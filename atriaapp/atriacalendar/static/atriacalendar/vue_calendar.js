@@ -29,6 +29,8 @@ const calendar = Vue.component('calendar', {
       loading: true,
       errored: false,
       how_to_display: 'month',
+      calendar_filter: null,
+      program_filter: null,
     };
   },
   props: {
@@ -200,14 +202,15 @@ const calendar = Vue.component('calendar', {
     },
     calMonthSelectDisplay() {
       this.how_to_display = 'month';
+      this.loadMonthlyOccurrences();
     },
     calWeekSelectDisplay() {
       this.how_to_display = 'week';
       this.loadWeeklyOccurrences();
     },
-    calYearSelectDisplay() {
-      this.how_to_display = 'year';
-    },
+    //calYearSelectDisplay() {
+    //  this.how_to_display = 'year';
+    //},
     moveThisMonth() {
       this.month = _todayComps.month;
       this.year = _todayComps.year;

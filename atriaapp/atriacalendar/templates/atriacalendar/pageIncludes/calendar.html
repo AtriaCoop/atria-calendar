@@ -25,6 +25,22 @@
 		    <a class='arrow' @click='moveNextYear'><i class="fas fa-angle-double-right"></i></a>
 		</div>
 		<div class='cal-top-nav'>
+			<span>
+				<select v-model="calendar_filter">
+					<option disabled value="">Select Calendar</option>
+					<option value='a'>A</option>
+					<option value='b'>B</option>
+					<option value='c'>C</option>
+				</select>
+			</span>
+			<span>
+				<select v-model="program_filter">
+					<option disabled value="">Select Program</option>
+					<option value='aa'>AA</option>
+					<option value='bb'>BB</option>
+					<option value='cc'>CC</option>
+				</select>
+			</span>
 			<span class='cal-selector' 
 				  :class='{ "cal-highlight": how_to_display === "week" }'
 			      @click='calWeekSelectDisplay'>
@@ -35,11 +51,11 @@
 				  @click='calMonthSelectDisplay'>
 				<h5>Month </h5>
 			</span>
-			<span class='cal-selector' 
+			<!-- span class='cal-selector' 
 				  :class='{ "cal-highlight": how_to_display === "year" }'
 				  @click='calYearSelectDisplay'>
 				<h5>Year </h5>
-			</span>
+			</span -->
         </div>
       </div>
       <div class='cal-month-cont' style="display: block;" v-if='how_to_display === "month"'>
