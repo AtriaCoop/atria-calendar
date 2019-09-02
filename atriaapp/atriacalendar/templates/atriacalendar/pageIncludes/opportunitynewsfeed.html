@@ -7,7 +7,6 @@
 {% load static %}
 
 <div class='newsfeed-posted-cont'>
-
 	<div class='newsfeed-posted-top-cont'>
 		<div class='newsfeed-posted-img-info'>
 			<div class='newsfeed-posted-img'>
@@ -24,22 +23,29 @@
 					<h5>Organization tagline</h5>
 				</div>
 				<div>
+					<h4>{{ occurrence.atriaevent.title }}</h4>
+				</div>
+				<div>
 					<h6>Date Posted</h6>
 				</div>
 			</div>
 		</div>
 	</div>
 	
+	{% for opportunity in occurrence.atriaevent.atriavolunteeropportunity_set.all %}
 	<div class='newsfeed-posted-event-opps-cont'>
 		<div>
-			<a href="{% url 'view_opportunity' %}">
-				<h4>Opportunity Title</h4>
+			<a href="{% url 'view_opportunity' occ_id=occurrence.id opp_id=opportunity.id %}">
+				<h4>{{ opportunity.title }}</h4>
 			</a>
 		</div>
 		<div>
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat<span class='see-more-link'><a herf='../pagesSite/opportunityView.html'> ... see more</a></span></p>
+			<p>{{ opportunity.description }}<span class='see-more-link'>
+				<a href="{% url 'view_opportunity' occ_id=occurrence.id opp_id=opportunity.id %}"> ... see more</a>
+			</span></p>
 		</div>
 	</div>
+	{% endfor %}
 </div>
 
 <div class='newsfeed-post-seperator'></div>

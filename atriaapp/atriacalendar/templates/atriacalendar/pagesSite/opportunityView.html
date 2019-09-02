@@ -62,14 +62,14 @@
 						<div>
 				            <form method='post' action=''>{% csrf_token %}
 				            	{{ form.attendee_count }}
-				            	<div>
-				            		<h4>{{ form.notes.label }}</h4>
-				            	</div>
 				            	{% if attendance %}
 				            		<div><h4>You are volunteering for this event!</h4></div>
 					            	{{ form.errors }}
 									I Changed My Mind :-( <button type='submit' class='btn btn-apply'>Un-Volunteer</button>
 				            	{% else %}
+					            	<div>
+					            		<h4>{{ form.notes.label }}</h4>
+					            	</div>
 					            	<div>
 					            		<p>{{ form.notes }}</p>
 					            	</div>
@@ -84,6 +84,25 @@
 					</div>
 
 					<div class='newsfeed-post-seperator'></div>
+					{% if request.user.is_authenticated and request.session.ACTIVE_ORG %}
+						{% if request.session.ACTIVE_ORG|slugify == atriaoccurrence.atriaevent.calendar.org_owner.id|slugify %}
+						<div>
+							<h4>Event Volunteers:</h4>
+						</div>
+						<div>
+							<ul>
+								{% for attendee in atriaoccurrence.atriaeventattendance_set.all %}
+								{% if attendee.volunteer_opportunity.id == opp_id %}
+								<li>
+									{{ attendee.user.email }} 
+								</li>
+								{% endif %}
+								{% endfor %}
+							</ul>
+						</div>
+						<div class='newsfeed-post-seperator'></div>
+						{% endif %}
+					{% endif %}
 				</div>
 			</div>
 		</div>

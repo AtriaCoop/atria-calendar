@@ -647,7 +647,13 @@ def search_event_view(request):
         context={'occurrences': occurrences})
 
 def search_opportunity_view(request):
-    return render(request, 'atriacalendar/pagesSearch/opportunitiesSearch.html')
+    occurrences = AtriaOccurrence.objects.filter(
+        models.Q(
+                start_time__gte=timezone.now()
+            )
+        ).all()
+    return render(request, 'atriacalendar/pagesSearch/opportunitiesSearch.html',
+        context={'occurrences': occurrences})
 
 def search_neighbour_view(request):
     neighbours = User.objects.filter(groups__name=settings.DEFAULT_USER_ROLE).all()

@@ -36,18 +36,11 @@
 						</div>
 					</div>
 					<div>
+						{% for occurrence in occurrences %}
 						<div id='opportunitysearch1'>
 							{% include "atriacalendar/pageIncludes/opportunitynewsfeed.html" %}
 						</div>
-						<div id='opportunitysearch2'>
-							{% include "atriacalendar/pageIncludes/opportunitynewsfeed.html" %}
-						</div>
-						<div id='opportunitysearch3'>
-							{% include "atriacalendar/pageIncludes/opportunitynewsfeed.html" %}
-						</div>
-						<div id='opportunitysearch4'>
-							{% include "atriacalendar/pageIncludes/opportunitynewsfeed.html" %}
-						</div>
+						{% endfor %}
 					</div>
 				</div>
 			</div>
