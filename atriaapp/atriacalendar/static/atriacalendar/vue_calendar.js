@@ -197,9 +197,7 @@ const calendar = Vue.component('calendar', {
   methods: {
     eventIsSameDay(day, month, year, in_time) {
       let start_time = new Date(in_time);
-      //console.log(in_time, start_time, day, month, year);
       let in_day = (start_time.getDay() == day && start_time.getMonth() == month && start_time.getYear() == year);
-      //console.log(in_day);
       return in_day;
     },
     calMonthSelectDisplay() {
@@ -238,13 +236,31 @@ const calendar = Vue.component('calendar', {
       this.year--;
       this.loadMonthlyOccurrences();
     },
+    getExtraUrlParams(url) {
+      var extra_params = "";
+      if (this.calendar_filter) {
+        extra_params = extra_params + "calendar=" + this.calendar_filter;
+      }
+      if (this.program_filter) {
+        if (this.calendar_filter) {
+          extra_params = extra_params + "&";
+        }
+        extra_params = extra_params + "program=" + this.program_filter;
+      }
+      if (url.includes("?")) {
+        url = url + "&" + extra_params;
+      } else {
+        url = url + "?" + extra_params;
+      }
+      return url;
+    },
     loadMonthlyOccurrences() {
       this.loading = true;
       var cur_url = window.location.href
       var cur_host = cur_url.split("/");
       url = cur_host[0] + "//" + cur_host[2] + '/api/atria/calendar/' + this.year + '/' + this.month + '/';
       axios
-        .get(url)
+        .get(this.getExtraUrlParams(url))
         .then(response => {
           this.occurrences = response.data.occurrences
         })
@@ -261,7 +277,7 @@ const calendar = Vue.component('calendar', {
         `${this.year}/${this.month}/${day.getDate()}/?week=true`);
 
       axios
-        .get(url)
+        .get(this.getExtraUrlParams(url))
         .then(response => {
           this.occurrences = response.data.occurrences;
         })
@@ -304,7 +320,6 @@ const calendar = Vue.component('calendar', {
         });
     },
     updateEventFilters() {
-      console.log('change filter', this.calendar_filter, this.program_filter); 
       if (this.how_to_display === 'month') {
         this.loadMonthlyOccurrences();
       } else {
@@ -354,7 +369,7 @@ Vue.component('single-date-picker', {
       var cur_host = cur_url.split("/");
       url = cur_host[0] + "//" + cur_host[2] + '/api/atria/calendar/' + this.year + '/' + this.month + '/' + day.day + '/';
       axios
-        .get(url)
+        .get(this.getExtraUrlParams(url))
         .then(response => {
           this.daily_occurrences = response.data.occurrences
         })
