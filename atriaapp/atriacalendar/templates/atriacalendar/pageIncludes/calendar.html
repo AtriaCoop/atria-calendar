@@ -26,19 +26,19 @@
 		</div>
 		<div class='cal-top-nav'>
 			<span>
-				<select v-model="calendar_filter">
+				<select v-model="calendar_filter" @change="updateEventFilters">
 					<option disabled value="">Select Calendar</option>
-					<option value='a'>A</option>
-					<option value='b'>B</option>
-					<option value='c'>C</option>
+					<option v-for="calendar in calendars" v-bind:value="calendar.calendar_id">
+					    {{ calendar.calendar_text }}
+					</option>
 				</select>
 			</span>
 			<span>
-				<select v-model="program_filter">
+				<select v-model="program_filter" @change="updateEventFilters">
 					<option disabled value="">Select Program</option>
-					<option value='aa'>AA</option>
-					<option value='bb'>BB</option>
-					<option value='cc'>CC</option>
+					<option v-for="program in programs" v-bind:value="program.program_id">
+					    {{ program.label }}
+					</option>
 				</select>
 			</span>
 			<span class='cal-selector' 

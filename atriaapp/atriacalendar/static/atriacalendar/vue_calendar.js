@@ -31,6 +31,8 @@ const calendar = Vue.component('calendar', {
       how_to_display: 'month',
       calendar_filter: null,
       program_filter: null,
+      calendars: null,
+      programs: null,
     };
   },
   props: {
@@ -150,7 +152,7 @@ const calendar = Vue.component('calendar', {
             // ...and flag we're tracking actual month days
             previousMonth = false;
             thisMonth = true;
-                    }
+          }
           
           // Append day info for the current week
           // Note: this might or might not be an actual month day
@@ -270,9 +272,49 @@ const calendar = Vue.component('calendar', {
         .finally(() => {
           this.loading = false;
         });
-    }
+    },
+    get_calendars() {
+      const url = encodeURI('/api/atria/calendars/');
+      axios
+        .get(url)
+        .then(response => {
+          let calendars = response.data.calendars;
+          this.calendars = calendars;
+        })
+        .catch(error => {
+          console.log(error);
+          return [];
+        })
+        .finally(() => {
+        });
+    },
+    get_programs() {
+      const url = encodeURI('/api/atria/programs/');
+      axios
+        .get(url)
+        .then(response => {
+          let programs = response.data.programs;
+          this.programs = programs;
+        })
+        .catch(error => {
+          console.log(error);
+          return [];
+        })
+        .finally(() => {
+        });
+    },
+    updateEventFilters() {
+      console.log('change filter', this.calendar_filter, this.program_filter); 
+      if (this.how_to_display === 'month') {
+        this.loadMonthlyOccurrences();
+      } else {
+        this.loadWeeklyOccurrences();
+      }
+    },
   },
   mounted () {
+    this.get_calendars();
+    this.get_programs();
     this.loadMonthlyOccurrences();
   },
 });
