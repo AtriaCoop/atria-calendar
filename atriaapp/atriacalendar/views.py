@@ -404,8 +404,9 @@ def neighbour_profile_view(request):
         my_email = request.user.email
         neighbour = User.objects.filter(email=my_email).get()
         connections = neighbour.atriarelationship_set.filter(relation_type__relation_type='Member').all()
+        attendances = neighbour.atriaeventattendance_set.all()
         return render(request, 'atriacalendar/pagesSite/neighbourPage.html',
-            context={'neighbour': neighbour, 'connections': connections, 'connection_exists': True, 'is_personal_profile': True})
+            context={'neighbour': neighbour, 'attendances': attendances, 'connections': connections, 'connection_exists': True, 'is_personal_profile': True})
     else:
         return redirect('search_neighbour')
 
@@ -465,11 +466,90 @@ class CreateManageView(LoginRequiredMixin, ListView):
             return AtriaOccurrence.objects.get_for_user(self.request.user)
 
 
-def view_event_view(request):
-    return render(request, 'atriacalendar/pagesSite/eventView.html')
+def view_event_view(request, occ_id):
+    if request.method == 'POST' and request.user.is_authenticated:
+        # only allow attendance for registered users
+        form = EventAttendanceForm(request.POST)
+        atriaoccurrence = AtriaOccurrence.objects.get(id=occ_id)
+        existing_attendance = None
+        attendances = AtriaEventAttendance.objects.filter(occurrence__id=occ_id, user=request.user, attendance_type__attendance_type='Attendee').all()
+        if 0 < attendances.count():
+            existing_attendance = attendances.get()
+        if form.is_valid():
+            cd = form.cleaned_data
+            attendee_count = cd.get('attendee_count')
+            if not existing_attendance:
+                attendance_type = EventAttendanceType.objects.filter(attendance_type='Attendee').get()
+                attendance = AtriaEventAttendance(
+                    occurrence=atriaoccurrence, 
+                    user=request.user, 
+                    attendance_type=attendance_type,
+                    user_count=attendee_count)
+                attendance.save()
+                existing_attendance = attendance
+            else:
+                existing_attendance.delete()
+                existing_attendance = None
 
-def view_opportunity_view(request):
-    return render(request, 'atriacalendar/pagesSite/opportunityView.html')
+        return render(request, 'atriacalendar/pagesSite/eventView.html',
+            context={'atriaoccurrence': atriaoccurrence, 'attendance': existing_attendance, 'form': form})
+
+    else:
+        existing_attendance = None
+        if request.user.is_authenticated:
+            attendances = AtriaEventAttendance.objects.filter(occurrence__id=occ_id, user=request.user, attendance_type__attendance_type='Attendee').all()
+            if 0 < attendances.count():
+                existing_attendance = attendances.get()
+        atriaoccurrence = AtriaOccurrence.objects.get(id=occ_id)
+        form = EventAttendanceForm({'attendee_count': 1})
+        return render(request, 'atriacalendar/pagesSite/eventView.html',
+            context={'atriaoccurrence': atriaoccurrence, 'attendance': existing_attendance, 'form': form})
+
+
+def view_opportunity_view(request, occ_id, opp_id):
+    if request.method == 'POST' and request.user.is_authenticated:
+        # only allow attendance for registered users
+        form = EventVolunteerForm(request.POST)
+        atriaoccurrence = AtriaOccurrence.objects.get(id=occ_id)
+        opportunity = AtriaVolunteerOpportunity.objects.get(id=opp_id)
+        existing_attendance = None
+        attendances = AtriaEventAttendance.objects.filter(occurrence__id=occ_id, user=request.user, attendance_type__attendance_type='Volunteer').all()
+        if 0 < attendances.count():
+            existing_attendance = attendances.get()
+        if form.is_valid():
+            cd = form.cleaned_data
+            attendee_count = cd.get('attendee_count')
+            notes = cd.get('notes')
+            if not existing_attendance:
+                attendance_type = EventAttendanceType.objects.filter(attendance_type='Volunteer').get()
+                attendance = AtriaEventAttendance(
+                    occurrence=atriaoccurrence, 
+                    volunteer_opportunity=opportunity,
+                    user=request.user, 
+                    attendance_type=attendance_type,
+                    notes=notes,
+                    user_count=attendee_count)
+                attendance.save()
+                existing_attendance = attendance
+            else:
+                existing_attendance.delete()
+                existing_attendance = None
+
+        return render(request, 'atriacalendar/pagesSite/opportunityView.html',
+            context={'atriaoccurrence': atriaoccurrence, 'attendance': existing_attendance, 'form': form})
+
+    else:
+        existing_attendance = None
+        if request.user.is_authenticated:
+            attendances = AtriaEventAttendance.objects.filter(occurrence__id=occ_id, user=request.user, attendance_type__attendance_type='Volunteer').all()
+            if 0 < attendances.count():
+                existing_attendance = attendances.get()
+        atriaoccurrence = AtriaOccurrence.objects.get(id=occ_id)
+        opportunity = AtriaVolunteerOpportunity.objects.get(id=opp_id)
+        form = EventVolunteerForm({'attendee_count': 1})
+        return render(request, 'atriacalendar/pagesSite/opportunityView.html',
+            context={'atriaoccurrence': atriaoccurrence, 'opportunity': opportunity, 'attendance': existing_attendance, 'form': form})
+
 
 def manage_event_view(request):
     return render(request, 'atriacalendar/pagesForms/eventForm.html')
@@ -567,7 +647,13 @@ def search_event_view(request):
         context={'occurrences': occurrences})
 
 def search_opportunity_view(request):
-    return render(request, 'atriacalendar/pagesSearch/opportunitiesSearch.html')
+    occurrences = AtriaOccurrence.objects.filter(
+        models.Q(
+                start_time__gte=timezone.now()
+            )
+        ).all()
+    return render(request, 'atriacalendar/pagesSearch/opportunitiesSearch.html',
+        context={'occurrences': occurrences})
 
 def search_neighbour_view(request):
     neighbours = User.objects.filter(groups__name=settings.DEFAULT_USER_ROLE).all()

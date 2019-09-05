@@ -9,13 +9,13 @@
 <div class='newsfeed-posted-cont'>
 	<div class='newsfeed-posted-event-opps-cont'>
 		<div>
-			<a href="{% url 'view_opportunity' %}">
+			<a href="{% url 'view_opportunity' occ_id=0 opp_id=0 %}">
 				<h4>Opportunity Title</h4>
 				<h6>Date Posted</h6>
 			</a>
 		</div>
 		<div>
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat<span class='see-more-link'><a href="{% url 'view_opportunity' %}"> ... see more</a></span></p>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat<span class='see-more-link'><a href="{% url 'view_opportunity'  occ_id=0 opp_id=0 %}"> ... see more</a></span></p>
 		</div>
 	</div>
 </div>

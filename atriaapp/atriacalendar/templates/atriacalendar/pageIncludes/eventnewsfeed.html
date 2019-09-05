@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load atria_custom_tags %}
+{% load session_namespaced_url %}
 
 {# Set local template variable: #}
 {% get_settings_value LANGUAGES "LANGUAGES" %}
@@ -39,25 +40,25 @@
 
 	<div>
 		<div>
-			<a href="{% url 'view_event' %}">
+			<a href="{% url 'view_event' occ_id=occurrence.id %}">
 				<h4>{{ occurrence.atriaevent.title }}</h4>
 			</a>
 		</div>
 		<div>
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat<span class='see-more-link'><a href="{% url 'view_event' %}"> ... see more</a></span></p>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat<span class='see-more-link'><a href="{% url 'view_event' occ_id=occurrence.id %}"> ... see more</a></span></p>
 		</div>
 	</div>
 
 	<div class='newsfeed-posted-event-opps-cont'>
 		<div>
-			<a href="{% url 'view_opportunity' %}">
-				<h4>Volunteer Opportunities:</h4>
-			</a>
+			<h4>Volunteer Opportunities:</h4>
 		</div>
 		<div class='newsfeed-posted-event-opps-list'>
 			<ul>
 				{% for opportunity in occurrence.atriaevent.atriavolunteeropportunity_set.all %}
-					<li>{{ opportunity.title }}</li>
+					<li>
+						<a href="{% url 'view_opportunity' occ_id=occurrence.id opp_id=opportunity.id %}">{{ opportunity.title }}</a>
+					</li>
 				{% endfor %}
 			</ul>
 		</div>

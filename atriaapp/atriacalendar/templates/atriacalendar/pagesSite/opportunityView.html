@@ -45,10 +45,10 @@
 
 						<div>
 							<div>
-								<h4>Opportunity Title</h4>
+								<h4>{{ opportunity.title }}</h4>
 							</div>
 							<div>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+								<p>{{ opportunity.description }}</p>
 							</div>
 						</div>
 
@@ -58,10 +58,51 @@
 							<p id='form-view-local'>123 Main St, Vancouver BC, V1Z 3A4</p>
 						</div>
 						<br>
-						<div class='btn btn-apply'>Apply to Opportunity</div>
+						{% if request.user.is_authenticated %}
+						<div>
+				            <form method='post' action=''>{% csrf_token %}
+				            	{{ form.attendee_count }}
+				            	{% if attendance %}
+				            		<div><h4>You are volunteering for this event!</h4></div>
+					            	{{ form.errors }}
+									I Changed My Mind :-( <button type='submit' class='btn btn-apply'>Un-Volunteer</button>
+				            	{% else %}
+					            	<div>
+					            		<h4>{{ form.notes.label }}</h4>
+					            	</div>
+					            	<div>
+					            		<p>{{ form.notes }}</p>
+					            	</div>
+					            	<div>
+						            	{{ form.errors }}
+										<button type='submit' class='btn btn-apply'>Apply to Volunteer</button>
+									</div>
+								{% endif %}
+							</form>
+						</div>
+						{% endif %}
 					</div>
 
 					<div class='newsfeed-post-seperator'></div>
+					{% if request.user.is_authenticated and request.session.ACTIVE_ORG %}
+						{% if request.session.ACTIVE_ORG|slugify == atriaoccurrence.atriaevent.calendar.org_owner.id|slugify %}
+						<div>
+							<h4>Event Volunteers:</h4>
+						</div>
+						<div>
+							<ul>
+								{% for attendee in atriaoccurrence.atriaeventattendance_set.all %}
+								{% if attendee.volunteer_opportunity.id == opp_id %}
+								<li>
+									{{ attendee.user.email }} 
+								</li>
+								{% endif %}
+								{% endfor %}
+							</ul>
+						</div>
+						<div class='newsfeed-post-seperator'></div>
+						{% endif %}
+					{% endif %}
 				</div>
 			</div>
 		</div>

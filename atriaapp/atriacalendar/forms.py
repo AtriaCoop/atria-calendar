@@ -95,7 +95,7 @@ class AtriaEventOpportunityForm(forms.ModelForm):
     """
     day = forms.DateField()
     start_time_delta = forms.TimeField()
-    occ_id = forms.CharField(label='', widget = forms.HiddenInput())
+    occ_id = forms.CharField(label='', widget=forms.HiddenInput())
 
     class Meta:
         model = AtriaVolunteerOpportunity
@@ -176,10 +176,22 @@ class OrgSignUpForm(SignUpForm):
         return user
 
 
+class EventAttendanceForm(forms.Form):
+    attendee_count = forms.IntegerField(label='', widget=forms.HiddenInput())
+
+
+class EventVolunteerForm(EventAttendanceForm):
+    notes = forms.CharField(label='Message to Volunteer Coordinator:', max_length=4000, required=False)
+
+    def __init__(self, *args, **kwargs):
+        super(EventVolunteerForm, self).__init__(*args, **kwargs)
+        self.fields['notes'].widget = forms.Textarea()
+
+
 class ConnectionForm(forms.Form):
     user_email = forms.CharField()
     org_name = forms.CharField()
-    org_id = forms.CharField(label='', widget = forms.HiddenInput())
+    org_id = forms.CharField(label='', widget=forms.HiddenInput())
 
     def __init__(self, *args, **kwargs):
         super(ConnectionForm, self).__init__(*args, **kwargs)

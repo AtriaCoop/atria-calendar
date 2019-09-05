@@ -25,6 +25,22 @@
 		    <a class='arrow' @click='moveNextYear'><i class="fas fa-angle-double-right"></i></a>
 		</div>
 		<div class='cal-top-nav'>
+			<span>
+				<select v-model="calendar_filter" @change="updateEventFilters">
+					<option disabled value="">Select Calendar</option>
+					<option v-for="calendar in calendars" v-bind:value="calendar.calendar_id">
+					    {{ calendar.calendar_text }}
+					</option>
+				</select>
+			</span>
+			<span>
+				<select v-model="program_filter" @change="updateEventFilters">
+					<option disabled value="">Select Program</option>
+					<option v-for="program in programs" v-bind:value="program.program_id">
+					    {{ program.label }}
+					</option>
+				</select>
+			</span>
 			<span class='cal-selector' 
 				  :class='{ "cal-highlight": how_to_display === "week" }'
 			      @click='calWeekSelectDisplay'>
@@ -35,11 +51,11 @@
 				  @click='calMonthSelectDisplay'>
 				<h5>Month </h5>
 			</span>
-			<span class='cal-selector' 
+			<!-- span class='cal-selector' 
 				  :class='{ "cal-highlight": how_to_display === "year" }'
 				  @click='calYearSelectDisplay'>
 				<h5>Year </h5>
-			</span>
+			</span -->
         </div>
       </div>
       <div class='cal-month-cont' style="display: block;" v-if='how_to_display === "month"'>
@@ -229,7 +245,7 @@
 			</div>
 			<div class='calendar-posted-event-opps-cont'>
 				<div>
-					<a href="{% url 'view_event' %}">
+					<a href="{% url 'view_event' occ_id=0 %}">
 						<h4>Event Opportunities:</h4>
 					</a>
 				</div>

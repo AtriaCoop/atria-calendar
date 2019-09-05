@@ -1,0 +1,61 @@
+{% load i18n %}
+{% load atria_custom_tags %}
+
+{# Set local template variable: #}
+{% get_settings_value LANGUAGES "LANGUAGES" %}
+
+{% load static %}
+
+{% for attendance in attendances %}
+<div class='newsfeed-posted-cont'>
+	<div class='newsfeed-posted-top-cont'>
+		<div class='newsfeed-posted-img-info'>
+			<div class='newsfeed-posted-img'>
+				<img src="{% static "/atriacalendar/accounticon.png" %}">
+			</div>
+
+			<div class='newsfeed-posted-info'>
+				{% if neighbour %}
+				<div>
+					<h2>
+						{{ attendance.occurrence.atriaevent.title }}
+						({{ attendance.attendance_type.attendance_type }})
+					</h2>
+				</div>
+				<div>
+					<h4>
+						{{ attendance.occurrence.atriaevent.description }}
+					</h4>
+				</div>
+				{% if attendance.attendance_type.attendance_type == 'Attendee' %}
+				<div>
+					<a href="{% url 'view_event' occ_id=attendance.occurrence.id %}">
+						View Event info ...
+					</a>
+				</div>
+				{% endif %}
+				{% if attendance.attendance_type.attendance_type == 'Volunteer' %}
+				<div>
+					<h4>
+						{{ attendance.volunteer_opportunity.title }}
+					</h4>
+				</div>
+				<div>
+					<h4>
+						{{ attendance.volunteer_opportunity.description }}
+					</h4>
+				</div>
+				<div>
+					<a href="{% url 'view_opportunity' occ_id=attendance.occurrence.id opp_id=attendance.volunteer_opportunity.id %}">
+						View Opportunity info ...
+					</a>
+				</div>
+				{% endif %}
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class='newsfeed-post-seperator'></div>
+{% endfor %}

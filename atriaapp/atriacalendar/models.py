@@ -294,7 +294,7 @@ class AtriaOccurrence(swingtime_models.Occurrence):
     @property
     def attendee_total(self):
         total = self.atriaeventattendance_set\
-                .filter(attendance_type__attendance_type='Attend')\
+                .filter(attendance_type__attendance_type='Attendee')\
                 .aggregate(sum=models.Sum('user_count'))['sum']
 
         return total if total else 0
@@ -374,6 +374,9 @@ class AtriaVolunteerOpportunity(models.Model):
     start_date = models.DateTimeField(default=timezone.now)
     date_added = models.DateTimeField(default=timezone.now)
 
+    def __str__(self):
+        return str(self.event) + ':' + self.title
+
 
 # event history tracking (for an organization)
 # can be related to a specific user, or just a general count of attendees, volunteers etc.
@@ -388,6 +391,6 @@ class AtriaEventAttendance(models.Model):
     notes = models.TextField(max_length=4000, blank=True, null=True)
 
     def __str__(self):
-        return str(self.event) + ':' + self.user.email + ' - ' + self.attendance_type
+        return str(self.occurrence) + ':' + self.user.email + ' - ' + str(self.attendance_type)
 
 

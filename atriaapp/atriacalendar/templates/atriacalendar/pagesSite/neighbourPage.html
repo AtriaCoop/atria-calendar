@@ -68,6 +68,9 @@
 					<div class='profile-nav-btn profile-nav-btn-newsfeed'>
 						<h5>Newsfeed</h5><i class="fas fa-plus"></i>
 					</div>
+					<div class='profile-nav-btn profile-nav-btn-attendances'>
+						<h5>Event Attendance</h5><i class="fas fa-plus"></i>
+					</div>
 					<div class='profile-nav-btn profile-nav-btn-connections'>
 						<h5>Connections</h5><i class="fas fa-plus"></i>
 					</div>
@@ -115,6 +118,11 @@
 						{% include "atriacalendar/pageIncludes/profilenewsfeed.html" %}
 					</div>
 				</div>
+				<div class='profile-tabs profile-tabs-attendances'>
+					<div id='event_attendances'>
+						{% include "atriacalendar/pageIncludes/event_attendances.html" %}
+					</div>
+				</div>
 				<div class='profile-tabs profile-tabs-connections'>
 					<div id='profileconnections'>
 						{% include "atriacalendar/pageIncludes/profileconnections.html" %}
@@ -142,6 +150,11 @@
 			$(".profile-nav-btn-newsfeed").click(function() {
 				$(".profile-tabs").hide();
 				$(".profile-tabs-newsfeed").show();
+			});
+						
+			$(".profile-nav-btn-attendances").click(function() {
+				$(".profile-tabs").hide();
+				$(".profile-tabs-attendances").show();
 			});
 						
 			$(".profile-nav-btn-connections").click(function() {
