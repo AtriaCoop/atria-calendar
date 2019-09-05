@@ -639,10 +639,10 @@ class OpportunityCreateView(CreateView):
 
 def search_event_view(request):
     occurrences = AtriaOccurrence.objects.filter(
-        models.Q(
-                start_time__gte=timezone.now()
-            )
-        ).all()
+        start_time__gte=timezone.now().date(),
+        published=True,
+    ).all()
+
     return render(request, 'atriacalendar/pagesSearch/eventsSearch.html',
         context={'occurrences': occurrences})
 
