@@ -24,41 +24,60 @@
 							<a href="{% snurl 'event' %}">
 								<div class='btn btn-add-new-event'>Post New Event</div>
 							</a>
+							<button
+								class="btn btn-add-new-event"
+								type="submit"
+								form="occ_list_form"
+								name="publish"
+							>
+								Publish
+							</button>
+							<button
+								class="btn btn-add-new-event"
+								type="submit"
+								form="occ_list_form"
+								name="unpublish"
+							>
+								Unpublish
+							</button>
 						</div>
 						<button class="btn btn-delete-occ">Delete Occurrence</button>
 					</div>
-					<table class="accounts-events-table">
-						<thead>
-							<th></th>
-							<th>Created</th>
-							<th>Event Title</th>
-							<th>Event Date</th>
-							<th>Publisher</th>
-							<th>Attendees</th>
-							<th>Volunteer</th>
-							<th>Status</th>
-							<th>Admin</th>
-						</thead>
-						<tbody>
-							{% for occ in atriaoccurrence_list %}
-								<tr>
-									<td><input type="checkbox"/></td>
-									<td></td>
-									<td><a href="{% url 'view_event' occ_id=occ.id %}">{{ occ.event.title }}</a></td>
-									<td>{{ occ.start_time|date:"Y-m-d" }}</td>
-									<td>{{ occ.publisher }}</td>
-									<td>{{ occ.atriaoccurrence.attendee_total }}</td>
-									<td>{{ occ.atriaoccurrence.volunteer_total }}</td>
-									<td>{{ occ.status }}</td>
-									<td>
-										<a href="{% snurl 'opportunities' occ.id %}">
-											<div class='btn btn-add-new-opp'>Opportunities</div>
-										</a>
-									</td>
-								</tr>
-							{% endfor %}
-						</tbody>
-					</table>
+					<form id="occ_list_form" method="post">
+						{% csrf_token %}
+						<table class="accounts-events-table">
+							<thead>
+								<th></th>
+								<th>Event Title</th>
+								<th>Event Date</th>
+								<th>Published</th>
+								<th>Publisher</th>
+								<th>Attendees</th>
+								<th>Volunteer</th>
+								<th>Status</th>
+								<th>Admin</th>
+							</thead>
+							<tbody>
+								{% for occ in atriaoccurrence_list %}
+									<tr>
+										<td><input type="checkbox" name="occ_checked_{{ occ.id }}"/></td>
+										<td><a href="{% url 'view_event' occ_id=occ.id %}">{{ occ.event.title }}</a></td>
+										<td>{{ occ.start_time|date:"Y-m-d" }}</td>
+										<td>{% if occ.published %}Yes{% else %}No{% endif %}</td>
+										<td>{{ occ.publisher.first_name }} {{ occ.publisher.last_name }}</td>
+										<td>{{ occ.atriaoccurrence.attendee_total }}</td>
+										<td>{{ occ.atriaoccurrence.volunteer_total }}</td>
+										<td>{{ occ.status }}</td>
+										<td>
+											<a href="{% snurl 'opportunities' occ.id %}">
+												<div class='btn btn-add-new-opp'>Opportunities</div>
+											</a>
+										</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</form>
 				</div>
 			</div>
 		</div>

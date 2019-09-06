@@ -465,6 +465,22 @@ class CreateManageView(LoginRequiredMixin, ListView):
         else:
             return AtriaOccurrence.objects.get_for_user(self.request.user)
 
+    def post(self, *args, **kwargs):
+        occurrence_ids = []
+
+        for k, v in self.request.POST.items():
+            if 'occ_checked_' in k and 'on' in v:
+                occurrence_ids.append(k.split('_')[-1])
+
+        queryset = self.get_queryset().filter(id__in=occurrence_ids)
+
+        if 'publish' in self.request.POST:
+            queryset.update(published=True, publisher=self.request.user)
+        elif 'unpublish' in self.request.POST:
+            queryset.update(published=False, publisher=None)
+
+        return self.get(*args, **kwargs)
+
 
 def view_event_view(request, occ_id):
     if request.method == 'POST' and request.user.is_authenticated:

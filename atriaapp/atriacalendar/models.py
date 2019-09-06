@@ -257,6 +257,7 @@ class AtriaOccurrenceManager(swingtime_models.OccurrenceManager):
 
 class AtriaOccurrence(swingtime_models.Occurrence):
     published = models.BooleanField(default=False)
+    publisher = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
 
     objects = AtriaOccurrenceManager()
 
