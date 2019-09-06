@@ -14,6 +14,7 @@ from atriacalendar.models import (
     AtriaEvent, AtriaEventProgram, AtriaOccurrence, AtriaOrganization, AtriaCalendar)
 
 DT_FORMAT = '%Y-%m-%dT%H:%M:%S'
+DT_TZ_FORMAT = '%Y-%m-%dT%H:%M:%S%z'
 
 User = get_user_model()
 
@@ -48,20 +49,22 @@ class CalendarAPITests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         data = json.loads(response.content)
+        start_dt = datetime.strptime(data['start_dt'], DT_FORMAT)
+        start_dt = start_dt.replace(tzinfo=sunday.tzinfo)
+        end_dt = datetime.strptime(data['end_dt'], DT_FORMAT)
+        end_dt = end_dt.replace(tzinfo=sunday.tzinfo)
         self.assertEqual(data['year'], now.year)
         self.assertEqual(data['month'], now.month)
+        self.assertEqual(start_dt, sunday)
         self.assertEqual(
-            datetime.strptime(data['start_dt'], DT_FORMAT), sunday)
-        self.assertEqual(
-            datetime.strptime(data['end_dt'], DT_FORMAT),
-            sunday + timedelta(weeks=1) - timedelta(seconds=1))
+            end_dt, sunday + timedelta(weeks=1) - timedelta(seconds=1))
         self.assertEqual(len(data['occurrences']), 1)
 
         occurrence = data['occurrences'][0]
         self.assertEqual(
-            datetime.strptime(occurrence['start_time'], DT_FORMAT), now)
+            datetime.strptime(occurrence['start_time'], DT_TZ_FORMAT), now)
         self.assertEqual(
-            datetime.strptime(occurrence['end_time'], DT_FORMAT), end_time)
+            datetime.strptime(occurrence['end_time'], DT_TZ_FORMAT), end_time)
 
         event = occurrence['event']
         self.assertEqual(event['title'], atria_event.title)
