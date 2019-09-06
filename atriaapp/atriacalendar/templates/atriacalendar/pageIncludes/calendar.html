@@ -199,30 +199,27 @@
       </div>
 	</div>
 
-<!--/div -->
-
+	<div v-if="dateSelection">
 	<div class='calendar-conts-seperator'></div>
 
+	{% verbatim %}
 	<div class='cal-selected-date-cont'>
 		<span class='cal-selected-month'>
-			<h3>{% templatetag openvariable %} dateSelection {% templatetag closevariable %}</h3>
-		</span>
-	</div>
-
-	<div class='calendar-conts-seperator'></div>
-
-	<div class='cal-selected-date-cont'>
-		<span class='cal-selected-month'>
-			<h3>FEBRUARY </h3>
-			<div class='cal-selected-day'>13</div>
+			<h3>{{ dateSelectionMonth }}</h3>
+			<div class='cal-selected-day'>{{ dateSelectionDay }}</div>
 		</span>
 		<span class='cal-selected-year'>
-			<h3>2019 </h3>
+			<h3>{{ dateSelectionYear }}</h3>
 		</span>
 	</div>
+	{% endverbatim %}
 
 	<div class='calendar-conts-seperator'></div>
 
+    <span v-if="daily_occurrences_count == 0">
+    	<h3> No events scheduled </h3>
+	</span>
+    <span v-for="occurrence in dailyOccurrencesList">
 	<div class='cal-event-body'>
 		<div class='calendar-posted-cont'>
 			<div class='calendar-posted-top-cont'>
@@ -231,16 +228,18 @@
 						<img src="{% static "/atriacalendar/accounticon.png" %}">
 					</div>
 
+					{% verbatim %}
 					<div class='calendar-posted-info'>
 						<div>
 							<a href=''>
-								<h2>Organization Name</h2>
+								<h2>{{ occurrence.event.title }}</h2>
 							</a>
 						</div>
 						<div>
 							<h6>Date Posted</h6>
 						</div>
 					</div>
+					{% endverbatim %}
 				</div>
 			</div>
 			<div class='calendar-posted-event-opps-cont'>
@@ -260,6 +259,8 @@
 		</div>
 
 		<div class='calendar-post-seperator'></div>
+	</div>
+	</span>
 	</div>
 </div>
 
