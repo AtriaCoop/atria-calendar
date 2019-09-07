@@ -29,15 +29,15 @@
 
 								<div class='newsfeed-posted-info'>
 									<div>
-										<a href=''>
-											<h2>Organization Name</h2>
+										<h2>{{ atriaoccurrence.atriaevent.title }}</h2>
+									</div>
+									<div>
+										<a href="{% url 'view_organization' %}">
+											<h5>Organization Name</h5>
 										</a>
 									</div>
 									<div>
-										<h5>Organization tagline</h5>
-									</div>
-									<div>
-										<h6>Date Posted</h6>
+										<h6>{{ atriaoccurrence.start_time }}</h6>
 									</div>
 								</div>
 							</div>
@@ -45,21 +45,20 @@
 
 						<div>
 							<div>
-								<h4>{{ atriaoccurrence.atriaevent.title }}</h4>
-							</div>
-							<div>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+								<h4>Event Description</h4>
+								<p>{{ atriaoccurrence.atriaevent.description }}</p>
 							</div>
 						</div>
 
 						<div>
 							<h4>Time / Date / Location</h4>
-							<p id='form-view-time'>11:00 AM</p>
-							<p id='form-view-date'>March 14th, 2019</p>
-							<p id='form-view-local'>123 Main St, Vancouver BC, V1Z 3A4</p>
+							<p id='form-view-time'>{{ atriaoccurrence.start_time|date:'h:i A' }}</p>
+							<p id='form-view-date'>{{ atriaoccurrence.start_time|date:'M j, Y' }}</p>
+							<p id='form-view-local'>{{ atriaoccurrence.atriaevent.location }}</p>
 						</div>
 
 						<div>
+							{% if atriaoccurrence.atriaevent.atriavolunteeropportunity_set.all %}
 							<div>
 								<h4>Event Opportunities:</h4>
 							</div>
@@ -72,6 +71,7 @@
 									{% endfor %}
 								</ul>
 							</div>
+							{% endif %}
 						</div>
 						<br>
 						{% if request.user.is_authenticated %}

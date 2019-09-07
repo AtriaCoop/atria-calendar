@@ -231,28 +231,39 @@
 					{% verbatim %}
 					<div class='calendar-posted-info'>
 						<div>
-							<a href=''>
+							<a v-bind:href="'/en/event/'+occurrence.occurrence_id">
 								<h2>{{ occurrence.event.title }}</h2>
 							</a>
 						</div>
 						<div>
-							<h6>Date Posted</h6>
+							<h6>{{ occurrence.start_time }}</h6>
 						</div>
 					</div>
 					{% endverbatim %}
 				</div>
 			</div>
+			<div>
+				<div>
+					{% verbatim %}
+					<p>{{ occurrence.event.description }}
+						<span class='see-more-link'><a v-bind:href="'/en/event/'+occurrence.occurrence_id"> ... see more</a></span>
+					</p>
+					{% endverbatim %}
+				</div>
+			</div>
 			<div class='calendar-posted-event-opps-cont'>
 				<div>
-					<a href="{% url 'view_event' occ_id=0 %}">
-						<h4>Event Opportunities:</h4>
-					</a>
+					<h4>Event Opportunities:</h4>
 				</div>
 				<div class='calendar-posted-event-opps-list'>
 					<ul>
-						<li>Cashier</li>
-						<li>Cleaning Crew</li>
-						<li>Project Manager</li>
+						{% verbatim %}
+						<li v-for='opportunity in occurrence.event.opportunities'>
+							<a v-bind:href="'/en/opportunity/'+occurrence.occurrence_id+'/'+opportunity.opportunity_id">
+								{{ opportunity.title }}
+							</a>
+						</li>
+						{% endverbatim %}
 					</ul>
 				</div>
 			</div>
