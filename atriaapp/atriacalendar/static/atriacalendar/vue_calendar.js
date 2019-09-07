@@ -447,15 +447,16 @@ Vue.component('single-date-picker', {
       axios
         .get(this.getExtraUrlParams(url))
         .then(response => {
-          this.daily_occurrences = response.data.occurrences
+          this.daily_occurrences = response.data.occurrences;
         })
         .catch(error => {
           console.log(error)
           this.daily_errored = true
         })
         .finally(() => {
-          this.$emit('input', day.isSelected ? null : day.date);
           this.daily_loading = false;
+          this.$emit('input', day.isSelected ? null : day.date);
+          this.$parent.$emit('inputOccurrences', day.isSelected ? null : this.daily_occurrences);
         })
     },
   },
@@ -499,7 +500,7 @@ Vue.component('multiple-date-picker', {
 });
 
 Vue.component('date-range-picker', {
-    created() {
+  created() {
     this.$on('configureDay', this.configureDay);
     this.$on('selectDay', this.selectDay);
     this.$on('enterDay', this.enterDay);
@@ -623,8 +624,12 @@ const vm = new Vue({
     dateSelection: null,
     dragSelection: null,
     daily_occurrences: null,
+    daily_occurrences_count: 0,
     daily_loading: true,
     daily_errored: false,
+  },
+  created() {
+    this.$on('inputOccurrences', this.configureOccurrences);
   },
   computed: {
     datePicker() {
@@ -640,7 +645,31 @@ const vm = new Vue({
       }
     },
     dateSelectionLabel() {
+      if (this.dateSelection == null) {
+        return "";
+      }
       return JSON.stringify(this.dateSelection, null, '\t');
+    },
+    dateSelectionMonth() {
+      if (this.dateSelection == null) {
+        return "";
+      }
+      return _monthLabels[this.dateSelection.getMonth()];
+    },
+    dateSelectionDay() {
+      if (this.dateSelection == null) {
+        return "";
+      }
+      return this.dateSelection.getDate();
+    },
+    dateSelectionYear() {
+      if (this.dateSelection == null) {
+        return "";
+      }
+      return this.dateSelection.getYear() + 1900;
+    },
+    dailyOccurrencesList() {
+      return this.daily_occurrences;
     }
   },
   watch: {
@@ -648,4 +677,14 @@ const vm = new Vue({
       this.dateSelection = null;
     },
   },
+  methods: {
+    configureOccurrences(occurrences) {
+      this.daily_occurrences = occurrences;
+      if (occurrences) {
+        this.daily_occurrences_count = occurrences.length;
+      } else {
+        this.daily_occurrences_count = 0;
+      }
+    }
+  }
 });

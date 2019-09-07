@@ -55,13 +55,27 @@ class AtriaProgramSerializer(serializers.Serializer):
     label = serializers.CharField()
 
 
-class AtriaEventSerializer(serializers.Serializer):
+class AtriaOpporunitySerializer(serializers.Serializer):
+    opportunity_id = serializers.IntegerField(source='id')
+    title = serializers.CharField(max_length=32)
+    description = serializers.CharField(max_length=100)
+
+
+class AtriaEventSerializer(serializers.ModelSerializer):
+    event_id = serializers.IntegerField(source='id')
     title = serializers.CharField(max_length=32)
     description = serializers.CharField(max_length=100)
     event_type = serializers.CharField(max_length=4)
+    opportunities = AtriaOpporunitySerializer(source='atriaevent.atriavolunteeropportunity_set', many=True)
+
+    class Meta:
+        model = AtriaEvent
+        fields = ('event_id', 'title', 'description', 'event_type', 'opportunities')
 
 
 class AtriaOccurrenceSerializer(serializers.Serializer):
+    occurrence_id = serializers.IntegerField(source='id')
     start_time = serializers.DateTimeField()
     end_time = serializers.DateTimeField()
     event = AtriaEventSerializer()
+
