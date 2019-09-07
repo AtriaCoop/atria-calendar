@@ -61,7 +61,7 @@ const calendar = Vue.component('calendar', {
     },
     // Day/month/year components for next month
     nextMonthComps() {
-        if (this.month === 12) return {
+      if (this.month === 12) return {
         days: _daysInMonths[0],
         month: 1,
         year: this.year + 1,
@@ -95,15 +95,21 @@ const calendar = Vue.component('calendar', {
     // State for the selected week's days
     selectedWeekDays() {
       const days = [];
+      const dayI = this.currentDate();
+      dayI.setDate(dayI.getDate() - dayI.getDay());
+      const lastDayOfWeek = new Date(dayI);
+      lastDayOfWeek.setDate(lastDayOfWeek.getDate() + 7);
 
-      for (let i = this.firstDayOfWeek; i < this.firstDayOfWeek + 7; i++) {
-				days.push({
-					day: i,
-					date: new Date(this.year, this.month - 1, i),
-					isToday: (i === _todayComps.day &&
-						this.month === _todayComps.month &&
-						this.year === _todayComps.year),
-				});
+      while (dayI < lastDayOfWeek) {
+        days.push({
+          day: dayI.getDate(),
+          date: new Date(this.year, this.month - 1, dayI.getDate()),
+          isToday: (dayI.getDate() === _todayComps.day &&
+            this.month === _todayComps.month &&
+            this.year === _todayComps.year),
+        });
+
+        dayI.setDate(dayI.getDate() + 1);
       }
 
       return days;
@@ -195,6 +201,14 @@ const calendar = Vue.component('calendar', {
     },
   },
   methods: {
+    currentDate() {
+      const date = new Date();
+      date.setFullYear(this.year);
+      date.setMonth(this.month - 1);
+      date.setDate(this.day);
+
+      return date;
+    },
     eventIsSameDay(day, month, year, in_time) {
       let start_time = new Date(in_time);
       let in_day = (start_time.getDay() == day && start_time.getMonth() == month && start_time.getYear() == year);
@@ -216,11 +230,73 @@ const calendar = Vue.component('calendar', {
       this.year = _todayComps.year;
       this.loadMonthlyOccurrences();
     },
+    moveNextMinor() {
+      switch (this.how_to_display) {
+        case 'week':
+          this.moveNextWeek();
+          break;
+        default:
+          this.moveNextMonth();
+      }
+    },
+    moveNextMajor() {
+      switch (this.how_to_display) {
+        case 'week':
+          this.moveNextMonth();
+          break;
+        default:
+          this.moveNextYear();
+      }
+    },
     moveNextMonth() {
       const { month, year } = this.nextMonthComps;
       this.month = month;
       this.year = year;
       this.loadMonthlyOccurrences();
+    },
+    moveNextWeek() {
+      const nextWeek = this.currentDate();
+      nextWeek.setDate(nextWeek.getDate() + 7);
+      const firstDayOfWeek = new Date(nextWeek);
+      firstDayOfWeek.setDate(
+        firstDayOfWeek.getDate() - firstDayOfWeek.getDay());
+
+      this.year = nextWeek.getFullYear();
+      this.month = nextWeek.getMonth() + 1;
+      this.day = nextWeek.getDate();
+      this.firstDayOfWeek = firstDayOfWeek.getDate();
+      this.loadWeeklyOccurrences();
+    },
+    movePreviousWeek() {
+      const prevWeek = this.currentDate();
+      prevWeek.setDate(prevWeek.getDate() - 7);
+      const firstDayOfWeek = new Date(prevWeek);
+      firstDayOfWeek.setDate(
+        firstDayOfWeek.getDate() - firstDayOfWeek.getDay());
+
+      this.year = prevWeek.getFullYear();
+      this.month = prevWeek.getMonth() + 1;
+      this.day = prevWeek.getDate();
+      this.firstDayOfWeek = firstDayOfWeek.getDate();
+      this.loadWeeklyOccurrences();
+    },
+    movePreviousMinor() {
+      switch (this.how_to_display) {
+        case 'week':
+          this.movePreviousWeek();
+          break;
+        default:
+          this.movePreviousMonth();
+      }
+    },
+    movePreviousMajor() {
+      switch (this.how_to_display) {
+        case 'week':
+          this.movePreviousMonth();
+          break;
+        default:
+          this.movePreviousYear();
+      }
     },
     movePreviousMonth() {
       const { month, year } = this.previousMonthComps;
@@ -271,7 +347,7 @@ const calendar = Vue.component('calendar', {
         .finally(() => this.loading = false)
     },
     loadWeeklyOccurrences() {
-      const day = new Date();
+      const day = this.currentDate();
       day.setDate(day.getDate() - day.getDay());
       const url = encodeURI('/api/atria/calendar/' +
         `${this.year}/${this.month}/${day.getDate()}/?week=true`);

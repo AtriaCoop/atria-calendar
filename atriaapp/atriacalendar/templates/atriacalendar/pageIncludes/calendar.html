@@ -13,16 +13,16 @@
     <div v-else class='cal-body'>
       <div class='cal-top'>
 		<div class='cal-top-title'>
-		    <a class='arrow' @click='movePreviousYear'><i class="fas fa-angle-double-left"></i></a>
-		    <a class='arrow' @click='movePreviousMonth'><i class="fas fa-angle-left"></i></a>
+		    <a class='arrow' @click='movePreviousMajor'><i class="fas fa-angle-double-left"></i></a>
+		    <a class='arrow' @click='movePreviousMinor'><i class="fas fa-angle-left"></i></a>
 			<span class='cal-top-month'>
 				<h3>{{ header.label_month }}</h3>
 			</span>
 			<span class='cal-top-year'>
 				<h3>{{ header.label_year }}</h3>
 			</span>
-		    <a class='arrow' @click='moveNextMonth'><i class="fas fa-angle-right"></i></a>
-		    <a class='arrow' @click='moveNextYear'><i class="fas fa-angle-double-right"></i></a>
+		    <a class='arrow' @click='moveNextMinor'><i class="fas fa-angle-right"></i></a>
+		    <a class='arrow' @click='moveNextMajor'><i class="fas fa-angle-double-right"></i></a>
 		</div>
 		<div class='cal-top-nav'>
 			<span>
@@ -77,7 +77,7 @@
 				      <span>{{ day[dayKey] }}</span>
 				      <div v-for='occurrence in occurrences'>
 				        <div v-if='day.day == occurrence.start_time.substring(8, 10) && day.month == occurrence.start_time.substring(5, 7) && day.year == occurrence.start_time.substring(0, 4)'>
-				          <p class='day-event-list'> {{ occurrence.start_time.substring(11) }} {{ occurrence.event.title }}</p>
+				          <p class='day-event-list'> {{ occurrence.start_time.substring(11, 19) }} {{ occurrence.event.title }}</p>
 				        </div>
 				      </div>
 					</li>
@@ -123,7 +123,7 @@
 					<div class='day-number'><span>{{ day.day }}</span></div>
 					<div class='day-wrapper'>
 						<div v-for='occurrence in occurrences' v-if='day.day == occurrence.start_time.substring(8, 10)'>
-							<p class='day-event-list'> {{ occurrence.start_time.substring(11) }} {{ occurrence.event.title }}</p>
+							<p class='day-event-list'> {{ occurrence.start_time.substring(11, 19) }} {{ occurrence.event.title }}</p>
 						</div>
 					</div>
 				</li>
