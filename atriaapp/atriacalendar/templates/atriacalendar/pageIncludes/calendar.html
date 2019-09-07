@@ -13,16 +13,16 @@
     <div v-else class='cal-body'>
       <div class='cal-top'>
 		<div class='cal-top-title'>
-		    <a class='arrow' @click='movePreviousYear'><i class="fas fa-angle-double-left"></i></a>
-		    <a class='arrow' @click='movePreviousMonth'><i class="fas fa-angle-left"></i></a>
+		    <a class='arrow' @click='movePreviousMajor'><i class="fas fa-angle-double-left"></i></a>
+		    <a class='arrow' @click='movePreviousMinor'><i class="fas fa-angle-left"></i></a>
 			<span class='cal-top-month'>
 				<h3>{{ header.label_month }}</h3>
 			</span>
 			<span class='cal-top-year'>
 				<h3>{{ header.label_year }}</h3>
 			</span>
-		    <a class='arrow' @click='moveNextMonth'><i class="fas fa-angle-right"></i></a>
-		    <a class='arrow' @click='moveNextYear'><i class="fas fa-angle-double-right"></i></a>
+		    <a class='arrow' @click='moveNextMinor'><i class="fas fa-angle-right"></i></a>
+		    <a class='arrow' @click='moveNextMajor'><i class="fas fa-angle-double-right"></i></a>
 		</div>
 		<div class='cal-top-nav'>
 			<span>
