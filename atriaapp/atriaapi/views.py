@@ -72,6 +72,7 @@ def period_occurrences(start, end, atriacalendar=None, program=None):
         occurrences = occurrences.filter(event__atriaevent__calendar__id=atriacalendar).all()
     if program:
         occurrences = occurrences.filter(event__atriaevent__event_program__id=program).all()
+    occurrences = occurrences.filter(atriaoccurrence__published=True).all()
     occurrences = occurrences.order_by("start_time")
     serializer = AtriaOccurrenceSerializer(occurrences, many=True)
 
