@@ -206,7 +206,7 @@
   "model": "atriacalendar.atriaeventprogram",
   "pk": 5,
   "fields": {
-    "abbr": "OTHER",
+    "abbr": "OTHR",
     "label": "Other",
     "label_en": "Other",
     "label_es": null,
