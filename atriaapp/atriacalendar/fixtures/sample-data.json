@@ -1,5 +1,13 @@
 [
 {
+  "model": "contenttypes.contenttype",
+  "pk": 22,
+  "fields": {
+    "app_label": "atriacalendar",
+    "model": "atriavolunteeropportunity"
+  }
+},
+{
   "model": "swingtime.eventtype",
   "pk": 1,
   "fields": {
@@ -337,6 +345,17 @@
   }
 },
 {
+  "model": "atriacalendar.atriavolunteeropportunity",
+  "pk": 1,
+  "fields": {
+    "event": 1,
+    "title": "Teacher",
+    "description": "Language instructor",
+    "start_date": "2019-09-11T16:30:00Z",
+    "date_added": "2019-09-08T17:32:11.173Z"
+  }
+},
+{
   "model": "auth.group",
   "pk": 1,
   "fields": {
@@ -413,7 +432,7 @@
     "is_staff": false,
     "is_active": true,
     "date_joined": "2019-09-08T16:28:47.897Z",
-    "last_login": "2019-09-08T17:12:21.227Z",
+    "last_login": "2019-09-08T17:36:55.483Z",
     "phone_number": null,
     "groups": [
       1,
@@ -459,6 +478,186 @@
     "phone_number": null,
     "groups": [
       1,
+      3
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "atriacalendar.user",
+  "pk": 6,
+  "fields": {
+    "password": "pbkdf2_sha256$120000$qg6byVL9huPx$n0Gysyq0Rx8UPZgU9iKlPmyJhZmhxloZIggUsmmRp+A=",
+    "is_superuser": false,
+    "email": "alice@mail.com",
+    "first_name": "Alice",
+    "last_name": "Smith",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-09-08T17:33:51.597Z",
+    "last_login": null,
+    "phone_number": null,
+    "groups": [
+      3
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "atriacalendar.user",
+  "pk": 7,
+  "fields": {
+    "password": "pbkdf2_sha256$120000$s9qxepspc9hF$Ae8dpS9Msgz718ftPp3jtVITn/0RWMecO7TgCqZ8rkk=",
+    "is_superuser": false,
+    "email": "bob@mail.com",
+    "first_name": "Bob",
+    "last_name": "Smith",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-09-08T17:34:03.400Z",
+    "last_login": null,
+    "phone_number": null,
+    "groups": [
+      3
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "atriacalendar.user",
+  "pk": 8,
+  "fields": {
+    "password": "pbkdf2_sha256$120000$c15rOE1RdxfU$fKISW4uzwawsRvH7JsL21wYMuvDy/jAz1ELylP4Vd5U=",
+    "is_superuser": false,
+    "email": "charlie@mail.com",
+    "first_name": "Charlie",
+    "last_name": "Smith",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-09-08T17:34:18.046Z",
+    "last_login": null,
+    "phone_number": null,
+    "groups": [
+      3
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "atriacalendar.user",
+  "pk": 9,
+  "fields": {
+    "password": "pbkdf2_sha256$120000$utZc0AoRvrm2$8gXsXhaShuQUWPZM0depHwFtWazBEZ7Ko01Vbmb5em8=",
+    "is_superuser": false,
+    "email": "diana@mail.com",
+    "first_name": "Diana",
+    "last_name": "Smith",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-09-08T17:34:30.840Z",
+    "last_login": null,
+    "phone_number": null,
+    "groups": [
+      3
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "atriacalendar.user",
+  "pk": 10,
+  "fields": {
+    "password": "pbkdf2_sha256$120000$SbDIKM6VTIoz$hGYCitTbucGIHxlox3fcFvGaw00QR4RPpJzvdFDo3A8=",
+    "is_superuser": false,
+    "email": "ethel@mail.com",
+    "first_name": "Ethel",
+    "last_name": "Smith",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-09-08T17:34:45.226Z",
+    "last_login": null,
+    "phone_number": null,
+    "groups": [
+      3
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "atriacalendar.user",
+  "pk": 11,
+  "fields": {
+    "password": "pbkdf2_sha256$120000$cnmCF00QUKbJ$GZMoHvnos6HuMG+ABh+4zZEYBR5mhr0CYsTQwpCjJ4Q=",
+    "is_superuser": false,
+    "email": "fred@mail.com",
+    "first_name": "Fred",
+    "last_name": "Smith",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-09-08T17:34:59.885Z",
+    "last_login": null,
+    "phone_number": null,
+    "groups": [
+      3
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "atriacalendar.user",
+  "pk": 12,
+  "fields": {
+    "password": "pbkdf2_sha256$120000$jpfP2wN5ctSx$p+smY7vH+FDMb4Zg+iSMMFO0KSKQ3Ac43EdeSHPwxRE=",
+    "is_superuser": false,
+    "email": "greta@mail.com",
+    "first_name": "Greta",
+    "last_name": "Smith",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-09-08T17:35:13.887Z",
+    "last_login": null,
+    "phone_number": null,
+    "groups": [
+      3
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "atriacalendar.user",
+  "pk": 13,
+  "fields": {
+    "password": "pbkdf2_sha256$120000$0Nc3fOLsqR8g$7G2wqDHCDQVkFiI62ofMKRgiRpmHG/qeMGgvYn/KUMM=",
+    "is_superuser": false,
+    "email": "harold@mail.com",
+    "first_name": "Harold",
+    "last_name": "Smith",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-09-08T17:35:28.955Z",
+    "last_login": null,
+    "phone_number": null,
+    "groups": [
+      3
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "atriacalendar.user",
+  "pk": 14,
+  "fields": {
+    "password": "pbkdf2_sha256$120000$hNgJB6tkO5N0$tfNiNnwAYXfAvjd1r9cTTOmDhVioYbnv+8Y19aCVyxc=",
+    "is_superuser": false,
+    "email": "ian@mail.com",
+    "first_name": "Ian",
+    "last_name": "Smith",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-09-08T17:35:43.628Z",
+    "last_login": "2019-09-08T17:35:59.613Z",
+    "phone_number": null,
+    "groups": [
       3
     ],
     "user_permissions": []
@@ -599,6 +798,45 @@
     "user_count": 1,
     "date_added": "2019-09-08T17:07:58.321Z",
     "notes": null
+  }
+},
+{
+  "model": "atriacalendar.atriaeventattendance",
+  "pk": 4,
+  "fields": {
+    "occurrence": 4,
+    "attendance_type": 1,
+    "volunteer_opportunity": null,
+    "user": 14,
+    "user_count": 1,
+    "date_added": "2019-09-08T17:36:12.066Z",
+    "notes": null
+  }
+},
+{
+  "model": "atriacalendar.atriaeventattendance",
+  "pk": 5,
+  "fields": {
+    "occurrence": 3,
+    "attendance_type": 1,
+    "volunteer_opportunity": null,
+    "user": 14,
+    "user_count": 1,
+    "date_added": "2019-09-08T17:36:22.848Z",
+    "notes": null
+  }
+},
+{
+  "model": "atriacalendar.atriaeventattendance",
+  "pk": 6,
+  "fields": {
+    "occurrence": 1,
+    "attendance_type": 2,
+    "volunteer_opportunity": 1,
+    "user": 14,
+    "user_count": 1,
+    "date_added": "2019-09-08T17:36:43.345Z",
+    "notes": "I would like to help teach English."
   }
 }
 ]
