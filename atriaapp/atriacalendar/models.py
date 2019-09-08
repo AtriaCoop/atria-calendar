@@ -122,6 +122,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
     date_joined = models.DateTimeField(default=timezone.now)
     last_login = models.DateTimeField(blank=True, null=True)
+    phone_number = models.CharField(max_length=30, null=True, blank=True)
 
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'email'

@@ -1,6 +1,7 @@
 from django import forms
 from modeltranslation.forms import TranslationModelForm
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import get_user_model
 from django.utils import timezone
 
 from swingtime import models as swingtime_models
@@ -80,7 +81,7 @@ class AtriaEventOccurrenceForm(AtriaEventForm):
         end_time = start_time +\
             timezone.timedelta(hours=self.DEFAULT_OCCURRENCE_DURATION)
 
-        AtriaOccurrence.objects.create(
+        atriaoccurrence = AtriaOccurrence.objects.create(
             start_time=start_time,
             end_time=end_time,
             event=event,

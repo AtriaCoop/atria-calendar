@@ -212,8 +212,9 @@ class SignupView(CreateView):
     def form_valid(self, form):
         self.object = form.save()
 
-        calendar = AtriaCalendar(user_owner=self.object, calendar_name='Events')
-        calendar.save()
+        # TODO take personal calendars our for now
+        #calendar = AtriaCalendar(user_owner=self.object, calendar_name='Events')
+        #calendar.save()
 
         return HttpResponseRedirect(self.get_success_url())
 
@@ -593,6 +594,17 @@ class EventCreateView(CreateView):
             except (AtriaOrganization.DoesNotExist,
                     AtriaCalendar.DoesNotExist):
                 pass
+
+        # add an attendance role of "contact" with the organizer of the event
+        atriaoccurrence = AtriaOccurrence.objects.filter(event=self.object).get()
+        attendance_type = EventAttendanceType.objects.filter(attendance_type='Contact').get()
+        contact_user = self.request.user
+        attendance = AtriaEventAttendance(
+            occurrence=atriaoccurrence, 
+            user=contact_user, 
+            attendance_type=attendance_type,
+            user_count=1)
+        attendance.save()
 
         return return_value
 
