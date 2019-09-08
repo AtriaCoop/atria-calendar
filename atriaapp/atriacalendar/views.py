@@ -479,6 +479,8 @@ class CreateManageView(LoginRequiredMixin, ListView):
             queryset.update(published=True, publisher=self.request.user)
         elif 'unpublish' in self.request.POST:
             queryset.update(published=False, publisher=None)
+        elif 'copy' in self.request.POST and 0 < len(occurrence_ids):
+            return redirect('copy_occurrance', occ_id=occurrence_ids[0])
 
         return self.get(*args, **kwargs)
 
@@ -597,6 +599,49 @@ class EventCreateView(CreateView):
 
         # add an attendance role of "contact" with the organizer of the event
         atriaoccurrence = AtriaOccurrence.objects.filter(event=self.object).get()
+        attendance_type = EventAttendanceType.objects.filter(attendance_type='Contact').get()
+        contact_user = self.request.user
+        attendance = AtriaEventAttendance(
+            occurrence=atriaoccurrence, 
+            user=contact_user, 
+            attendance_type=attendance_type,
+            user_count=1)
+        attendance.save()
+
+        return return_value
+
+    def get_success_url(self):
+        success_url = super().get_success_url()
+        language = translation.get_language()
+        namespace = self.request.session.get('URL_NAMESPACE')
+
+        if namespace:
+            namespace = namespace.replace(':', '')
+            success_url = success_url.replace(
+                '/'+language+'/', '/%s/%s/' % (language, namespace))
+
+        return success_url
+
+
+class CopyOccurranceView(CreateView):
+    form_class = AtriaCopyOccurrenceForm
+    model = AtriaOccurrence
+    success_url = reverse_lazy('create_manage')
+    template_name = 'atriacalendar/pagesForms/eventCopyForm.html'
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['atriaoccurrence'] = AtriaOccurrence.objects.get(id=self.kwargs['occ_id'])
+        context_data['form'] = AtriaCopyOccurrenceForm(instance=self.object, request=self.request, initial={
+                    'occ_id': self.kwargs['occ_id']})
+        print("context_data", context_data)
+        return context_data
+
+    def form_valid(self, form):
+        return_value = super().form_valid(form)
+
+        # add an attendance role of "contact" with the organizer of the event
+        atriaoccurrence = self.object
         attendance_type = EventAttendanceType.objects.filter(attendance_type='Contact').get()
         contact_user = self.request.user
         attendance = AtriaEventAttendance(

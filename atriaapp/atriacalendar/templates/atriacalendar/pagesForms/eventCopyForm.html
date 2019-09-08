@@ -1,0 +1,91 @@
+{% extends 'base_nav.html' %}
+
+{% load i18n %}
+{% load atria_custom_tags %}
+
+{# Set local template variable: #}
+{% get_settings_value LANGUAGES "LANGUAGES" %}
+
+{% load static %}
+
+{% block main_content %}
+	<div class='inside-body'>
+
+		<div class='center-body'>
+			<div class='innercont-center-body'>
+				<div class='innercont-center-inner'>
+                <div class='accounts-events'>
+					<div class='form-cont'>
+						<h2>Event Occurrence</h2>
+						<div class='newsfeed-post-seperator'></div>
+	                    <div class='btns-cont'>
+	                        <table class="accounts-events-table">
+	                            <tr>
+	                                <td>Title:</td><td>{{ atriaoccurrence.event.title }}</td>
+	                            </tr>
+	                            <tr>
+	                                <td>Start Date/Time:</td><td>{{ atriaoccurrence.start_time|date:"Y-m-d" }}</td>
+	                            </tr>
+	                            <tr>
+	                                <td>Publisher:</td><td>{{ atriaoccurrence.publisher }}</td>
+	                            </tr>
+	                            <tr>
+	                                <td>Attendee Total:</td><td>{{ atriaoccurrence.attendee_total }}</td>
+	                            </tr>
+	                            <tr>
+	                                <td>Volunteer Total:</td><td>{{ atriaoccurrence.volunteer_total }}</td>
+	                            </tr>
+	                            <tr>
+	                                <td>Status:</td><td>{{ atriaoccurrence.status }}</td>
+	                            </tr>
+	                        </table>
+	                    </div>
+                    </div>
+		            <form method='post' action=''>{% csrf_token %}
+					<div class='form-cont'>
+						<h2>Copy Event Form</h2>
+						<div class='newsfeed-post-seperator'></div>
+						{{ form.occ_id }}
+                        <div class='form-date-time-cont'>
+                            <div>
+                                <h5>Date</h5>
+                                <input type="date" id='event-form-date' name='day' required :value='localeDateString' @input='localeDateString = $event.target.valueAsDate'>
+                            </div>
+                            <div>
+                                <h5>Time</h5>
+                                <input type="time" id='event-form-time' name='start_time_delta' v-model='localeTimeString'>
+                            </div>
+                        </div>
+
+                        {{ form.errors }}
+
+                        <button type='submit' class='btn btn-create-post'>Post</button>
+					</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		$(document).ready(function() {
+
+			$('#event-form-title').keyup(function() {
+				$('#form-view-title').text($(this).val());
+			});
+
+			$('#event-form-desc').keyup(function() {
+				$('#form-view-desc').text($(this).val());
+			});
+
+			$('#event-form-time').keyup(function() {
+				$('#form-view-time').text($(this).val());
+			});
+
+			$('#event-form-local').keyup(function() {
+				$('#form-view-local').text($(this).val());
+			});
+
+		});
+	</script>
+{% endblock %}
