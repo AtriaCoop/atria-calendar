@@ -138,6 +138,15 @@
   }
 },
 {
+  "model": "swingtime.occurrence",
+  "pk": 4,
+  "fields": {
+    "start_time": "2019-09-13T18:00:00Z",
+    "end_time": "2019-09-13T19:00:00Z",
+    "event": 1
+  }
+},
+{
   "model": "atriacalendar.atriaeventprogram",
   "pk": 1,
   "fields": {
@@ -492,6 +501,14 @@
 {
   "model": "atriacalendar.atriaoccurrence",
   "pk": 2,
+  "fields": {
+    "published": true,
+    "publisher": 2
+  }
+},
+{
+  "model": "atriacalendar.atriaoccurrence",
+  "pk": 4,
   "fields": {
     "published": true,
     "publisher": 2
