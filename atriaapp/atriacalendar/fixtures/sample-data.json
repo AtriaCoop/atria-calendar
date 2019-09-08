@@ -29,7 +29,10 @@
   "fields": {
     "abbr": "TYP3",
     "label": "Dance",
-    "label_en": "Dance"
+    "label_en": "Dance",
+    "label_es": null,
+    "label_zh_hans": null,
+    "label_fr": null
   }
 },
 {
@@ -38,7 +41,10 @@
   "fields": {
     "abbr": "TYP$",
     "label": "Drop-In",
-    "label_en": "Drop-In"
+    "label_en": "Drop-In",
+    "label_es": null,
+    "label_zh_hans": null,
+    "label_fr": null
   }
 },
 {
@@ -51,6 +57,84 @@
     "label_es": "El Other",
     "label_zh_hans": "\u53e6\u5916\u4e00\u4e2a",
     "label_fr": "Le Other"
+  }
+},
+{
+  "model": "swingtime.event",
+  "pk": 1,
+  "fields": {
+    "title": "Senior's English Language (ESL)",
+    "title_en": "Senior's English Language (ESL)",
+    "title_es": null,
+    "title_zh_hans": null,
+    "title_fr": null,
+    "description": "Learn and practice English with other seniors",
+    "description_en": "Learn and practice English with other seniors",
+    "description_es": null,
+    "description_zh_hans": null,
+    "description_fr": null,
+    "event_type": 2
+  }
+},
+{
+  "model": "swingtime.event",
+  "pk": 2,
+  "fields": {
+    "title": "Atria App Overview and Demo",
+    "title_en": "Atria App Overview and Demo",
+    "title_es": null,
+    "title_zh_hans": null,
+    "title_fr": null,
+    "description": "Demonstration of the Atria event management application",
+    "description_en": "Demonstration of the Atria event management application",
+    "description_es": null,
+    "description_zh_hans": null,
+    "description_fr": null,
+    "event_type": 5
+  }
+},
+{
+  "model": "swingtime.event",
+  "pk": 3,
+  "fields": {
+    "title": "Hastings Library Visit",
+    "title_en": "Hastings Library Visit",
+    "title_es": null,
+    "title_zh_hans": null,
+    "title_fr": null,
+    "description": "A free, welcoming and multicultural program at the Hastings Library, open to families with children.",
+    "description_en": "A free, welcoming and multicultural program at the Hastings Library, open to families with children.",
+    "description_es": null,
+    "description_zh_hans": null,
+    "description_fr": null,
+    "event_type": 4
+  }
+},
+{
+  "model": "swingtime.occurrence",
+  "pk": 1,
+  "fields": {
+    "start_time": "2019-09-11T16:30:00Z",
+    "end_time": "2019-09-11T17:30:00Z",
+    "event": 1
+  }
+},
+{
+  "model": "swingtime.occurrence",
+  "pk": 2,
+  "fields": {
+    "start_time": "2019-09-11T18:00:00Z",
+    "end_time": "2019-09-11T19:00:00Z",
+    "event": 2
+  }
+},
+{
+  "model": "swingtime.occurrence",
+  "pk": 3,
+  "fields": {
+    "start_time": "2019-09-11T16:30:00Z",
+    "end_time": "2019-09-11T17:30:00Z",
+    "event": 3
   }
 },
 {
@@ -114,6 +198,78 @@
   }
 },
 {
+  "model": "atriacalendar.atriaorganization",
+  "pk": 1,
+  "fields": {
+    "org_name": "Atria Technologies Cooperative",
+    "org_name_en": "Atria Technologies Cooperative",
+    "org_name_es": null,
+    "org_name_zh_hans": null,
+    "org_name_fr": null,
+    "date_joined": "2019-09-08T16:27:48.611Z",
+    "status": "Active",
+    "description": "It's currently too hard to engage meaningfully in your community!\r\n\r\nWe are living in the digital age, but technology doesn\u2019t have to divide us.\r\n\r\nAtria Technologies Cooperative is developing an app that empowers Vancouverites to easily engage in neighborhood opportunities.",
+    "location": "Vancouver"
+  }
+},
+{
+  "model": "atriacalendar.atriaorganization",
+  "pk": 2,
+  "fields": {
+    "org_name": "Kiwassa Neighbourhood House",
+    "org_name_en": "Kiwassa Neighbourhood House",
+    "org_name_es": null,
+    "org_name_zh_hans": null,
+    "org_name_fr": null,
+    "date_joined": "2019-09-08T16:28:48.017Z",
+    "status": "Active",
+    "description": "Kiwassa Neighbourhood House is a grassroots, multi-service community agency that has been providing a broad range of free or low cost social services and programs to children, youth, adults, seniors and families in East Vancouver for 60 years.",
+    "location": "East Vancouver"
+  }
+},
+{
+  "model": "atriacalendar.atriaevent",
+  "pk": 2,
+  "fields": {
+    "calendar": 1,
+    "program": "",
+    "program_en": "",
+    "program_es": null,
+    "program_zh_hans": null,
+    "program_fr": null,
+    "event_program": 5,
+    "location": "Kiwassa House"
+  }
+},
+{
+  "model": "atriacalendar.atriaevent",
+  "pk": 3,
+  "fields": {
+    "calendar": 2,
+    "program": "",
+    "program_en": "",
+    "program_es": null,
+    "program_zh_hans": null,
+    "program_fr": null,
+    "event_program": 3,
+    "location": "Kiwassa Neighborhood House: 2425 Oxford St, Vancouver, BC V5K 1M7 Canada"
+  }
+},
+{
+  "model": "atriacalendar.atriaevent",
+  "pk": 1,
+  "fields": {
+    "calendar": 2,
+    "program": "",
+    "program_en": "",
+    "program_es": null,
+    "program_zh_hans": null,
+    "program_fr": null,
+    "event_program": 1,
+    "location": "Kiwassa Neighborhood House: 2425 Oxford St, Vancouver, BC V5K 1M7 Canada"
+  }
+},
+{
   "model": "atriacalendar.relationtype",
   "pk": 1,
   "fields": {
@@ -172,6 +328,30 @@
   }
 },
 {
+  "model": "auth.group",
+  "pk": 1,
+  "fields": {
+    "name": "Admin",
+    "permissions": []
+  }
+},
+{
+  "model": "auth.group",
+  "pk": 2,
+  "fields": {
+    "name": "Volunteer",
+    "permissions": []
+  }
+},
+{
+  "model": "auth.group",
+  "pk": 3,
+  "fields": {
+    "name": "Attendee",
+    "permissions": []
+  }
+},
+{
   "model": "atriacalendar.user",
   "pk": 1,
   "fields": {
@@ -182,12 +362,226 @@
     "last_name": "",
     "is_staff": true,
     "is_active": true,
-    "date_joined": "2018-12-06T03:09:20",
-    "last_login": "2019-02-15T17:52:44",
+    "date_joined": "2018-12-06T11:09:20Z",
+    "last_login": "2019-02-16T01:52:44Z",
+    "phone_number": null,
     "groups": [
       1
     ],
     "user_permissions": []
+  }
+},
+{
+  "model": "atriacalendar.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$120000$dvxFkYIaVrY6$qtlmGaFdLSJj3ldi9RDbhuePVpjUam7ASsODm7StPLM=",
+    "is_superuser": false,
+    "email": "evan@mail.com",
+    "first_name": "Evan",
+    "last_name": "Sidwell",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-09-08T16:27:48.478Z",
+    "last_login": "2019-09-08T16:30:31.660Z",
+    "phone_number": null,
+    "groups": [
+      1,
+      3
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "atriacalendar.user",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$120000$37v1j5ZMY7F8$8UxfDEsVE33+93t6pZvEuAB6G8WDfmZtV+Ry2jnmN5M=",
+    "is_superuser": false,
+    "email": "gloria@mail.com",
+    "first_name": "Gloria",
+    "last_name": "Smith",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-09-08T16:28:47.897Z",
+    "last_login": "2019-09-08T17:12:21.227Z",
+    "phone_number": null,
+    "groups": [
+      1,
+      3
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "atriacalendar.user",
+  "pk": 4,
+  "fields": {
+    "password": "pbkdf2_sha256$120000$37v1j5ZMY7F8$8UxfDEsVE33+93t6pZvEuAB6G8WDfmZtV+Ry2jnmN5M=",
+    "is_superuser": false,
+    "email": "horatio@mail.com",
+    "first_name": "Horatio",
+    "last_name": "Smith",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-09-08T16:28:47.897Z",
+    "last_login": "2019-09-08T17:06:26.685Z",
+    "phone_number": null,
+    "groups": [
+      1,
+      3
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "atriacalendar.user",
+  "pk": 5,
+  "fields": {
+    "password": "pbkdf2_sha256$120000$37v1j5ZMY7F8$8UxfDEsVE33+93t6pZvEuAB6G8WDfmZtV+Ry2jnmN5M=",
+    "is_superuser": false,
+    "email": "kiwassa@mail.com",
+    "first_name": "Kiwassa",
+    "last_name": "Admin",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-09-08T16:28:47.897Z",
+    "last_login": "2019-09-08T16:32:05.077Z",
+    "phone_number": null,
+    "groups": [
+      1,
+      3
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "atriacalendar.atriacalendar",
+  "pk": 1,
+  "fields": {
+    "org_owner": 1,
+    "user_owner": null,
+    "calendar_name": "Events"
+  }
+},
+{
+  "model": "atriacalendar.atriacalendar",
+  "pk": 2,
+  "fields": {
+    "org_owner": 2,
+    "user_owner": null,
+    "calendar_name": "Events"
+  }
+},
+{
+  "model": "atriacalendar.atriaoccurrence",
+  "pk": 1,
+  "fields": {
+    "published": true,
+    "publisher": 3
+  }
+},
+{
+  "model": "atriacalendar.atriaoccurrence",
+  "pk": 3,
+  "fields": {
+    "published": true,
+    "publisher": 4
+  }
+},
+{
+  "model": "atriacalendar.atriaoccurrence",
+  "pk": 2,
+  "fields": {
+    "published": true,
+    "publisher": 2
+  }
+},
+{
+  "model": "atriacalendar.atriarelationship",
+  "pk": 1,
+  "fields": {
+    "user": 2,
+    "org": 1,
+    "relation_type": 1,
+    "status": "Active",
+    "effective_date": "2019-09-08T16:27:48.611Z",
+    "end_date": null
+  }
+},
+{
+  "model": "atriacalendar.atriarelationship",
+  "pk": 2,
+  "fields": {
+    "user": 3,
+    "org": 2,
+    "relation_type": 1,
+    "status": "Active",
+    "effective_date": "2019-09-08T16:28:48.017Z",
+    "end_date": null
+  }
+},
+{
+  "model": "atriacalendar.atriarelationship",
+  "pk": 3,
+  "fields": {
+    "user": 4,
+    "org": 2,
+    "relation_type": 1,
+    "status": "Active",
+    "effective_date": "2019-09-08T16:28:48.017Z",
+    "end_date": null
+  }
+},
+{
+  "model": "atriacalendar.atriarelationship",
+  "pk": 4,
+  "fields": {
+    "user": 5,
+    "org": 2,
+    "relation_type": 1,
+    "status": "Active",
+    "effective_date": "2019-09-08T16:28:48.017Z",
+    "end_date": null
+  }
+},
+{
+  "model": "atriacalendar.atriaeventattendance",
+  "pk": 1,
+  "fields": {
+    "occurrence": 1,
+    "attendance_type": 5,
+    "volunteer_opportunity": null,
+    "user": 3,
+    "user_count": 1,
+    "date_added": "2019-09-08T16:30:07.424Z",
+    "notes": null
+  }
+},
+{
+  "model": "atriacalendar.atriaeventattendance",
+  "pk": 2,
+  "fields": {
+    "occurrence": 2,
+    "attendance_type": 5,
+    "volunteer_opportunity": null,
+    "user": 2,
+    "user_count": 1,
+    "date_added": "2019-09-08T16:31:19.340Z",
+    "notes": null
+  }
+},
+{
+  "model": "atriacalendar.atriaeventattendance",
+  "pk": 3,
+  "fields": {
+    "occurrence": 3,
+    "attendance_type": 5,
+    "volunteer_opportunity": null,
+    "user": 4,
+    "user_count": 1,
+    "date_added": "2019-09-08T17:07:58.321Z",
+    "notes": null
   }
 }
 ]
