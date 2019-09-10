@@ -1,6 +1,7 @@
 from django import forms
 from modeltranslation.forms import TranslationModelForm
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import get_user_model
 from django.utils import timezone
 
 from swingtime import models as swingtime_models
@@ -80,13 +81,65 @@ class AtriaEventOccurrenceForm(AtriaEventForm):
         end_time = start_time +\
             timezone.timedelta(hours=self.DEFAULT_OCCURRENCE_DURATION)
 
-        AtriaOccurrence.objects.create(
+        atriaoccurrence = AtriaOccurrence.objects.create(
             start_time=start_time,
             end_time=end_time,
             event=event,
         )
 
         return event
+
+
+class AtriaCopyOccurrenceForm(forms.ModelForm):
+    """
+    A simple form for adding a duplicate event opportunity
+    """
+    day = forms.DateField()
+    start_time_delta = forms.TimeField()
+    occ_id = forms.CharField(label='', widget=forms.HiddenInput())
+
+    DEFAULT_OCCURRENCE_DURATION = 1  # Hours.
+
+    class Meta:
+        model = AtriaOccurrence
+        fields = ('start_time',)
+
+    def __init__(self, *args, **kwargs):
+        request = kwargs.pop('request') if 'request' in kwargs else None
+
+        super(AtriaCopyOccurrenceForm, self).__init__(*args, **kwargs)
+
+        self.fields['start_time'].required = False
+
+        cur_org = None
+        if request:
+            if 'URL_NAMESPACE' in request.session and 'organization' in request.session['URL_NAMESPACE']:
+                cur_orgs = AtriaOrganization.objects.filter(id=request.session['ACTIVE_ORG'])
+                if 0 < len(cur_orgs):
+                    cur_org = cur_orgs[0]
+            if cur_org:
+                pass
+            elif request.user.is_authenticated:
+                pass
+
+    def save(self):
+        prev_occurrence = AtriaOccurrence.objects.get(id=self.cleaned_data['occ_id'])
+        start_time = timezone.datetime.combine(
+            self.cleaned_data['day'],
+            self.cleaned_data['start_time_delta'],
+        )
+        date_added = timezone.now()
+
+        end_time = start_time +\
+            timezone.timedelta(hours=self.DEFAULT_OCCURRENCE_DURATION)
+
+        atriaoccurrence = AtriaOccurrence.objects.create(
+            start_time=start_time,
+            end_time=end_time,
+            event=prev_occurrence.event,
+        )
+
+        return atriaoccurrence
 
 
 class AtriaEventOpportunityForm(forms.ModelForm):
@@ -121,7 +174,6 @@ class AtriaEventOpportunityForm(forms.ModelForm):
                 pass
 
     def save(self):
-
         occurrence = AtriaOccurrence.objects.get(id=self.cleaned_data['occ_id'])
         start_date = timezone.datetime.combine(
             self.cleaned_data['day'],

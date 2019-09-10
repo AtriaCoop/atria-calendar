@@ -38,7 +38,9 @@
 					<div>
 						{% for occurrence in occurrences %}
 						<div id='opportunitysearch1'>
-							{% include "atriacalendar/pageIncludes/opportunitynewsfeed.html" %}
+							{% if occurrence.atriaevent.atriavolunteeropportunity_set.all %}
+								{% include "atriacalendar/pageIncludes/opportunitynewsfeed.html" %}
+							{% endif %}
 						</div>
 						{% endfor %}
 					</div>

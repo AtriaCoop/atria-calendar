@@ -43,19 +43,9 @@
                     </div>
 		            <form method='post' action=''>{% csrf_token %}
 					<div class='form-cont'>
-						<h2>Volunteer Opportunity</h2>
+						<h2>Copy Event Form</h2>
 						<div class='newsfeed-post-seperator'></div>
 						{{ form.occ_id }}
-						<div>
-							<h5>Title</h5>
-                            {{ form.title }}
-						</div>
-
-						<div>
-							<h5>Description</h5>
-                            {{ form.description }}
-						</div>
-
                         <div class='form-date-time-cont'>
                             <div>
                                 <h5>Date</h5>
@@ -72,43 +62,6 @@
                         <button type='submit' class='btn btn-create-post'>Post</button>
 					</div>
 					</form>
-					<!--
-					<div class='form-view-cont'>
-						<h2>Preview Opportunity Post</h2>
-						<div class='newsfeed-post-seperator'></div>
-						<div class='form-view-top-cont'>
-							<div class='form-view-img-info'>
-								<div class='form-view-img'>
-									<img src="{% static "/atriacalendar/accounticon.png" %}">
-								</div>
-
-								<div class='form-view-info'>
-									<div>
-										<h2>Your Organization Name</h2>
-									</div>
-									<div>
-										<h5>Your Organization tagline</h5>
-									</div>
-									<div>
-										<h6>Todays Date</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div>
-							<h4 id='form-view-title'></h4>
-							<p id='form-view-desc'></p>
-						</div>
-
-						<div>
-							<h4>Start Date</h4>
-							<p id='form-view-time'></p>
-						</div>
-						<br>
-						<div class='btn btn-create-post'>Post</div>
-					</div>
-					-->
 				</div>
 			</div>
 		</div>

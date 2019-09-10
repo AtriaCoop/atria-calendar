@@ -15,18 +15,17 @@
 
 			<div class='newsfeed-posted-info'>
 				<div>
-					<a href="{% url 'view_organization' %}">
-						<h2>Organization Name</h2>
+					<a href="{% url 'view_event' occ_id=occurrence.id %}">
+						<h2>{{ occurrence.atriaevent.title }}</h2>
 					</a>
 				</div>
 				<div>
-					<h5>Organization tagline</h5>
+					<a href="{% url 'view_organization' %}">
+						<h5>Organization Name</h5>
+					</a>
 				</div>
 				<div>
-					<h4>{{ occurrence.atriaevent.title }}</h4>
-				</div>
-				<div>
-					<h6>Date Posted</h6>
+					<h6>{{ occurrence.start_time }}</h6>
 				</div>
 			</div>
 		</div>
