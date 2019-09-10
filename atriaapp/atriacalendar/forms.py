@@ -167,6 +167,7 @@ class OrgSignUpForm(SignUpForm):
                                  help_text='Required.', widget=forms.Textarea)
     location = forms.CharField(max_length=80, required=True,
                                  help_text='Required.')
+    tagline = forms.CharField(max_length=80, required=False)
 
     def save(self):
         user = super(OrgSignUpForm, self).save()
