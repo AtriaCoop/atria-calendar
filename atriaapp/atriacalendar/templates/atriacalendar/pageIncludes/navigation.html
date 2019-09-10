@@ -66,8 +66,6 @@
 							<ul>
 								<li>
 									<a href=''>
-										<div>
-											<img src="{% static "/atriacalendar/accounticon.png" %}"></div>
 										<div class='notifi-infocon'>
 											<span class='notifi-name'>Account Name </span>
 											<span class='notifi-description'>the notification description</span>
@@ -76,8 +74,6 @@
 										</div>
 									</a>
 									<a href=''>
-										<div>
-											<img src="{% static "/atriacalendar/accounticon.png" %}"></div>
 										<div class='notifi-infocon'>
 											<span class='notifi-name'>Account Name </span>
 											<span class='notifi-description'>the notification description</span>
@@ -86,8 +82,6 @@
 										</div>
 									</a>
 									<a href=''>
-										<div>
-											<img src="{% static "/atriacalendar/accounticon.png" %}"></div>
 										<div class='notifi-infocon'>
 											<span class='notifi-name'>Account Name </span>
 											<span class='notifi-description'>the notification description</span>
@@ -123,6 +117,7 @@
 			<i class='fas fa-bars'></i>
 			<div class='sidenav-con sidenav-top'>
 				<ul>
+					{% if request.session.ACTIVE_ORG %}
 					<li><a href="{% snurl 'create_manage' %}">Create &amp; Manage</a></li>
 					<li><a href="{% snurl 'event' %}">Create Event</a></li>
 					<li>
@@ -131,6 +126,7 @@
 						{% trans "View Calendar (old)" %}
 					  </a>
 					</li>
+					{% endif %}
 				</ul>
 			</div>
 
