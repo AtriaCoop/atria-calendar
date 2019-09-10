@@ -170,6 +170,7 @@ class AtriaOrganization(models.Model):
     status = models.CharField(max_length=8)
     description = models.TextField(max_length=4000)
     location = models.CharField(max_length=80)
+    tagline = models.CharField(max_length=80, blank=True)
 
     def __str__(self):
         return self.org_name + ", " + self.location
