@@ -38,11 +38,7 @@
 					<div class='innercont-title'>
 						<h2>Calendar</h2>
 					</div>
-				    {% if request.user.is_authenticated %}
-						<a href="{% snurl 'event' %}">
-							<div class='btn btn-add-new-event'>Add New Event</div>
-						</a>
-					{% endif %}
+					<div class='btn btn-search'>Print</div> 
 				</div>
 				<div class='innercont-inner'>
 					<div id='calendar-dashboard'>
