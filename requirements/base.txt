@@ -5,5 +5,5 @@ Django>=2.1.6
 -e git+https://github.com/atriacoop/django-swingtime.git#egg=django-swingtime
 # use the following if you have the code locally
 #-e ../django-swingtime
-djangorestframework==3.9.2
+djangorestframework==3.11.2
 -e git+https://github.com/deschler/django-modeltranslation.git#egg=django-modeltranslation
